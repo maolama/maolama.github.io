@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    Site.init({
+      id: 'fluent', theme: { h: 245, c: 0.13 }, icons: ['chevron_right', 'grid_view', 'menu'],
+
+      shell: (c, x) => `
+        <header class="titlebar">
+          <span class="app-ic">${x.esc(c.initials)}</span>
+          <span class="body-s">${x.esc(c.name)}</span>
+          <span class="grow"></span>
+          ${x.paletteBtn('fl-icon ripple')}${x.modeBtn('fl-icon ripple')}${x.langBtn('fl-icon lang ripple', true)}
+        </header>
+        <div class="shell">
+          <nav class="navview" aria-label="Main">
+            ${x.nav.map((n) => `<a class="nv-item ripple" data-nav="${n.id}" href="${n.href}"><span class="ms">${n.icon}</span><span class="body-m">${x.esc(n.label)}</span></a>`).join('')}
+            <span class="grow"></span>
+            <div class="nv-foot">${x.socialLinks('fl-icon ripple')}</div>
+          </nav>
+          <main id="view"></main>
+        </div>
+        ${x.toolbar('mobile-only')}`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui;
+          return `
+          <section class="banner">
+            <div class="banner-art" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="banner-in">
+              ${x.photoTag('avatar', 120, 120)}
+              <div>
+                <p class="body-m">${e(c.hello)}</p>
+                <h1 class="headline-l">${e(c.headline)}</h1>
+                <div class="actions"><a class="fl-btn accent ripple" href="#/work">${e(u.seeWork)}</a><a class="fl-btn ripple" href="#/contact">${e(u.getInTouch)}</a></div>
+              </div>
+            </div>
+          </section>
+          <p class="body-l intro">${e(c.intro)}</p>
+          <h2 class="title-m sec-h">${e(u.focus)}</h2>
+          ${x.focus()}
+          <div class="cols">
+            <section>
+              <h2 class="title-m sec-h">${e(u.research)}</h2>
+              <div class="list-card">${c.research.map((r) => `
+                <a class="fl-row ripple" href="#/work"><span class="ms row-ic">science</span>
+                  <span class="row-text"><span class="body-m"><b>${e(r.title)}</b></span><span class="body-s muted">${e(r.tag)} · ${e(r.status)}</span></span>
+                  <span class="ms flip">chevron_right</span></a>`).join('')}
+              </div>
+            </section>
+            <section>
+              <h2 class="title-m sec-h">${e(u.now)}</h2>
+              <div class="list-card pad">${x.now()}</div>
+            </section>
+          </div>
+          <h2 class="title-m sec-h">${e(u.loves)}</h2>
+          <div class="list-card pad">${x.hobbies()}</div>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

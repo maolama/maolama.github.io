@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../assets/css/material.css">
+  <link rel="stylesheet" href="../../assets/css/base.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-base="../../">
@@ -15,120 +15,122 @@
   <script src="../../assets/js/content.js"></script>
   <script src="../../assets/js/site.js"></script>
   <script>
-    /* ---------- Interactive constellation (canvas) ---------- */
-    let netColors = null;
-    function readColors() {
-      const cs = getComputedStyle(document.documentElement);
-      netColors = { dot: cs.getPropertyValue('--primary').trim(), line: cs.getPropertyValue('--outline').trim() };
+    const TOKENS = {
+      en: ['judge', 'bias', 'long', 'short', 'DPO', 'eval', 'prompt', 'answer', 'Persian', 'tokens', 'fair?', 'LLM'],
+      fa: ['داور', 'سوگیری', 'طولانی', 'کوتاه', 'DPO', 'ارزیابی', 'پرسش', 'پاسخ', 'فارسی', 'توکن', 'منصف؟', 'LLM'],
+    };
+    const FACTS = {
+      en: [[8, '+', 'semesters as a TA'], [3, '', 'research projects'], [3, '', 'years as a developer']],
+      fa: [[8, '+', 'ترم دستیار آموزشی'], [3, '', 'پروژه‌ی پژوهشی'], [3, '', 'سال توسعه‌ی نرم‌افزار']],
+    };
+    let colors = {};
+    function resolve(v) {
+      const el = document.createElement('i');
+      el.style.color = `var(${v})`;
+      document.body.appendChild(el);
+      const col = getComputedStyle(el).color;
+      el.remove();
+      const cx = document.createElement('canvas').getContext('2d');
+      cx.fillStyle = '#888'; cx.fillStyle = col; cx.fillRect(0, 0, 1, 1);
+      const [r, g, b] = cx.getImageData(0, 0, 1, 1).data;
+      return `${r},${g},${b}`;
     }
-    function constellation(canvas) {
-      const ctx = canvas.getContext('2d');
-      const dpr = Math.min(devicePixelRatio || 1, 2);
+    const readColors = () => { colors = { p: resolve('--primary'), o: resolve('--outline'), s: resolve('--surface-container-high'), t: resolve('--on-surface') }; };
+
+    function tokenGraph(canvas, words) {
+      const ctx = canvas.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2);
       const mouse = { x: -9999, y: -9999 };
-      let w = 0, h = 0, pts = [];
+      let W = 0, H = 0, nodes = [];
       readColors();
       function size() {
         const r = canvas.getBoundingClientRect();
-        w = r.width; h = r.height;
-        canvas.width = w * dpr; canvas.height = h * dpr;
+        W = r.width; H = r.height;
+        canvas.width = W * dpr; canvas.height = H * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        const n = Math.round(Math.min(120, (w * h) / 10000));
-        pts = Array.from({ length: n }, () => ({
-          x: Math.random() * w, y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, r: Math.random() * 1.6 + 1,
-        }));
+        ctx.font = '500 13px "Roboto Flex", Vazirmatn, sans-serif';
+        const n = Math.min(words.length * 3, Math.round(W * H / 16000));
+        nodes = Array.from({ length: n }, (_, i) => {
+          const text = words[i % words.length];
+          return { text, w: ctx.measureText(text).width + 22, x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3 };
+        });
       }
       size();
       new ResizeObserver(size).observe(canvas);
-      canvas.parentElement.addEventListener('pointermove', (e) => {
-        const r = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
-      });
+      canvas.parentElement.addEventListener('pointermove', (e) => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
       canvas.parentElement.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
-
-      function frame() {
+      (function frame() {
         if (!canvas.isConnected) return;
-        ctx.clearRect(0, 0, w, h);
-        for (const p of pts) {
-          if (!Site.reduced) { p.x += p.vx; p.y += p.vy; }
-          if (p.x < 0 || p.x > w) p.vx *= -1;
-          if (p.y < 0 || p.y > h) p.vy *= -1;
-          const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx, dy);
-          if (d < 120 && d > 0) { p.x += dx / d * 0.8; p.y += dy / d * 0.8; }
+        ctx.clearRect(0, 0, W, H);
+        for (const n of nodes) {
+          if (!Site.reduced) { n.x += n.vx; n.y += n.vy; }
+          if (n.x < 0 || n.x > W) n.vx *= -1;
+          if (n.y < 0 || n.y > H) n.vy *= -1;
+          const dx = mouse.x - n.x, dy = mouse.y - n.y, d = Math.hypot(dx, dy);
+          if (d < 180 && d > 40) { n.x += dx / d * .5; n.y += dy / d * .5; }
+          n.near = d < 180;
         }
-        ctx.lineWidth = 1;
-        for (let i = 0; i < pts.length; i++) {
-          for (let j = i + 1; j < pts.length; j++) {
-            const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
-            if (d < 130) {
-              ctx.globalAlpha = (1 - d / 130) * 0.45;
-              ctx.strokeStyle = netColors.line;
-              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-            }
-          }
-          const p = pts[i], dm = Math.hypot(p.x - mouse.x, p.y - mouse.y);
-          if (dm < 200) {
-            ctx.globalAlpha = (1 - dm / 200) * 0.8;
-            ctx.strokeStyle = netColors.dot;
-            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+        for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i], b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < 150) {
+            ctx.strokeStyle = `rgba(${a.near && b.near ? colors.p : colors.o},${(1 - d / 150) * (a.near && b.near ? .8 : .35)})`;
+            ctx.lineWidth = a.near && b.near ? 1.5 : 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
           }
         }
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = netColors.dot;
-        for (const p of pts) { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); }
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        for (const n of nodes) {
+          ctx.fillStyle = n.near ? `rgb(${colors.p})` : `rgba(${colors.s},.9)`;
+          ctx.beginPath(); ctx.roundRect ? ctx.roundRect(n.x - n.w / 2, n.y - 13, n.w, 26, 13) : ctx.rect(n.x - n.w / 2, n.y - 13, n.w, 26); ctx.fill();
+          ctx.fillStyle = n.near ? '#fff' : `rgba(${colors.t},.7)`;
+          ctx.fillText(n.text, n.x, n.y + 1);
+        }
         requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    /* ---------- Typewriter ---------- */
-    function typewriter(el, words) {
-      if (Site.reduced) { el.textContent = words[0]; return; }
-      let w = 0, i = 0, deleting = false;
-      (function tick() {
-        if (!el.isConnected) return;
-        const word = words[w];
-        i += deleting ? -1 : 1;
-        el.textContent = word.slice(0, i);
-        let delay = deleting ? 45 : 90;
-        if (!deleting && i === word.length) { deleting = true; delay = 1600; }
-        else if (deleting && i === 0) { deleting = false; w = (w + 1) % words.length; delay = 300; }
-        setTimeout(tick, delay);
       })();
     }
 
-    /* ---------- Tab indicator ---------- */
+    function typewriter(el, words) {
+      if (Site.reduced) { el.textContent = words[0]; return; }
+      let w = 0, i = 0, del = false;
+      (function tick() {
+        if (!el.isConnected) return;
+        i += del ? -1 : 1;
+        el.textContent = words[w].slice(0, i);
+        let t = del ? 40 : 85;
+        if (!del && i === words[w].length) { del = true; t = 1500; }
+        else if (del && i === 0) { del = false; w = (w + 1) % words.length; t = 280; }
+        setTimeout(tick, t);
+      })();
+    }
+
     function moveIndicator() {
-      const ind = document.querySelector('.tab-ind');
-      const tab = document.querySelector('.tabs .tab.active');
+      const ind = document.querySelector('.tab-ind'), tab = document.querySelector('.tabs .tab.active');
       if (!ind || !tab) return;
       ind.style.width = tab.offsetWidth - 24 + 'px';
       ind.style.transform = `translateX(${tab.offsetLeft + 12}px)`;
-      tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
+
+    function countUp(scope, lang) {
+      const io = new IntersectionObserver((es) => es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const el = e.target, n = +el.dataset.count, t0 = performance.now();
+        const fmt = (v) => Math.round(v).toLocaleString(lang === 'fa' ? 'fa-IR' : 'en-US');
+        (function step(t) { const p = Math.min(1, (t - t0) / 1100); el.textContent = fmt(n * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); })(t0);
+      }));
+      scope.querySelectorAll('[data-count]').forEach((el) => io.observe(el));
     }
 
     Site.init({
-      icons: ['expand_more', 'auto_awesome'],
+      id: 'constellation', theme: { h: 280, c: 0.13 }, icons: ['hub'],
 
       shell: (c, x) => `
         <header class="appbar" id="appbar">
-          <div class="appbar-row">
-            <a class="brand" href="#/"><span class="logo"><span class="ms fill">auto_awesome</span></span><span class="title-l">${x.esc(c.name)}</span></a>
-            <nav class="tabs" aria-label="Main">
-              ${x.nav.map((n) => `<a class="tab ripple" data-nav="${n.id}" href="${n.href}"><span class="ms">${n.icon}</span><span class="label-l">${x.esc(n.label)}</span></a>`).join('')}
-              <span class="tab-ind" aria-hidden="true"></span>
-            </nav>
-            <div class="appbar-actions">${x.langBtn('btn text ripple lang-btn')}${x.themeBtn()}</div>
-          </div>
+          <a class="brand-l" href="#/"><span class="logo"><span class="ms">hub</span></span><span class="title-m">${x.esc(c.name)}</span></a>
+          <nav class="tabs" aria-label="Main">${x.nav.map((n) => `<a class="tab ripple" data-nav="${n.id}" href="${n.href}"><span class="ms">${n.icon}</span><span class="label-l">${x.esc(n.label)}</span></a>`).join('')}<span class="tab-ind"></span></nav>
+          <div class="acts">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('btn text ripple')}</div>
         </header>
         <main id="view"></main>
-        <footer class="footer">
-          <div class="footer-in">
-            <span class="body-m muted">© ${x.year} ${x.esc(c.name)}</span>
-            <div class="footer-links">${x.links.map((l) => `<a class="icon-btn ripple" href="${l.url}" target="_blank" rel="noopener" title="${x.esc(l.label)}"><span class="ms">${l.icon}</span></a>`).join('')}</div>
-          </div>
-        </footer>
-        <a class="fab contact-fab ripple" href="#/contact"><span class="ms">chat</span><span class="fab-label">${x.esc(c.ui.nav.contact)}</span></a>`,
+        <footer class="foot"><span class="body-s muted">© ${x.year} ${x.esc(c.name)}</span><span>${x.socialLinks()}</span></footer>`,
 
       mount() {
         const bar = document.getElementById('appbar');
@@ -136,17 +138,14 @@
         window.onresize = moveIndicator;
         document.fonts.ready.then(moveIndicator);
       },
-
-      after(page) {
+      onTheme: () => readColors(),
+      after(page, c, x) {
         moveIndicator();
         if (page !== 'home') return;
-        const canvas = document.querySelector('.net');
-        if (canvas) constellation(canvas);
-        const typed = document.querySelector('.typed');
-        if (typed) typewriter(typed, JSON.parse(typed.dataset.words));
+        tokenGraph(document.querySelector('.net'), TOKENS[x.lang]);
+        typewriter(document.querySelector('.typed'), c.roles);
+        countUp(document.getElementById('view'), x.lang);
       },
-
-      onTheme() { readColors(); },
 
       pages: {
         home: (c, x) => {
@@ -155,91 +154,26 @@
           <section class="hero">
             <canvas class="net" aria-hidden="true"></canvas>
             <div class="hero-in">
-              <span class="chip assist hero-chip"><span class="ms">location_on</span>${e(c.location)}</span>
+              <span class="chip hero-chip"><span class="ms">location_on</span>${e(c.location)}</span>
               <h1 class="display-l">${e(c.hello)}</h1>
-              <p class="headline-m typer">${e(u.iam)} <span class="typed" data-words='${e(JSON.stringify(c.roles))}'></span><span class="caret" aria-hidden="true"></span> ${e(u.iamEnd)}</p>
-              <p class="body-l muted intro">${e(c.headline)}</p>
-              <div class="actions">
-                <a class="btn filled lg ripple" href="#/projects">${e(u.seeProjects)}<span class="ms flip">arrow_forward</span></a>
-                <a class="btn outlined lg ripple" href="#/resume">${e(u.readResume)}</a>
-              </div>
-            </div>
-            <span class="ms scroll-cue" aria-hidden="true">expand_more</span>
-          </section>
-
-          <section class="wrap stats">
-            ${x.stats.map((s, i) => `
-              <div class="stat" data-reveal style="--i:${i}">
-                <span class="display-m stat-n" data-count="${s.n}">0</span><span class="stat-plus">+</span>
-                <span class="label-l muted">${e(s.label)}</span>
-              </div>`).join('')}
-          </section>
-
-          <section class="wrap sec">
-            <h2 class="headline-s sec-h" data-reveal>${e(u.whatIDo)}</h2>
-            <div class="doing">
-              ${c.doing.map((d, i) => `
-                <article class="card outlined doing-card" data-reveal style="--i:${i}">
-                  <span class="icon-tile ${['', 'secondary', 'tertiary'][i]}"><span class="ms">${d.icon}</span></span>
-                  <h3 class="title-l">${e(d.title)}</h3>
-                  <p class="body-m muted">${e(d.desc)}</p>
-                </article>`).join('')}
+              <p class="headline-s typer">${e(u.iam)} <span class="typed"></span><span class="caret"></span> ${e(u.iamEnd)}</p>
+              <p class="body-l muted lead">${e(c.headline)}</p>
+              <div class="actions"><a class="btn filled lg ripple" href="#/work">${e(u.seeWork)}<span class="ms flip">arrow_forward</span></a><a class="btn outlined lg ripple" href="#/about">${e(u.moreAbout)}</a></div>
             </div>
           </section>
-
+          <section class="wrap facts">${FACTS[x.lang].map(([n, plus, l], i) => `
+            <div class="fact" data-reveal style="--i:${i}"><span class="display-m"><span data-count="${n}">0</span>${plus}</span><span class="label-l muted">${e(l)}</span></div>`).join('')}
+          </section>
+          <section class="wrap sec"><h2 class="headline-s sec-h">${e(u.focus)}</h2>${x.focus()}</section>
           <section class="wrap sec mosaic">
-            <a class="card filled ripple feature-post" href="#/writing/${c.posts[0].slug}" data-reveal>
-              <span class="label-m kicker">${e(u.latest)}</span>
-              <h3 class="headline-m">${e(c.posts[0].title)}</h3>
-              <p class="body-l muted">${e(c.posts[0].excerpt)}</p>
-              <span class="btn tonal">${e(u.readWriting)}<span class="ms flip">arrow_forward</span></span>
-            </a>
-            <div class="card outlined now-card" data-reveal style="--i:1">
-              <div class="me">
-                <img src="${x.photo}" alt="${e(c.name)}" width="88" height="88">
-                <div><h3 class="title-l">${e(c.short)}</h3><p class="body-m muted">${e(c.role)}</p></div>
-              </div>
-              <h4 class="label-m kicker">${e(u.now)}</h4>
-              <ul class="list">
-                ${c.now.map((n) => `<li class="list-item"><span class="icon-tile secondary sm"><span class="ms">${n.icon}</span></span>
-                  <span class="li-text"><span class="label-m muted">${e(n.label)}</span><span class="body-m">${e(n.text)}</span></span></li>`).join('')}
-              </ul>
+            <div class="me card" data-reveal>
+              ${x.photoTag('me-photo', 96, 96)}
+              <h3 class="title-l">${e(c.short)}</h3><p class="body-m muted">${e(c.role)}</p>
+              <h4 class="label-m kicker">${e(u.now)}</h4>${x.now()}
             </div>
+            <div class="work-grid">${x.researchCards()}</div>
           </section>
-
-          <section class="wrap sec">
-            <div class="sec-head">
-              <h2 class="headline-s">${e(u.featured)}</h2>
-              <a class="btn text ripple" href="#/projects">${e(u.allProjects)}<span class="ms flip">arrow_forward</span></a>
-            </div>
-            <div class="cards-grid">${c.projects.slice(0, 3).map(x.projectCard).join('')}</div>
-          </section>`;
-        },
-
-        about: (c, x) => {
-          const e = x.esc, u = c.ui;
-          return `
-            ${x.head('about')}
-            <div class="about-grid">
-              <aside class="card filled id-card" data-reveal>
-                <img class="id-photo" src="${x.photo}" alt="${e(c.name)}" width="220" height="260">
-                <h2 class="title-l">${e(c.name)}</h2>
-                <p class="body-m muted">${e(c.role)}</p>
-                <div class="id-links">${x.links.map((l) => `<a class="icon-btn tonal ripple" href="${l.url}" target="_blank" rel="noopener" title="${e(l.label)}"><span class="ms">${l.icon}</span></a>`).join('')}</div>
-              </aside>
-              <div>
-                <div class="story" data-reveal>${c.story.map((p) => `<p class="body-l">${x.rich(p)}</p>`).join('')}</div>
-                <blockquote class="quote" data-reveal><p class="headline-s">${e(c.quote)}</p></blockquote>
-                <h2 class="title-l sub-h" data-reveal>${e(u.glance)}</h2>
-                <div class="facts" data-reveal>
-                  ${c.facts.map((f) => `<div class="fact card outlined"><span class="ms">${f.icon}</span><span class="label-m muted">${e(f.k)}</span><span class="title-m">${e(f.v)}</span></div>`).join('')}
-                </div>
-                <h2 class="title-l sub-h" data-reveal>${e(u.interests)}</h2>
-                <div class="chips interests" data-reveal>
-                  ${c.interests.map((i) => `<span class="chip assist lg-chip"><span class="ms">${i.icon}</span>${e(i.label)}</span>`).join('')}
-                </div>
-              </div>
-            </div>`;
+          <section class="wrap sec" data-reveal><h2 class="headline-s sec-h">${e(u.loves)}</h2>${x.hobbies()}</section>`;
         },
       },
     });

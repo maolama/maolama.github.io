@@ -1,0 +1,72 @@
+/* 20 · Launcher — a Material You home screen; each page is an "app" */
+:root { --r-card: 24px; --card-bg: var(--surface-container-low); --display-weight: 500; }
+.grow { flex: 1; }
+body { background: var(--surface-container); }
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 56px; align-items: center; max-width: 1080px; min-height: 100vh; margin: 0 auto; padding: 32px clamp(16px, 4vw, 40px); }
+.hi { color: var(--primary); margin-bottom: 8px; }
+.stage-text h1 { margin-bottom: 16px; }
+.stage-text .ctrl { display: flex; gap: 8px; margin-top: 24px; }
+
+.phone { justify-self: center; width: 380px; height: min(800px, calc(100vh - 64px)); padding: 12px; border-radius: 54px; background: oklch(.2 .01 var(--h)); box-shadow: 0 0 0 2px oklch(.35 .01 var(--h)), 0 40px 80px -30px rgb(0 0 0 / .5); animation: up .8s var(--ease-decel) both; }
+@keyframes up { from { opacity: 0; transform: translateY(40px); } }
+.screen { position: relative; height: 100%; overflow-y: auto; overflow-x: hidden; border-radius: 44px; scrollbar-width: none;
+  background: radial-gradient(120% 60% at 0% 0%, oklch(.85 .09 var(--h)), transparent 60%), radial-gradient(120% 70% at 100% 100%, oklch(.85 .08 calc(var(--h) + 80)), transparent 60%), var(--surface-container-low); }
+[data-theme="dark"] .screen { background: radial-gradient(120% 60% at 0% 0%, oklch(.32 .08 var(--h)), transparent 60%), radial-gradient(120% 70% at 100% 100%, oklch(.3 .07 calc(var(--h) + 80)), transparent 60%), var(--surface-container-lowest); }
+.screen.in-app { background: var(--surface); }
+.status { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 4px; height: 40px; padding: 0 28px; font-size: .85rem; font-weight: 600; }
+.status .ms { font-size: 16px; }
+.appbar { position: sticky; top: 40px; z-index: 5; display: none; align-items: center; gap: 6px; padding: 4px 10px 8px; background: var(--surface); }
+.screen.in-app .appbar { display: flex; }
+.screen.in-app .status { background: var(--surface); }
+.mob-ctrl { display: none; }
+.gesture { position: sticky; bottom: 8px; display: block; width: 110px; height: 5px; margin: 8px auto 0; border-radius: 3px; background: var(--on-surface); opacity: .5; }
+
+#view { padding: 8px 18px 16px; }
+#view.enter { animation: launch .45s var(--ease-decel) both; transform-origin: 50% 40%; }
+@keyframes launch { from { opacity: 0; transform: scale(.85); border-radius: 40px; } }
+.glance { padding: 20px 10px 8px; }
+.date { font-size: 1.8rem; font-weight: 450; line-height: 1.2; margin: 0 0 6px; }
+.glance .body-m { display: flex; align-items: center; gap: 6px; margin: 0; color: var(--on-surface-variant); }
+.glance .ms { font-size: 18px; color: oklch(.72 .15 75); }
+.w-profile { display: flex; align-items: center; gap: 14px; margin: 14px 0; padding: 12px; border-radius: 28px; background: var(--primary-container); color: var(--on-primary-container); }
+.w-photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+.w-profile p { margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 6px; padding: 10px 0 14px; }
+.app { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; animation: pop .45s var(--ease-spring) both; animation-delay: calc(var(--i) * 40ms + .3s); }
+.app-ic { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 22px; background: var(--secondary-container); color: var(--on-secondary-container); transition: border-radius .3s var(--ease), transform .3s var(--ease-spring); }
+.app-ic.t { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.app:hover .app-ic { border-radius: 50%; transform: scale(1.06); }
+.app-l { font-size: .72rem; line-height: 1.25; max-width: 76px; }
+.w-now { padding: 16px 18px; border-radius: 28px; background: color-mix(in oklch, var(--surface) 80%, transparent); }
+.w-now .label-m { margin: 0 0 10px; color: var(--primary); text-transform: uppercase; }
+html:lang(fa) .w-now .label-m { text-transform: none; }
+.w-now .now-list { gap: 8px; }
+.w-now .body-m { font-size: .85rem; }
+.search { display: flex; align-items: center; gap: 10px; height: 52px; margin: 16px 0 12px; padding: 0 18px; border-radius: 26px; background: var(--surface-container-highest); color: var(--on-surface-variant); }
+.dock { display: flex; justify-content: space-around; padding: 6px 0 4px; }
+.dock-ic { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: var(--surface-container-highest); color: var(--on-surface); }
+.dock-ic .brand { width: 22px; height: 22px; }
+
+/* Shared pages inside the phone */
+.screen .page-head h1 { font-size: 1.8rem; }
+.screen :is(.work-grid, .focus-grid, .about-layout, .contact-grid) { grid-template-columns: minmax(0, 1fr); }
+.screen .page-head { margin-top: 0; }
+
+@media (max-width: 860px) {
+  .stage { grid-template-columns: 1fr; padding: 24px 16px; }
+  .stage-text { text-align: center; }
+  .stage-text .ctrl { justify-content: center; }
+}
+@media (max-width: 600px) {
+  .stage { display: block; padding: 0; }
+  .stage-text { display: none; }
+  .phone { justify-self: stretch; width: auto; height: auto; padding: 0; border-radius: 0; box-shadow: none; background: none; }
+  .screen { height: auto; min-height: 100vh; overflow: visible; border-radius: 0; }
+  .status { display: none; }
+  .appbar { top: 0; display: flex; background: transparent; }
+  .screen.in-app .appbar { background: var(--surface); }
+  .screen:not(.in-app) .appbar > a { visibility: hidden; }
+  .mob-ctrl { display: flex; }
+  .gesture { display: none; }
+  .grid { gap: 14px 4px; }
+}

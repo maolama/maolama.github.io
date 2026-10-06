@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    const k = (s) => `<span class="k">${s}</span>`, f = (s) => `<span class="f">${s}</span>`, s = (t) => `<span class="s">${t}</span>`, cm = (t) => `<span class="cm">${t}</span>`;
+    const cell = (n, code, out) => `
+      <div class="cell" data-cell="${n}" data-reveal>
+        <div class="prompt"><span class="in">In&nbsp;[<b>${n}</b>]:</span></div>
+        <div class="cell-body"><pre class="code" dir="ltr" lang="en">${code}</pre><div class="out">${out}</div></div>
+      </div>`;
+    const years = (w) => { const m = w.match(/\d{4}/g) || []; return [+m[0], m[1] ? +m[1] : 2026]; };
+
+    function gantt(c, x) {
+      const rows = SITE.en.journey.map((j, i) => ({ r: years(j.when), label: c.journey[i].title, sub: c.journey[i].org }));
+      rows.push({ r: [2020, 2026], label: c.ui.teaching, sub: 'TA' });
+      const min = 2019, span = 7.4;
+      return `<div class="gantt">
+        ${rows.map((row, i) => `<div class="g-row"><span class="g-label body-s">${x.esc(row.label)}</span>
+          <span class="g-track"><span class="g-bar" style="--i:${i};inset-inline-start:${(row.r[0] - min) / span * 100}%;width:${(row.r[1] - row.r[0] + .3) / span * 100}%"></span></span></div>`).join('')}
+        <div class="g-axis">${[2019, 2021, 2023, 2025].map((y) => `<span style="inset-inline-start:${(y - min) / span * 100}%">${x.num(y)}</span>`).join('')}</div>
+      </div>`;
+    }
+
+    function runAll() {
+      document.querySelectorAll('[data-cell]').forEach((el, i) => {
+        const b = el.querySelector('.in b');
+        el.classList.remove('done');
+        b.textContent = '*';
+        setTimeout(() => { b.textContent = el.dataset.cell; el.classList.add('done'); }, Site.reduced ? 0 : 350 + i * 260);
+      });
+    }
+
+    Site.init({
+      id: 'notebook', theme: { h: 45, c: 0.14 }, icons: ['data_object', 'play_arrow', 'description'],
+
+      shell: (c, x) => `
+        <header class="nb-top">
+          <span class="nb-logo"><span class="ms">data_object</span></span>
+          <div class="nb-title"><span class="title-m" dir="ltr">mohammad_ali.ipynb</span><span class="body-s muted">${x.esc(c.name)}</span></div>
+          <span class="grow"></span>
+          <span class="kernel label-m" dir="ltr"><i></i>Python 3 · idle</span>
+          ${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}
+        </header>
+        <nav class="nb-tabs" aria-label="Main">
+          ${x.nav.map((n) => `<a class="nb-tab ripple" data-nav="${n.id}" href="${n.href}"><span class="ms">description</span><span>${x.esc(n.label)}</span></a>`).join('')}
+          <button class="run ripple" data-run><span class="ms">play_arrow</span>Run all</button>
+        </nav>
+        <main id="view"></main>`,
+
+      mount() {
+        if (window.__nbBound) return;
+        window.__nbBound = true;
+        document.addEventListener('click', (e) => { if (e.target.closest('[data-run]')) { if (location.hash.length > 2) location.hash = '#/'; else runAll(); } });
+      },
+      after(page) { if (page === 'home') runAll(); },
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc;
+          return `
+          <div class="cell md" data-reveal>
+            <div class="prompt"></div>
+            <div class="cell-body md-body">
+              ${x.photoTag('nb-photo', 240, 288)}
+              <h1 class="display-m">${e(c.hello)}</h1>
+              <p class="body-l">${e(c.intro)}</p>
+              <div class="chips">${x.socialLinks('chip ripple', true)}</div>
+            </div>
+          </div>
+          ${cell(1, `${f('print')}(me.headline)`, `<p class="headline-m out-text">${e(c.headline)}</p>`)}
+          ${cell(2, `me.${f('focus')}()`, x.focus())}
+          ${cell(3, `${k('import')} matplotlib.pyplot ${k('as')} plt\nplt.${f('timeline')}(me.journey)  ${cm('# where I have been')}`, gantt(c, x) + `<p class="more"><a class="btn text ripple" href="#/journey">${e(c.ui.readJourney)}<span class="ms flip">arrow_forward</span></a></p>`)}
+          ${cell(4, `me.research[:${k('3')}]`, `<div class="work-grid">${x.researchCards()}</div>`)}
+          ${cell(5, `me.${f('hobbies')}(sort_by=${s('"love"')})`, x.hobbies())}
+          ${cell(6, `me.now`, x.now())}
+          <div class="cell empty" data-reveal>
+            <div class="prompt"><span class="in">In&nbsp;[&nbsp;]:</span></div>
+            <div class="cell-body"><pre class="code" dir="ltr">${cm(`# say hi → ${SITE.email}`)}<span class="cursor"></span></pre></div>
+          </div>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

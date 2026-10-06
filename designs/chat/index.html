@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    let ctx = null;
+    const wait = (ms) => new Promise((r) => setTimeout(r, Site.reduced ? 0 : ms));
+
+    async function say(html, who = 'them', delay = 700) {
+      const thread = document.getElementById('thread');
+      if (!thread) return;
+      if (who === 'them') {
+        thread.insertAdjacentHTML('beforeend', `<div class="msg them typing"><span class="dots"><i></i><i></i><i></i></span></div>`);
+        thread.lastElementChild.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        await wait(delay);
+        thread.querySelector('.typing')?.remove();
+      }
+      if (!thread.isConnected) return;
+      thread.insertAdjacentHTML('beforeend', `<div class="msg ${who}">${html}</div>`);
+      thread.lastElementChild.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    async function intro(c, x) {
+      const e = x.esc;
+      await say(`<p>${e(c.hello)} 👋</p>`, 'them', 500);
+      await say(`<p>${e(c.headline)}</p>`);
+      await say(`<p>${e(c.intro)}</p>`, 'them', 900);
+      await say(`<div class="links-msg">
+        <a class="btn tonal ripple" href="#/work"><span class="ms">science</span>${e(c.ui.seeWork)}</a>
+        <a class="btn tonal ripple" href="#/journey"><span class="ms">route</span>${e(c.ui.readJourney)}</a>
+        <a class="btn tonal ripple" href="#/about"><span class="ms">person</span>${e(c.ui.moreAbout)}</a></div>`, 'them', 600);
+      document.querySelector('.suggest')?.classList.add('show');
+    }
+
+    Site.init({
+      id: 'chat', theme: { h: 235, c: 0.12 }, icons: ['sms', 'chat'],
+
+      shell: (c, x) => `
+        <aside class="side">
+          <header class="side-head">
+            <span class="title-l">${x.esc(c.ui.ask)}</span>
+            <div class="row">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}</div>
+          </header>
+          <nav class="convs">
+            ${x.nav.map((n) => `
+              <a class="conv ripple" data-nav="${n.id}" href="${n.href}">
+                <span class="conv-av"><span class="ms">${n.icon}</span></span>
+                <span class="conv-text"><span class="title-s">${x.esc(n.label)}</span><span class="body-s muted">${x.esc(n.id === 'home' ? c.hello : c.ui.sub[n.id])}</span></span>
+              </a>`).join('')}
+          </nav>
+          <div class="side-foot">${x.socialLinks()}</div>
+        </aside>
+        <section class="pane">
+          <header class="chat-head">
+            ${x.photoTag('av', 80, 80)}
+            <div class="who"><span class="title-m">${x.esc(c.name)}</span><span class="body-s online"><i></i>${x.esc(c.ui.online)}</span></div>
+            <div class="row mobile-only">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}</div>
+          </header>
+          <main id="view"></main>
+        </section>
+        ${x.toolbar('mobile-only')}`,
+
+      mount(c, x) {
+        if (window.__chatBound) return;
+        window.__chatBound = true;
+        document.addEventListener('click', async (ev) => {
+          const b = ev.target.closest('[data-ask]');
+          if (!b) return;
+          const { c } = ctx;
+          const m = c.chat[+b.dataset.ask];
+          b.remove();
+          await say(`<p>${Site.esc(m.q)}</p>`, 'me');
+          await say(`<p>${Site.esc(m.a)}</p>`, 'them', 900);
+        });
+      },
+
+      after(page, c, x) {
+        ctx = { c, x };
+        if (page === 'home') intro(c, x);
+      },
+
+      pages: {
+        home: (c, x) => `
+          <div class="thread" id="thread"><p class="day label-m muted">${x.esc(c.ui.nav.home)}</p></div>
+          <div class="composer">
+            <div class="suggest">${c.chat.map((m, i) => `<button class="chip ripple" data-ask="${i}">${x.esc(m.q)}</button>`).join('')}</div>
+          </div>`,
+      },
+    });
+  </script>
+</body>
+</html>

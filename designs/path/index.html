@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    // Draws a winding road through the milestones and "drives" it as you scroll.
+    function layoutPath() {
+      const wrap = document.querySelector('.path');
+      if (!wrap) return;
+      const svg = wrap.querySelector('svg');
+      const W = wrap.clientWidth, H = wrap.clientHeight;
+      const rtl = document.documentElement.dir === 'rtl', narrow = W < 720;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const stops = [...wrap.querySelectorAll('.stop')];
+      const pts = stops.map((s, i) => {
+        let px = narrow ? 22 : W / 2 + (i % 2 ? 1 : -1) * W * 0.05;
+        if (narrow && rtl) px = W - 22;
+        return [px, s.offsetTop + 30];
+      });
+      const all = [[pts[0][0], 0], ...pts, [pts.at(-1)[0], H]];
+      let d = `M${all[0][0]} ${all[0][1]}`;
+      for (let i = 1; i < all.length; i++) {
+        const [x0, y0] = all[i - 1], [x1, y1] = all[i], my = (y0 + y1) / 2;
+        d += ` C${x0} ${my}, ${x1} ${my}, ${x1} ${y1}`;
+      }
+      svg.querySelectorAll('path').forEach((p) => p.setAttribute('d', d));
+      const prog = svg.querySelector('.prog');
+      const L = prog.getTotalLength();
+      prog.style.strokeDasharray = L;
+      wrap.querySelectorAll('.dot').forEach((dot, i) => { dot.style.left = pts[i][0] + 'px'; dot.style.top = pts[i][1] + 'px'; });
+      wrap._L = L; wrap._pts = pts;
+      onScroll();
+    }
+    function onScroll() {
+      const wrap = document.querySelector('.path');
+      if (!wrap || !wrap._L) return;
+      const r = wrap.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (innerHeight * 0.62 - r.top) / r.height));
+      const prog = wrap.querySelector('.prog'), car = wrap.querySelector('.car');
+      prog.style.strokeDashoffset = wrap._L * (1 - p);
+      const pt = prog.getPointAtLength(wrap._L * p);
+      car.setAttribute('cx', pt.x); car.setAttribute('cy', pt.y);
+      wrap.querySelectorAll('.stop').forEach((s, i) => s.classList.toggle('reached', wrap._pts[i][1] <= pt.y + 4));
+    }
+
+    Site.init({
+      id: 'path', theme: { h: 165, c: 0.1 }, icons: ['bolt', 'home_pin'],
+
+      shell: (c, x) => `
+        <header class="top">
+          <a class="brand-mark" href="#/"><span class="ms">route</span>${x.esc(c.short)}</a>
+          <div class="acts">${x.paletteBtn('icon-btn tonal ripple')}${x.modeBtn('icon-btn tonal ripple')}${x.langBtn('btn tonal ripple')}</div>
+        </header>
+        <main id="view"></main>
+        ${x.toolbar()}`,
+
+      mount() {
+        window.onscroll = onScroll;
+        window.onresize = layoutPath;
+        const bar = document.getElementById('toolbar');
+        let last = scrollY;
+        addEventListener('scroll', () => { const y = scrollY; bar.classList.toggle('hidden', y > last + 4 && y > 200 ? true : y < last - 4 ? false : bar.classList.contains('hidden')); last = y; });
+      },
+      after(page) { if (page === 'home') { requestAnimationFrame(layoutPath); document.fonts.ready.then(layoutPath); } },
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui, j = c.journey;
+          const teachWhen = x.lang === 'fa' ? '۲۰۲۰ – اکنون' : '2020 – now';
+          const stops = [
+            { icon: 'home_pin', when: u.born, title: c.born, body: `<p class="body-m muted">${x.rich(c.story[0])}</p>` },
+            ...[j[0]].map((s) => ({ icon: s.icon, when: s.when, title: s.title, body: `<p class="body-m org">${e(s.org)}</p><p class="body-m muted">${e(s.desc)}</p>` })),
+            { icon: 'co_present', when: teachWhen, title: u.teaching, body: `<p class="body-m muted">${e(c.teaching)}</p>` },
+            ...j.slice(1).map((s) => ({ icon: s.icon, when: s.when, title: s.title, body: `<p class="body-m org">${e(s.org)}</p><p class="body-m muted">${e(s.desc)}</p>` })),
+            { icon: 'bolt', when: u.now, title: c.research[0].title, body: x.now() },
+            { icon: 'flight_takeoff', when: '…', title: u.contactTitle, body: `<p class="body-m muted">${e(u.contactText)}</p><div class="actions"><a class="btn filled ripple" href="#/contact">${e(u.getInTouch)}</a>${x.cvButtons('btn tonal ripple').replace('btn filled ripple', 'btn tonal ripple')}</div>` },
+          ];
+          return `
+          <section class="intro">
+            ${x.photoTag('avatar', 120, 120)}
+            <div>
+              <p class="title-m hello">${e(c.hello)}</p>
+              <h1 class="display-m">${e(c.headline)}</h1>
+              <p class="body-l muted">${e(c.intro)}</p>
+            </div>
+          </section>
+          <section class="path">
+            <svg aria-hidden="true"><path class="road"></path><path class="prog"></path><circle class="car" r="9"></circle></svg>
+            ${stops.map((s, i) => `
+              <span class="dot" aria-hidden="true"><span class="ms">${s.icon}</span></span>
+              <article class="stop card" style="--i:${i}">
+                <p class="label-l when">${e(s.when)}</p>
+                <h3 class="title-l">${e(s.title)}</h3>
+                ${s.body}
+              </article>`).join('')}
+          </section>
+          <section class="loves card"><h2 class="headline-s block-title">${e(u.loves)}</h2>${x.hobbies()}</section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

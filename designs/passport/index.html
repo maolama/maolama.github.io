@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    const P = {
+      en: { pass: 'Boarding pass', passenger: 'Passenger', from: 'From', to: 'To', flight: 'Flight', gate: 'Gate', seat: 'Seat', cls: 'Class', clsV: 'Curiosity', board: 'Boarding', boardV: 'Now', itin: 'Itinerary', dest: 'Destinations', stamps: 'Stamps' },
+      fa: { pass: 'کارت پرواز', passenger: 'مسافر', from: 'مبدأ', to: 'مقصد', flight: 'پرواز', gate: 'گیت', seat: 'صندلی', cls: 'کلاس', clsV: 'کنجکاوی', board: 'سوار شدن', boardV: 'همین حالا', itin: 'برنامه‌ی سفر', dest: 'مقصدها', stamps: 'مهرها' },
+    };
+
+    Site.init({
+      id: 'passport', theme: { h: 210, c: 0.1 }, icons: ['flight', 'qr_code_2', 'luggage', 'connecting_airports'],
+
+      shell: (c, x) => `
+        <header class="top">
+          <a class="brand-p" href="#/"><span class="ms">flight</span><span class="mono">MA·${x.year}</span></a>
+          <div class="ctrl">${x.paletteBtn('icon-btn tonal ripple')}${x.modeBtn('icon-btn tonal ripple')}${x.langBtn('btn tonal ripple')}</div>
+        </header>
+        <main id="view"></main>
+        ${x.toolbar()}`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui, p = P[x.lang];
+          return `
+          <section class="pass">
+            <div class="pass-main">
+              <div class="pass-head"><span class="label-m">${p.pass}</span><span class="ms">flight</span></div>
+              <div class="route">
+                <div><span class="code">SYZ</span><span class="body-s">${e(c.born)}</span></div>
+                <div class="plane"><span class="dash"></span><span class="ms flip">flight</span><span class="dash"></span></div>
+                <div class="end"><span class="code">THR</span><span class="body-s">${e(c.location)}</span></div>
+              </div>
+              <div class="fields">
+                <div><span class="label-m">${p.passenger}</span><b>${e(c.name)}</b></div>
+                <div><span class="label-m">${p.flight}</span><b class="mono">MA-2024</b></div>
+                <div><span class="label-m">${p.gate}</span><b>TeIAS</b></div>
+                <div><span class="label-m">${p.seat}</span><b>M.Sc.</b></div>
+                <div><span class="label-m">${p.cls}</span><b>${p.clsV}</b></div>
+                <div><span class="label-m">${p.board}</span><b>${p.boardV}</b></div>
+              </div>
+            </div>
+            <div class="stub">
+              ${x.photoTag('stub-photo', 120, 140)}
+              <div class="barcode" aria-hidden="true"></div>
+              <span class="mono body-s">${e(c.initials)}-${x.year}</span>
+            </div>
+          </section>
+
+          <section class="hello-sec">
+            <p class="title-m hi">${e(c.hello)}</p>
+            <h1 class="display-s">${e(c.headline)}</h1>
+            <p class="body-l muted">${e(c.intro)}</p>
+          </section>
+
+          <section class="sec">
+            <h2 class="headline-s sec-h"><span class="ms">connecting_airports</span>${p.itin}</h2>
+            <ol class="legs">${c.journey.map((j, i) => `
+              <li data-reveal style="--i:${i}"><span class="mono when">${e(j.when)}</span><span class="leg-dot"></span><div><b class="title-m">${e(j.title)}</b><p class="body-m muted">${e(j.org)} — ${e(j.desc)}</p></div></li>`).join('')}
+            </ol>
+          </section>
+
+          <section class="sec">
+            <h2 class="headline-s sec-h"><span class="ms">luggage</span>${p.dest}</h2>
+            <div class="tickets">${x.nav.filter((n) => n.id !== 'home').map((n, i) => `
+              <a class="ticket ripple" href="${n.href}" data-reveal style="--i:${i}"><span class="ms">${n.icon}</span><span class="title-m">${e(n.label)}</span><span class="body-s muted">${e(u.sub[n.id])}</span></a>`).join('')}
+            </div>
+          </section>
+
+          <section class="sec" data-reveal><h2 class="headline-s sec-h">${e(u.loves)}</h2>${x.hobbies()}</section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../assets/css/material.css">
+  <link rel="stylesheet" href="../../assets/css/base.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-base="../../">
@@ -15,46 +15,35 @@
   <script src="../../assets/js/content.js"></script>
   <script src="../../assets/js/site.js"></script>
   <script>
-    // Floating background shapes for the hero: [n, amp, x%, y%, size, depth, colour]
+    // [n, amp, left%, top%, size, depth, colour role]
     const SHAPES = [
-      [12, .06, 78, 14, 230, 1.0, 'primary-container'],
-      [4, .16, 8, 62, 150, 1.6, 'tertiary-container'],
-      [8, .09, 88, 70, 110, 2.2, 'secondary-container'],
-      [0, 0, 64, 8, 48, 2.8, 'primary'],
-      [6, .12, 52, 84, 80, 1.3, 'tertiary-container'],
+      [12, .06, 76, 10, 240, 1, 'primary-container'], [4, .16, 4, 60, 150, 1.6, 'tertiary-container'],
+      [8, .09, 88, 66, 110, 2.2, 'secondary-container'], [0, 0, 62, 6, 46, 2.8, 'primary'], [6, .12, 50, 82, 80, 1.3, 'tertiary-container'],
     ];
     const words = (s) => s.split(' ').map((w, i) => `<span class="w" style="--i:${i}"><span>${w}</span></span>`).join(' ');
 
     Site.init({
-      icons: ['north_east', 'arrow_downward'],
+      id: 'story', theme: { h: 40, c: 0.13 }, icons: ['arrow_downward'],
 
       shell: (c, x) => `
         <header class="top">
           <a class="mono ripple" href="#/">${x.esc(c.short)}</a>
-          <div class="top-actions">${x.langBtn('btn tonal ripple')}${x.themeBtn('icon-btn tonal ripple')}</div>
+          <div class="top-actions">${x.paletteBtn('icon-btn tonal ripple')}${x.modeBtn('icon-btn tonal ripple')}${x.langBtn('btn tonal ripple')}</div>
         </header>
         <main id="view"></main>
-        <footer class="footer">
-          <div class="footer-in">
-            <p class="headline-s">${x.esc(c.name)}</p>
-            <div class="chips">${x.links.map((l) => `<a class="chip ripple" href="${l.url}" target="_blank" rel="noopener"><span class="ms">${l.icon}</span>${x.esc(l.label)}</a>`).join('')}</div>
-            <p class="body-s muted">© ${x.year} · ${x.esc(c.ui.rights)}</p>
-          </div>
-        </footer>
-        <nav class="toolbar" id="toolbar" aria-label="Main">
-          ${x.nav.map((n) => `
-            <a class="tb-item ripple" data-nav="${n.id}" href="${n.href}" title="${x.esc(n.label)}">
-              <span class="ms">${n.icon}</span><span class="tb-label label-l">${x.esc(n.label)}</span>
-            </a>`).join('')}
-        </nav>`,
+        <footer class="footer"><div class="footer-in">
+          <p class="headline-s">${x.esc(c.name)}</p>
+          <div class="chips">${x.socialLinks('chip ripple', true)}</div>
+          <p class="body-s muted">© ${x.year} · ${x.esc(c.ui.rights)}</p>
+        </div></footer>
+        ${x.toolbar()}`,
 
       mount() {
-        const bar = document.getElementById('toolbar');
+        const bar = document.getElementById('toolbar'), root = document.documentElement;
         let last = scrollY;
-        const root = document.documentElement;
         window.onscroll = () => {
           const y = scrollY;
-          bar.classList.toggle('hidden', y > last + 4 && y > 200);
+          if (y > last + 4 && y > 200) bar.classList.add('hidden');
           if (y < last - 4) bar.classList.remove('hidden');
           last = y;
           root.style.setProperty('--sy', y);
@@ -71,11 +60,8 @@
           const kw = c.keywords.map((k) => `<span>${e(k)}</span><span class="ms star">north_east</span>`).join('');
           return `
           <section class="hero">
-            <div class="shapes" aria-hidden="true">
-              ${SHAPES.map(([n, amp, left, top, size, depth, col]) => `
-                <div class="shape" style="left:${left}%;top:${top}%;width:${size}px;--d:${depth}">
-                  <svg viewBox="0 0 100 100"><path style="fill:var(--${col})" ${n ? `data-shape="${n},${amp},.04,.5" data-c="50,50,40"` : 'd="M10 50a40 40 0 1 0 80 0a40 40 0 1 0-80 0"'}></path></svg>
-                </div>`).join('')}
+            <div class="shapes" aria-hidden="true">${SHAPES.map(([n, amp, l, t, s, d, col]) => `
+              <div class="shape" style="left:${l}%;top:${t}%;width:${s}px;--d:${d}"><svg viewBox="0 0 100 100"><path style="fill:var(--${col})" ${n ? `data-shape="${n},${amp},.04,.5" data-c="50,50,40"` : 'd="M10 50a40 40 0 1 0 80 0a40 40 0 1 0-80 0"'}></path></svg></div>`).join('')}
             </div>
             <p class="title-l hello"><span class="ms wave">waving_hand</span>${e(c.hello)}</p>
             <h1 class="hero-title">${words(e(c.headline))}</h1>
@@ -88,58 +74,34 @@
 
           <div class="marquee" aria-hidden="true"><div class="track">${kw}${kw}</div></div>
 
-          <section class="sec">
-            <div class="in-short card filled" data-reveal>
-              <img src="${x.photo}" alt="${e(c.name)}" width="200" height="240">
-              <div>
-                <p class="label-m kicker">${e(u.inShort)}</p>
-                <h2 class="headline-m">${e(c.name)}</h2>
-                <p class="body-l muted">${e(c.role)} · ${e(c.location)}</p>
-                <p class="body-l">${x.rich(c.story[0])}</p>
-                <a class="btn text ripple" href="#/about">${e(u.moreAbout)}<span class="ms flip">arrow_forward</span></a>
-              </div>
+          <section class="sec in-short card" data-reveal>
+            ${x.photoTag('me')}
+            <div>
+              <p class="label-m kicker">${e(u.now)}</p>
+              ${x.now()}
+              <a class="btn text ripple" href="#/about">${e(u.moreAbout)}<span class="ms flip">arrow_forward</span></a>
             </div>
           </section>
 
           <section class="sec">
-            <h2 class="display-s sec-title" data-reveal>${e(u.whatIDo)}</h2>
-            <div class="rows">
-              ${c.doing.map((d, i) => `
-                <article class="row" data-reveal style="--i:${i}">
-                  <span class="row-n">${x.num(i + 1, 2)}</span>
-                  <div class="row-text"><h3 class="headline-s">${e(d.title)}</h3><p class="body-l muted">${e(d.desc)}</p></div>
-                  <span class="row-ic"><span class="ms">${d.icon}</span></span>
-                </article>`).join('')}
+            <h2 class="display-s sec-title" data-reveal>${e(u.focus)}</h2>
+            <div class="rows">${c.focus.map((d, i) => `
+              <article class="row" data-reveal style="--i:${i}">
+                <span class="row-n">${x.num(i + 1, 2)}</span>
+                <div><h3 class="headline-s">${e(d.title)}</h3><p class="body-l muted">${e(d.desc)}</p></div>
+                <span class="row-ic"><span class="ms">${d.icon}</span></span>
+              </article>`).join('')}
             </div>
           </section>
 
           <section class="sec">
-            <div class="sec-head" data-reveal>
-              <h2 class="display-s">${e(u.featured)}</h2>
-              <a class="btn outlined ripple" href="#/projects">${e(u.allProjects)}</a>
-            </div>
-            <div class="showcase">
-              ${c.projects.slice(0, 3).map((p, i) => `
-                <a class="show-card ripple" href="${p.url}" data-reveal style="--i:${i}">
-                  <div class="show-art t${i}">
-                    <svg viewBox="0 0 100 100" aria-hidden="true"><path data-shape="${[8, 5, 12][i]},.1,.05,.4" data-c="50,50,34"></path></svg>
-                    <span class="ms">${p.icon}</span>
-                  </div>
-                  <div class="show-body">
-                    <span class="label-m kicker">${e(u.kinds[p.kind])}</span>
-                    <h3 class="title-l">${e(p.title)}</h3>
-                    <p class="body-m muted">${e(p.desc)}</p>
-                  </div>
-                </a>`).join('')}
-            </div>
+            <div class="sec-head" data-reveal><h2 class="display-s">${e(u.research)}</h2><a class="btn outlined ripple" href="#/work">${e(u.seeWork)}</a></div>
+            <div class="work-grid">${x.researchCards()}</div>
           </section>
 
-          <section class="sec">
-            <div class="sec-head" data-reveal>
-              <h2 class="display-s">${e(u.latest)}</h2>
-              <a class="btn outlined ripple" href="#/writing">${e(u.allPosts)}</a>
-            </div>
-            <div class="post-list">${c.posts.map(x.postCard).join('')}</div>
+          <section class="sec" data-reveal>
+            <h2 class="display-s sec-title">${e(u.loves)}</h2>
+            ${x.hobbies()}
           </section>
 
           <section class="sec">
@@ -147,35 +109,9 @@
               <svg class="cta-shape" viewBox="0 0 100 100" aria-hidden="true"><path data-shape="12,.07,.03,.4" data-c="50,50,40"></path></svg>
               <h2 class="display-m">${e(u.contactTitle)}</h2>
               <p class="body-l">${e(u.contactText)}</p>
-              <a class="btn filled lg ripple" href="#/contact"><span class="ms flip">send</span>${e(u.write)}</a>
+              <a class="btn filled lg ripple" href="#/contact"><span class="ms flip">send</span>${e(u.getInTouch)}</a>
             </div>
           </section>`;
-        },
-
-        about: (c, x) => {
-          const e = x.esc, u = c.ui;
-          return `
-          ${x.head('about')}
-          <div class="about">
-            <figure class="about-photo" data-reveal>
-              <svg viewBox="0 0 100 100" aria-hidden="true"><path data-shape="8,.07,.04,.45" data-c="50,50,44"></path></svg>
-              <img src="${x.photo}" alt="${e(c.name)}" width="240" height="240">
-            </figure>
-            <div class="story" data-reveal style="--i:1">${c.story.map((p) => `<p class="body-l">${x.rich(p)}</p>`).join('')}</div>
-          </div>
-          <blockquote class="pull" data-reveal><span class="ms">format_quote</span><p class="display-s">${e(c.quote)}</p></blockquote>
-          <h2 class="headline-s sub-h" data-reveal>${e(u.interests)}</h2>
-          <div class="interest-grid">
-            ${c.interests.map((i, n) => `
-              <div class="interest" data-reveal style="--i:${n}">
-                <span class="ms">${i.icon}</span><span class="title-m">${e(i.label)}</span>
-              </div>`).join('')}
-          </div>
-          <h2 class="headline-s sub-h" data-reveal>${e(u.glance)}</h2>
-          <ul class="list card outlined facts" data-reveal>
-            ${c.facts.map((f) => `<li class="list-item"><span class="ms lead">${f.icon}</span>
-              <span class="li-text"><span class="label-m muted">${e(f.k)}</span><span class="body-l">${e(f.v)}</span></span></li>`).join('')}
-          </ul>`;
         },
       },
     });

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&family=Inter:wght@400;500;600&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    Site.init({
+      id: 'editorial', theme: { h: 30, c: 0.05 },
+
+      shell: (c, x) => `
+        <header class="mast">
+          <div class="wrap mast-top label-m">
+            <span>${x.lang === 'fa' ? 'وب‌سایت شخصی' : 'Personal website'}</span>
+            <span class="muted">${x.esc(c.location)} · ${x.year}</span>
+            <span class="ctrl">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('lang-link')}</span>
+          </div>
+          <div class="wrap"><a href="#/" class="title">${x.esc(c.name)}</a></div>
+          <nav class="wrap mast-nav" aria-label="Main">${x.nav.map((n) => `<a data-nav="${n.id}" href="${n.href}">${x.esc(n.label)}</a>`).join('')}</nav>
+        </header>
+        <main id="view" class="wrap"></main>
+        <footer class="colophon"><div class="wrap">
+          <p class="sign">${x.esc(c.ui.contactTitle)}</p>
+          <a class="mail" dir="ltr" href="mailto:${SITE.email}">${SITE.email}</a>
+          <div class="flinks">${x.socialLinks('flink', true)}</div>
+          <p class="body-s copy">© ${x.year} ${x.esc(c.name)}</p>
+        </div></footer>`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui;
+          return `
+          <section class="lede">
+            <figure class="portrait">${x.photoTag('', 200, 250)}<figcaption class="body-s muted">${e(c.short)} — ${e(c.location)}</figcaption></figure>
+            <div class="lede-main">
+              <p class="kicker">${e(c.hello)}</p>
+              <h1 class="standfirst">${e(c.headline)}</h1>
+              <div class="columns"><p>${e(c.intro)}</p><p>${x.rich(c.story[0])} ${e(c.funFact)}</p></div>
+            </div>
+            <aside class="side">
+              <h2 class="kicker">${e(u.now)}</h2>
+              ${x.now()}
+              <a class="read" href="#/about">${e(u.moreAbout)} <span class="flip">→</span></a>
+            </aside>
+          </section>
+          <section class="three">
+            ${c.focus.map((f, i) => `<article data-reveal style="--i:${i}"><span class="roman">${['I', 'II', 'III'][i]}</span><h3>${e(f.title)}</h3><p>${e(f.desc)}</p></article>`).join('')}
+          </section>
+          <section class="block-ed">
+            <h2 class="kicker">${e(u.research)}</h2>
+            <ol class="features">${c.research.map((r, i) => `
+              <li data-reveal style="--i:${i}"><span class="no">${x.num(i + 1, 2)}</span>
+                <div><p class="label-m muted">${e(r.tag)} · ${e(r.status)}</p><h3>${e(r.title)}</h3><p>${e(r.desc)}</p></div></li>`).join('')}</ol>
+            <a class="read" href="#/work">${e(u.seeWork)} <span class="flip">→</span></a>
+          </section>
+          <section class="block-ed" data-reveal>
+            <h2 class="kicker">${e(u.loves)}</h2>
+            ${x.hobbies()}
+          </section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

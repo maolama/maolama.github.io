@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    Site.init({
+      id: 'glass', theme: { h: 255, c: 0.12 },
+
+      shell: (c, x) => `
+        <nav class="ornament glass" aria-label="Main">
+          ${x.nav.map((n) => `<a class="orn-item ripple" data-nav="${n.id}" href="${n.href}" aria-label="${x.esc(n.label)}"><span class="ms">${n.icon}</span><span class="tip label-l">${x.esc(n.label)}</span></a>`).join('')}
+        </nav>
+        <div class="controls glass">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}</div>
+        <main id="view"></main>`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui;
+          return `
+          <section class="window glass hero-win">
+            ${x.photoTag('avatar', 160, 160)}
+            <p class="title-m hello">${e(c.hello)}</p>
+            <h1 class="display-m">${e(c.headline)}</h1>
+            <p class="body-l muted">${e(c.intro)}</p>
+            <div class="actions">
+              <a class="btn filled lg ripple" href="#/work">${e(u.seeWork)}</a>
+              <a class="btn glass-btn lg ripple" href="#/about">${e(u.moreAbout)}</a>
+            </div>
+            <div class="soc-row">${x.socialLinks('icon-btn glass-btn ripple')}</div>
+          </section>
+          ${x.focus()}
+          <div class="pair">
+            <section class="window glass" data-reveal><h2 class="title-l block-title">${e(u.now)}</h2>${x.now()}</section>
+            <section class="window glass" data-reveal style="--i:1"><h2 class="title-l block-title">${e(u.research)}</h2>
+              <ul class="mini">${c.research.map((r) => `<li><span class="status label-m">${e(r.status)}</span><span class="title-s">${e(r.title)}</span></li>`).join('')}</ul>
+              <a class="btn text ripple" href="#/work">${e(u.seeWork)}<span class="ms flip">arrow_forward</span></a>
+            </section>
+          </div>
+          <section class="window glass" data-reveal><h2 class="title-l block-title">${e(u.loves)}</h2>${x.hobbies()}</section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

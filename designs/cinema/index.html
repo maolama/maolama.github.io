@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    const M = {
+      en: { presents: 'A Shiraz–Tehran production', starring: 'Starring', now: 'Now showing', soon: 'Coming soon', credits: 'Credits', thanks: 'Special thanks', thanksV: 'Prof. Yaghoobzadeh · Prof. Bahrak · every student I have TA-ed', rating: 'Rated R for Research', tagline: 'Tagline' },
+      fa: { presents: 'محصولی از شیراز و تهران', starring: 'با بازی', now: 'روی پرده', soon: 'به‌زودی', credits: 'تیتراژ', thanksV: 'دکتر یعقوب‌زاده · دکتر بحرک · همه‌ی دانشجوهایی که دستیارشان بودم', thanks: 'با تشکر ویژه از', rating: 'مناسب برای همه‌ی کنجکاوها', tagline: 'شعار' },
+    };
+
+    Site.init({
+      id: 'cinema', theme: { h: 25, c: 0.15 }, icons: ['theaters', 'confirmation_number', 'local_movies', 'play_circle'],
+
+      shell: (c, x) => `
+        <header class="marquee-bar">
+          <a class="logo-c" href="#/"><span class="ms fill">theaters</span>${x.esc(c.short)}</a>
+          <nav class="cnav" aria-label="Main">${x.nav.map((n) => `<a data-nav="${n.id}" href="${n.href}">${x.esc(n.label)}</a>`).join('')}</nav>
+          <div class="ctrl">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}</div>
+        </header>
+        <main id="view"></main>
+        ${x.toolbar('mobile-only')}`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui, m = M[x.lang];
+          return `
+          <section class="screen">
+            <span class="bars top"></span><span class="bars bottom"></span>
+            <div class="screen-in">
+              <p class="presents">${m.presents}</p>
+              <h1 class="poster-title">${e(c.name)}</h1>
+              <p class="tag">“${e(c.headline)}”</p>
+              <div class="actions"><a class="btn filled lg ripple" href="#/work"><span class="ms">play_circle</span>${e(u.seeWork)}</a><a class="btn outline-w lg ripple" href="#/about">${e(u.moreAbout)}</a></div>
+              <span class="rating">${m.rating}</span>
+            </div>
+          </section>
+
+          <section class="cast">
+            ${x.photoTag('headshot', 220, 260)}
+            <div>
+              <p class="label-m kick">${m.starring}</p>
+              <ul class="roles">${c.roles.map((r) => `<li>${e(r)}</li>`).join('')}</ul>
+              <p class="body-l muted">${e(c.intro)}</p>
+            </div>
+          </section>
+
+          <section class="sec">
+            <h2 class="sec-t"><span class="ms">local_movies</span>${m.now}</h2>
+            <div class="posters">${c.research.map((r, i) => `
+              <a class="mposter" href="#/work" data-reveal style="--i:${i};--o:${[0, 140, 260][i]}"><span class="mp-tag">${e(r.tag)}</span><span class="mp-title">${e(r.title)}</span><span class="mp-sub">${e(r.status)}</span></a>`).join('')}
+            </div>
+          </section>
+
+          <section class="sec">
+            <h2 class="sec-t"><span class="ms">confirmation_number</span>${m.soon}</h2>
+            <div class="soon-row">${c.topics.map((t) => `<a class="trailer" href="#/blog"><span class="ms">play_circle</span><span class="title-m">${e(t)}</span></a>`).join('')}</div>
+          </section>
+
+          <section class="sec" data-reveal><h2 class="sec-t"><span class="ms">theaters</span>${e(u.loves)}</h2>${x.hobbies()}</section>
+
+          <section class="credits">
+            <div class="roll">
+              <p class="label-m">${m.credits}</p>
+              ${c.journey.map((j) => `<p class="cr-role">${e(j.title)}</p><p class="cr-name">${e(j.org)} · ${e(j.when)}</p>`).join('')}
+              <p class="cr-role">${e(u.teaching)}</p><p class="cr-name">Sharif · TeIAS</p>
+              <p class="cr-role">${m.thanks}</p><p class="cr-name">${m.thanksV}</p>
+              <p class="cr-end">${e(c.name)}</p>
+            </div>
+          </section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

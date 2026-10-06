@@ -3,88 +3,99 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Design Options</title>
+  <title>Design Gallery</title>
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #f3f3f1; --card: #fff; --text: #111; --muted: #666; --line: #e2e2de; color-scheme: light; }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg: #0e0e10; --card: #18181b; --text: #f2f2f2; --muted: #a0a0a8; --line: #2a2a2f; color-scheme: dark; }
-    }
+    :root { --bg: #f4f3f1; --card: #fff; --text: #17171a; --muted: #62626b; --line: #e3e2df; --accent: #3d5afe; color-scheme: light; }
+    :root[data-mode="dark"] { --bg: #101013; --card: #1a1a1f; --text: #f0f0f3; --muted: #a2a2ad; --line: #2b2b33; --accent: #8c9eff; color-scheme: dark; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.6 "Inter", "Vazirmatn", system-ui, sans-serif; }
-    header { max-width: 1240px; margin: 0 auto; padding: 48px 16px 24px; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
-    h1 { margin: 0 0 6px; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -.03em; }
-    header p { margin: 0; color: var(--muted); max-width: 620px; }
-    .seg { display: inline-flex; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); }
-    .seg button { border: 0; background: none; color: var(--muted); font: 500 .92rem "Inter", "Vazirmatn", sans-serif; padding: 7px 18px; border-radius: 999px; cursor: pointer; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.6 "Roboto Flex", "Vazirmatn", system-ui, sans-serif; transition: background .3s, color .3s; }
+    header { max-width: 1320px; margin: 0 auto; padding: 44px 20px 12px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 600; letter-spacing: -.03em; }
+    header p { margin: 0; color: var(--muted); max-width: 760px; }
+    .bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; max-width: 1320px; margin: 0 auto; padding: 14px 20px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); }
+    .seg { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); }
+    .seg button { border: 0; background: none; color: var(--muted); font: 500 .88rem inherit; font-family: inherit; padding: 6px 14px; border-radius: 99px; cursor: pointer; }
     .seg button.on { background: var(--text); color: var(--bg); }
-    main { max-width: 1240px; margin: 0 auto; padding: 8px 16px 64px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
-    .frame { position: relative; aspect-ratio: 1280 / 820; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--bg); }
-    .frame iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 820px; border: 0; transform-origin: 0 0; pointer-events: none; }
-    .frame a { position: absolute; inset: 0; }
-    .info { padding: 20px 22px 22px; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; }
-    .letter { grid-row: span 2; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--text); color: var(--bg); font-weight: 700; }
-    .info h2 { margin: 0; font-size: 1.15rem; }
-    .info p { margin: 0; color: var(--muted); font-size: .95rem; }
-    .open { grid-column: 2; margin-top: 10px; font-weight: 600; color: var(--text); text-decoration: none; }
-    .open:hover { text-decoration: underline; }
-    @media (max-width: 820px) { main { grid-template-columns: 1fr; } }
+    .grow { flex: 1; }
+    main { max-width: 1320px; margin: 0 auto; padding: 8px 20px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+    .card { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgb(0 0 0 / .35); }
+    .thumb { position: relative; display: block; aspect-ratio: 16 / 10; background: var(--line); overflow: hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .6s cubic-bezier(.2,0,0,1); }
+    .card:hover .thumb img { transform: scale(1.03); }
+    .num { position: absolute; top: 10px; left: 10px; padding: 2px 10px; border-radius: 99px; background: rgb(0 0 0 / .65); color: #fff; font-size: .8rem; font-weight: 600; }
+    .info { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 18px; flex: 1; }
+    .row { display: flex; align-items: center; gap: 8px; }
+    h2 { margin: 0; font-size: 1.15rem; font-weight: 600; }
+    .tag { font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+    .info p { margin: 0; color: var(--muted); font-size: .92rem; flex: 1; }
+    .links { display: flex; gap: 8px; margin-top: 10px; }
+    .links a { flex: 1; text-align: center; padding: 8px 0; border-radius: 99px; font-size: .88rem; font-weight: 600; text-decoration: none; }
+    .links a:first-child { background: var(--text); color: var(--bg); }
+    .links a:last-child { border: 1px solid var(--line); color: var(--text); }
+    .hide { display: none; }
   </style>
 </head>
 <body>
   <header>
-    <div>
-      <h1>Choose a design</h1>
-      <p>Three personal-website directions in Material 3. Each has Home, About, Projects, Writing, Resume and Contact pages, in English (LTR) and Persian (RTL), with light and dark themes. Click a preview to open it.</p>
-    </div>
-    <div class="seg" role="group" aria-label="Preview language">
-      <button data-l="en" class="on">English</button>
-      <button data-l="fa" lang="fa">فارسی</button>
-    </div>
+    <h1>Pick your favourite</h1>
+    <p>20 designs for your personal website, all sharing the same content. Every design has a <b>palette button</b> (7 colour themes, plus any custom colour), a <b>light / dark</b> switch, and English ⇄ فارسی with proper right-to-left layout. The thumbnails show each design's default colours.</p>
   </header>
-
+  <div class="bar">
+    <div class="seg" id="filters"></div>
+    <span class="grow"></span>
+    <div class="seg" id="modes"><button data-m="light" class="on">Light</button><button data-m="dark">Dark</button></div>
+  </div>
   <main id="grid"></main>
-
   <script>
-    const designs = [
-      { id: 'workspace', letter: 'A', name: 'Workspace', desc: 'App-like Material 3: navigation rail (bottom bar on phones), slowly morphing Material shapes, calm teal tones.' },
-      { id: 'constellation', letter: 'B', name: 'Constellation', desc: 'Top app bar with sliding tabs, an interactive particle network that reacts to your mouse, a typing headline and animated counters. Indigo.' },
-      { id: 'story', letter: 'C', name: 'Story', desc: 'One long scrolling story: word-by-word headline, parallax shapes, a moving keyword band and a floating toolbar. Warm terracotta.' },
+    const D = [
+      ['story', 'Story', 'Material 3', 'Your favourite, refined: word-by-word headline, parallax shapes, scrolling keyword band and the floating toolbar.'],
+      ['chat', 'Chat', 'Material 3', 'The home page is a conversation with you. Visitors tap questions and you “answer”. Fits an LLM researcher.'],
+      ['notebook', 'Notebook', 'Themed', 'Your site as a Jupyter notebook: cells, outputs, a timeline plot, and a “Run all” button.'],
+      ['bento', 'Bento', 'Material 3', 'Everything at a glance in tiles: map from Shiraz to Tehran, mini bookshelf, socials, research.'],
+      ['glass', 'Glass', 'Apple visionOS', 'Frosted glass windows floating over a slowly moving aurora, with a side “ornament” navigation.'],
+      ['fluent', 'Fluent', 'Microsoft Fluent 2', 'Windows 11 feel: Mica background, navigation pane with sliding indicator, layered cards.'],
+      ['terminal', 'Terminal', 'Themed', 'A friendly console that types itself out. Visitors can type commands like help, work, cv, lang.'],
+      ['path', 'Path', 'Material 3', 'A winding road through your life (Shiraz → Sharif → Mahsan → TeIAS) that draws itself as you scroll.'],
+      ['editorial', 'Editorial', 'Minimal', 'A calm magazine: big serif masthead, columns, rules, drop cap and a black-and-white portrait.'],
+      ['playful', 'Playful', 'Neubrutalism', 'Bold outlines, hard shadows, stickers and a speech bubble. Loud, fun, still readable.'],
+      ['constellation', 'Constellation', 'Material 3', 'An interactive “token graph” that reacts to the mouse, typing roles, and counters.'],
+      ['workspace', 'Workspace', 'Material 3', 'App-like layout: navigation rail, morphing Material shapes, dashboard with a profile card.'],
+      ['bookshelf', 'Bookshelf', 'Themed', 'A little library: the books on the shelf are the menu, plus an open book with your “lately”.'],
+      ['desktop', 'Desktop', 'Themed', 'A tiny operating system: menu bar with clock, draggable window, polaroid and sticky-note widgets, dock.'],
+      ['scrapbook', 'Scrapbook', 'Themed', 'Polaroid with tape, sticky notes, handwriting and doodles. Cozy and personal.'],
+      ['quest', 'Quest', 'Themed', 'An RPG character sheet: stats, main quest (your thesis), side quests, inventory, achievements.'],
+      ['passport', 'Passport', 'Themed', 'A boarding pass SYZ → THR, itinerary as flight legs, destinations as tickets, travel stamps.'],
+      ['cinema', 'Cinema', 'Themed', 'Your premiere: letterbox opening, “Starring”, posters for research, trailers, and end credits.'],
+      ['pocket', 'Pocket', 'Material 3', 'One calm card, link-in-bio style. The lightest and simplest of all.'],
+      ['launcher', 'Launcher', 'Material You', 'An Android home screen: widgets, app icons for each page, apps open like on a phone.'],
     ];
-    let lang = 'en';
+    const groups = ['All', 'Material 3', 'Themed', 'Other styles'];
+    const groupOf = (t) => (t.startsWith('Material') ? 'Material 3' : t === 'Themed' ? 'Themed' : 'Other styles');
+    let mode = 'light', filter = 'All';
     const grid = document.getElementById('grid');
-
     function render() {
-      grid.innerHTML = designs.map((d) => {
-        const url = `designs/${d.id}/?lang=${lang}`;
-        return `
-        <article class="card">
-          <div class="frame"><iframe src="${url}" title="${d.name} preview" loading="lazy" tabindex="-1"></iframe><a href="${url}" aria-label="Open ${d.name}"></a></div>
+      document.documentElement.dataset.mode = mode;
+      grid.innerHTML = D.map(([id, name, tag, desc], i) => `
+        <article class="card ${filter === 'All' || groupOf(tag) === filter ? '' : 'hide'}">
+          <a class="thumb" href="designs/${id}/?lang=en&mode=${mode}"><img src="designs/_thumbs/${id}-${mode}.jpg" alt="${name} preview" loading="lazy"><span class="num">${String(i + 1).padStart(2, '0')}</span></a>
           <div class="info">
-            <span class="letter">${d.letter}</span>
-            <h2>${d.name}</h2>
-            <p>${d.desc}</p>
-            <a class="open" href="${url}">Open full page →</a>
+            <div class="row"><h2>${name}</h2><span class="tag">${tag}</span></div>
+            <p>${desc}</p>
+            <div class="links"><a href="designs/${id}/?lang=en&mode=${mode}">Open</a><a href="designs/${id}/?lang=fa&mode=${mode}" lang="fa">فارسی</a></div>
           </div>
-        </article>`;
-      }).join('');
-      fit();
+        </article>`).join('');
     }
-    function fit() {
-      document.querySelectorAll('.frame').forEach((f) => {
-        f.querySelector('iframe').style.transform = `scale(${f.clientWidth / 1280})`;
-      });
-    }
-    document.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => {
-      lang = b.dataset.l;
-      document.querySelectorAll('.seg button').forEach((x) => x.classList.toggle('on', x === b));
-      render();
-    }));
-    addEventListener('resize', fit);
+    document.getElementById('filters').innerHTML = groups.map((g) => `<button data-f="${g}" class="${g === 'All' ? 'on' : ''}">${g}</button>`).join('');
+    document.addEventListener('click', (e) => {
+      const m = e.target.closest('[data-m]'), f = e.target.closest('[data-f]');
+      if (m) { mode = m.dataset.m; document.querySelectorAll('[data-m]').forEach((b) => b.classList.toggle('on', b === m)); render(); }
+      if (f) { filter = f.dataset.f; document.querySelectorAll('[data-f]').forEach((b) => b.classList.toggle('on', b === f)); render(); }
+    });
     render();
   </script>
 </body>

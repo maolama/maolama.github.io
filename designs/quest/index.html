@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    // Playful labels for this design only (MOCK stat values — edit freely)
+    const Q = {
+      en: { cls: 'Class', clsV: 'Researcher · Developer', origin: 'Origin', base: 'Base', stats: 'Stats', main: 'Main quest', side: 'Side quests', inv: 'Inventory', ach: 'Achievements', progress: 'In progress', done: 'Completed', hobbies: 'Side activities', press: 'Press start',
+        statL: ['Research', 'Coding', 'Teaching', 'Reading', 'Gaming'], achL: [['co_present', '8+ semesters as a TA'], ['verified', 'Test coverage 20% → 70%'], ['school', 'Two degrees unlocked'], ['auto_stories', 'Certified bookworm']] },
+      fa: { cls: 'کلاس', clsV: 'پژوهشگر · توسعه‌دهنده', origin: 'زادگاه', base: 'پایگاه', stats: 'ویژگی‌ها', main: 'مأموریت اصلی', side: 'مأموریت‌های فرعی', inv: 'کوله‌پشتی', ach: 'دستاوردها', progress: 'در جریان', done: 'تمام‌شده', hobbies: 'فعالیت‌های جانبی', press: 'شروع کنید',
+        statL: ['پژوهش', 'برنامه‌نویسی', 'تدریس', 'کتاب‌خوانی', 'بازی'], achL: [['co_present', 'بیش از ۸ ترم دستیار آموزشی'], ['verified', 'پوشش تست از ۲۰٪ به ۷۰٪'], ['school', 'دو مدرک دانشگاهی'], ['auto_stories', 'کتاب‌خوان حرفه‌ای']] },
+    };
+    const STATS = [86, 80, 74, 95, 70];
+
+    Site.init({
+      id: 'quest', theme: { h: 295, c: 0.14 }, icons: ['swords', 'favorite', 'verified', 'military_tech', 'backpack', 'check_circle', 'hourglass_top', 'stadia_controller'],
+
+      shell: (c, x) => `
+        <header class="hud">
+          <a class="hud-name" href="#/"><span class="ms fill">stadia_controller</span>${x.esc(c.short)}</a>
+          <span class="hearts" aria-hidden="true"><span class="ms fill">favorite</span><span class="ms fill">favorite</span><span class="ms fill">favorite</span></span>
+          <nav class="menu" aria-label="Main">${x.nav.map((n) => `<a class="mi" data-nav="${n.id}" href="${n.href}"><span class="cursor">▶</span>${x.esc(n.label)}</a>`).join('')}</nav>
+          <div class="ctrl">${x.paletteBtn('px-btn')}${x.modeBtn('px-btn')}${x.langBtn('px-btn lang', true)}</div>
+        </header>
+        <main id="view"></main>
+        ${x.toolbar('mobile-only')}`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui, q = Q[x.lang];
+          return `
+          <section class="sheet">
+            <div class="panel char">
+              <div class="portrait">${x.photoTag('', 200, 200)}</div>
+              <h1 class="px-title">${e(c.name)}</h1>
+              <dl class="attrs">
+                <div><dt>${q.cls}</dt><dd>${q.clsV}</dd></div>
+                <div><dt>${q.origin}</dt><dd>${e(c.born)}</dd></div>
+                <div><dt>${q.base}</dt><dd>${e(c.location)}</dd></div>
+              </dl>
+              <div class="soc">${x.socialLinks('px-btn')}</div>
+            </div>
+            <div class="panel dialog">
+              <p class="px-label">${e(c.hello)}</p>
+              <p class="say title-l">${e(c.headline)}</p>
+              <p class="body-m muted">${e(c.intro)}</p>
+              <div class="actions"><a class="px-cta" href="#/work">▶ ${e(u.seeWork)}</a><a class="px-cta ghost" href="#/about">${e(u.moreAbout)}</a></div>
+            </div>
+            <div class="panel stats">
+              <h2 class="px-label">${q.stats}</h2>
+              ${q.statL.map((l, i) => `<div class="stat"><span class="body-s">${l}</span><span class="bar"><i style="--v:${STATS[i]}%;--i:${i}"></i></span><span class="body-s num">${x.num(STATS[i])}</span></div>`).join('')}
+            </div>
+          </section>
+
+          <section class="quests">
+            <div class="panel" data-reveal>
+              <h2 class="px-label"><span class="ms">swords</span>${q.main}</h2>
+              <div class="quest main-q"><span class="ms">hourglass_top</span><div><b>${e(c.research[0].title)}</b><p class="body-s muted">${e(c.research[0].desc)}</p><span class="qbar"><i></i></span><span class="label-m">${q.progress}</span></div></div>
+              <h2 class="px-label mt">${q.side}</h2>
+              ${[...c.research.slice(1).map((r) => r.title), ...c.projects.map((p) => p.title)].map((t) => `<div class="quest"><span class="ms done">check_circle</span><span class="body-m">${e(t)}</span></div>`).join('')}
+            </div>
+            <div class="col">
+              <div class="panel" data-reveal style="--i:1">
+                <h2 class="px-label"><span class="ms">backpack</span>${q.inv}</h2>
+                <div class="slots">${c.skills.map((s) => `<span class="slot body-s">${e(s)}</span>`).join('')}</div>
+              </div>
+              <div class="panel" data-reveal style="--i:2">
+                <h2 class="px-label"><span class="ms">military_tech</span>${q.ach}</h2>
+                ${q.achL.map(([i, t]) => `<div class="ach"><span class="ms">${i}</span><span class="body-m">${t}</span></div>`).join('')}
+              </div>
+            </div>
+          </section>
+          <section class="panel" data-reveal><h2 class="px-label">${q.hobbies}</h2>${x.hobbies()}</section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

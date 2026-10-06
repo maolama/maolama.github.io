@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    const PS1 = '<span class="ps1" dir="ltr">mohammad@olama:~$</span>';
+    let T = 0;
+    const blk = (cmd, out) => {
+      const d = (T++) * 0.85;
+      return `<div class="blk" style="--d:${d}s;--n:${cmd.length}"><p class="cmdline" dir="ltr">${PS1} <span class="cmd">${cmd}</span></p><div class="out">${out}</div></div>`;
+    };
+    let C = null;
+
+    function run(raw) {
+      const { c, x } = C, e = x.esc, u = c.ui;
+      const cmd = raw.trim().toLowerCase();
+      const routes = ['home', 'about', 'work', 'journey', 'blog', 'contact'];
+      const name = cmd.replace(/^(cd|open)\s+/, '').replace(/^~?\/?/, '');
+      if (!cmd) return '';
+      if (cmd === 'help') return `<pre dir="ltr">${['help', 'ls', ...routes, 'cv', 'lang', 'theme', 'clear'].map((k) => `  ${k}`).join('\n')}</pre>`;
+      if (cmd === 'ls') return `<p dir="ltr" class="cols">${routes.map((r) => `<a href="#/${r}" class="dir">${r}/</a>`).join(' ')}</p>`;
+      if (routes.includes(name)) { setTimeout(() => { location.hash = '#/' + (name === 'home' ? '' : name); }, 250); return `<p class="muted">→ ${e(u.nav[name])}</p>`; }
+      if (cmd === 'cv') return x.cvs.map((v) => `<p><a class="lnk" href="${v.href}" target="_blank">${e(v.label)} ↗</a></p>`).join('');
+      if (cmd === 'lang') { setTimeout(() => document.querySelector('[data-lang]').click(), 200); return `<p class="muted">${e(u.switchTo)}…</p>`; }
+      if (cmd === 'theme') { document.querySelector('[data-mode-toggle]').click(); return '<p class="muted">ok</p>'; }
+      if (cmd === 'clear') { document.querySelectorAll('.blk, .echo').forEach((n) => n.remove()); return ''; }
+      if (cmd.startsWith('sudo')) return '<p>Nice try 🙂</p>';
+      return `<p dir="ltr">command not found: ${e(cmd)} — try <b>help</b></p>`;
+    }
+
+    Site.init({
+      id: 'terminal', theme: { h: 150, c: 0.14 },
+
+      shell: (c, x) => `
+        <div class="term">
+          <header class="term-bar">
+            <span class="lights"><i></i><i></i><i></i></span>
+            <span class="term-title" dir="ltr" id="ttl">mohammad@olama: ~</span>
+            <span class="term-actions">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}</span>
+          </header>
+          <nav class="tabs" aria-label="Main">${x.nav.map((n) => `<a class="tab" data-nav="${n.id}" href="${n.href}"><span class="ms">${n.icon}</span><span>${x.esc(n.label)}</span></a>`).join('')}</nav>
+          <main id="view"></main>
+        </div>`,
+
+      after(page, c, x) {
+        C = { c, x };
+        document.getElementById('ttl').textContent = `mohammad@olama: ~${page === 'home' ? '' : '/' + page}`;
+        const input = document.getElementById('cmd');
+        if (!input) return;
+        input.addEventListener('keydown', (ev) => {
+          if (ev.key !== 'Enter') return;
+          const out = run(input.value);
+          input.closest('.live').insertAdjacentHTML('beforebegin', `<div class="echo"><p class="cmdline" dir="ltr">${PS1} ${x.esc(input.value)}</p>${out}</div>`);
+          input.value = '';
+          input.scrollIntoView({ block: 'nearest' });
+        });
+      },
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui, h = c.hobbies;
+          T = 0;
+          return `
+          <div class="screen">
+            ${blk('whoami', `<div class="who">${x.photoTag('pic', 120, 144)}<div><p class="big">${e(c.name)}</p><p class="muted">${e(c.role)} · ${e(c.location)}</p></div></div>`)}
+            ${blk('cat headline.txt', `<p class="hl">${e(c.headline)}</p>`)}
+            ${blk('cat about.md', `<p>${e(c.intro)}</p>`)}
+            ${blk('ls ~/focus', `<div class="grid3">${c.focus.map((f) => `<div class="box"><p class="box-t"><span class="ms">${f.icon}</span>${e(f.title)}</p><p class="muted">${e(f.desc)}</p></div>`).join('')}</div>`)}
+            ${blk('./now.sh', `<ul class="plain">${c.now.map((n) => `<li><span class="key">${e(n.label)}:</span> ${e(n.text)}</li>`).join('')}</ul>`)}
+            ${blk('ls ~/loves', `<ul class="plain">
+              <li><span class="key">books/</span> ${h.books.map((b) => e(b.title)).join(' · ')}</li>
+              <li><span class="key">films/</span> ${h.movies.map((b) => e(b.title)).join(' · ')}</li>
+              <li><span class="key">games/</span> <span dir="ltr">${h.games.map((b) => e(b.title)).join(' · ')}</span></li>
+              <li><span class="key">travel/</span> ${h.travel.filter((t) => !t.next).map((b) => e(b.place)).join(' · ')}</li></ul>`)}
+            ${blk('cat links.txt', `<p class="links">${x.socials.map((s) => `<a class="lnk" href="${s.url}" target="_blank" rel="noopener">${x.brand(s.id)}${e(s.label)}</a>`).join('')}</p>`)}
+            <div class="live blk" style="--d:${T * 0.85}s;--n:0"><span>${PS1}</span><input id="cmd" dir="ltr" autocomplete="off" spellcheck="false" aria-label="command" placeholder="help"></div>
+          </div>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

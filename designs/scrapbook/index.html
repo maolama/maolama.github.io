@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    const arrow = `<svg class="doodle" viewBox="0 0 120 60" aria-hidden="true"><path d="M5 40 C 30 5, 70 5, 100 30" /><path d="M88 18 L 102 31 L 84 36" /></svg>`;
+
+    Site.init({
+      id: 'scrapbook', theme: { h: 60, c: 0.1 }, icons: ['attach_file', 'push_pin'],
+
+      shell: (c, x) => `
+        <header class="top">
+          <a class="hand-name" href="#/">${x.esc(c.short)}<svg viewBox="0 0 200 20" aria-hidden="true"><path d="M2 14 C 50 4, 120 20, 198 8" /></svg></a>
+          <div class="ctrl">${x.paletteBtn('icon-btn ripple')}${x.modeBtn('icon-btn ripple')}${x.langBtn('tape-btn')}</div>
+        </header>
+        <main id="view"></main>
+        ${x.toolbar()}`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui;
+          return `
+          <section class="collage">
+            <figure class="polaroid tape-tl">${x.photoTag('', 280, 280)}<figcaption class="hand">${e(c.hello)}</figcaption></figure>
+            <div class="paper note-main tape-top">
+              <h1 class="headline-l">${e(c.headline)}</h1>
+              <p class="body-l">${e(c.intro)}</p>
+              <div class="actions"><a class="btn filled ripple" href="#/work">${e(u.seeWork)}</a><a class="btn tonal ripple" href="#/about">${e(u.moreAbout)}</a></div>
+            </div>
+            <p class="hand scribble">${x.lang === 'fa' ? 'سلام! 👋' : "that's me!"}${arrow}</p>
+          </section>
+
+          <section class="stickies">
+            ${c.focus.map((f, i) => `<article class="sticky s${i}" data-reveal style="--i:${i}"><span class="ms pin">push_pin</span><span class="ms ic">${f.icon}</span><h3 class="title-l">${e(f.title)}</h3><p class="body-m">${e(f.desc)}</p></article>`).join('')}
+          </section>
+
+          <section class="row2">
+            <div class="index-card" data-reveal><p class="hand card-h">${e(u.now)}</p>${x.now()}</div>
+            <div class="clipped" data-reveal style="--i:1">
+              <span class="ms clip">attach_file</span>
+              <p class="hand card-h">${e(u.research)}</p>
+              <ul class="rl">${c.research.map((r) => `<li><b>${e(r.title)}</b><span class="body-s muted">${e(r.tag)} · ${e(r.status)}</span></li>`).join('')}</ul>
+              <a class="btn text ripple" href="#/work">${e(u.seeWork)}<span class="ms flip">arrow_forward</span></a>
+            </div>
+          </section>
+
+          <section class="paper loves tape-top" data-reveal><p class="hand card-h">${e(u.loves)}</p>${x.hobbies()}</section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

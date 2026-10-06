@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    Site.init({
+      id: 'bento', theme: { h: 265, c: 0.11 }, icons: ['near_me'],
+
+      shell: (c, x) => `
+        <header class="bar">
+          <a class="mark" href="#/">${x.esc(c.initials)}</a>
+          <div class="bar-actions">${x.paletteBtn('icon-btn tonal ripple')}${x.modeBtn('icon-btn tonal ripple')}${x.langBtn('btn tonal ripple')}</div>
+        </header>
+        <main id="view"></main>
+        ${x.toolbar()}`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui;
+          const tones = ['', 'secondary', 'tertiary'];
+          return `
+          <div class="bento">
+            <section class="t hero">
+              <span class="hello label-l"><span class="ms wave">waving_hand</span>${e(c.hello)}</span>
+              <h1 class="display-m">${e(c.headline)}</h1>
+              <div class="actions">
+                <a class="btn filled lg ripple" href="#/work">${e(u.seeWork)}<span class="ms flip">arrow_forward</span></a>
+                <a class="btn tonal lg ripple" href="#/about">${e(u.moreAbout)}</a>
+              </div>
+            </section>
+            <figure class="t photo">${x.photoTag()}<figcaption class="label-l">${e(c.short)}</figcaption></figure>
+            <section class="t now"><h2 class="lbl">${e(u.now)}</h2>${x.now()}</section>
+            <section class="t where">
+              <svg viewBox="0 0 200 120" aria-hidden="true">
+                <path class="route" d="M40 95 C 70 20, 130 20, 160 40"></path>
+                <circle class="pin a" cx="40" cy="95" r="7"></circle><circle class="pin b" cx="160" cy="40" r="7"></circle>
+              </svg>
+              <div class="where-row"><span><span class="label-m muted">${e(u.born)}</span><b>${e(c.born)}</b></span><span class="ms flip">arrow_forward</span><span><span class="label-m muted">${e(u.lives)}</span><b>${e(c.location)}</b></span></div>
+            </section>
+            <section class="t socials">${x.socialLinks('soc ripple')}</section>
+            ${c.focus.map((f, i) => `
+              <article class="t focus">
+                <span class="icon-tile ${tones[i]}"><span class="ms">${f.icon}</span></span>
+                <h3 class="title-m">${e(f.title)}</h3><p class="body-s muted">${e(f.desc)}</p>
+              </article>`).join('')}
+            <a class="t blog ripple" href="#/blog"><span class="ms">edit_note</span><h3 class="title-m">${e(u.nav.blog)}</h3><p class="body-s">${e(u.soonTitle)}</p></a>
+            <section class="t research">
+              <div class="t-head"><h2 class="lbl">${e(u.research)}</h2><a class="btn text ripple" href="#/work">${e(u.seeWork)}<span class="ms flip">arrow_forward</span></a></div>
+              <ul class="rlist">${c.research.map((r) => `<li><span class="status label-m">${e(r.status)}</span><span class="title-s">${e(r.title)}</span></li>`).join('')}</ul>
+            </section>
+            <a class="t loves ripple" href="#/about">
+              <h2 class="lbl">${e(u.loves)}</h2>
+              <div class="spines">${c.hobbies.books.map((b, i) => `<span class="spine" style="--o:${[0, 50, 110, 170, 250][i]};--hh:${[150, 128, 140, 118, 134][i]}px"><span>${e(b.title)}</span></span>`).join('')}
+                <span class="more-h"><span class="ms">movie</span><span class="ms">sports_esports</span><span class="ms">flight_takeoff</span></span>
+              </div>
+            </a>
+            <section class="t journey">
+              <h2 class="lbl">${e(u.nav.journey)}</h2>
+              <ol class="steps">${c.journey.map((j) => `<li><span class="ms">${j.icon}</span><span class="title-s">${e(j.title)}</span><span class="body-s muted">${e(j.org)} · ${e(j.when)}</span></li>`).join('')}</ol>
+            </section>
+            <a class="t cta ripple" href="#/contact"><h2 class="headline-m">${e(u.contactTitle)}</h2><p class="body-m">${e(u.contactText)}</p><span class="ms go flip">arrow_forward</span></a>
+          </div>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

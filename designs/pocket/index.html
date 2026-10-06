@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    Site.init({
+      id: 'pocket', theme: { h: 330, c: 0.1 }, icons: ['chevron_right'],
+
+      shell: (c, x) => `
+        <div class="blobs" aria-hidden="true"><svg viewBox="0 0 100 100"><path data-shape="9,.08,.04,.3" data-c="50,50,40"></path></svg><svg viewBox="0 0 100 100"><path data-shape="5,.12,.05,.35" data-c="50,50,40"></path></svg></div>
+        <div class="pocket">
+          <a class="icon-btn ripple back" href="#/" aria-label="${x.esc(c.ui.nav.home)}"><span class="ms flip">arrow_back</span></a>
+          <div class="ctrl">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}</div>
+          <main id="view"></main>
+          <p class="body-s muted foot">© ${x.year} ${x.esc(c.name)}</p>
+        </div>`,
+
+      after(page) { document.querySelector('.pocket').classList.toggle('inner', page !== 'home'); },
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui;
+          return `
+          <section class="profile">
+            ${x.photoTag('avatar', 120, 120)}
+            <h1 class="headline-m">${e(c.name)}</h1>
+            <p class="body-m muted">${e(c.role)} · ${e(c.location)}</p>
+            <p class="body-l bio">${e(c.headline)}</p>
+            <div class="soc">${x.socialLinks('icon-btn tonal ripple')}</div>
+          </section>
+          <nav class="links" aria-label="Main">
+            ${x.nav.filter((n) => n.id !== 'home').map((n, i) => `
+              <a class="link ripple" href="${n.href}" style="--i:${i}"><span class="ms lead">${n.icon}</span><span class="link-t"><span class="title-m">${e(n.label)}</span><span class="body-s muted">${e(u.sub[n.id])}</span></span><span class="ms flip">chevron_right</span></a>`).join('')}
+            ${x.cvs.map((v, i) => `<a class="link cv ripple" href="${v.href}" target="_blank" rel="noopener" style="--i:${i + 5}"><span class="ms lead">download</span><span class="link-t"><span class="title-m">${e(v.label)}</span></span><span class="ms">open_in_new</span></a>`).join('')}
+          </nav>
+          <section class="mini">
+            <p class="label-m muted">${e(u.now)}</p>
+            ${x.now()}
+          </section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    const L = { en: { hint: 'Tap an app on the phone to open it.', search: 'Ask me something…', home: 'Home screen' }, fa: { hint: 'روی یک برنامه در گوشی بزنید تا باز شود.', search: 'از من بپرسید…', home: 'صفحه‌ی اصلی' } };
+    function tick() {
+      const el = document.getElementById('ptime');
+      if (el) el.textContent = new Date().toLocaleTimeString(document.documentElement.lang === 'fa' ? 'fa-IR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    Site.init({
+      id: 'launcher', theme: { h: 150, c: 0.1 }, icons: ['signal_cellular_alt', 'wifi', 'battery_full', 'search', 'wb_sunny', 'description'],
+      scroller: () => (innerWidth > 600 ? document.querySelector('.screen') : window),
+
+      shell: (c, x) => `
+        <div class="stage">
+          <aside class="stage-text">
+            <p class="title-m hi">${x.esc(c.hello)}</p>
+            <h1 class="display-m">${x.esc(c.headline)}</h1>
+            <p class="body-l muted">${L[x.lang].hint}</p>
+            <div class="ctrl">${x.paletteBtn('icon-btn tonal ripple')}${x.modeBtn('icon-btn tonal ripple')}${x.langBtn('btn tonal ripple')}</div>
+          </aside>
+          <div class="phone">
+            <div class="screen">
+              <div class="status" dir="ltr"><span id="ptime"></span><span class="grow"></span><span class="ms">signal_cellular_alt</span><span class="ms">wifi</span><span class="ms">battery_full</span></div>
+              <div class="appbar"><a class="icon-btn ripple" href="#/" aria-label="${x.esc(L[x.lang].home)}"><span class="ms flip">arrow_back</span></a><span class="title-l" id="apptitle"></span><span class="grow"></span><span class="mob-ctrl">${x.paletteBtn()}${x.modeBtn()}${x.langBtn('icon-btn lang ripple', true)}</span></div>
+              <main id="view"></main>
+              <span class="gesture" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>`,
+
+      mount() { tick(); clearInterval(window.__t); window.__t = setInterval(tick, 20000); },
+      after(page, c) {
+        document.querySelector('.screen').classList.toggle('in-app', page !== 'home');
+        document.getElementById('apptitle').textContent = c.ui.nav[page];
+      },
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui, loc = x.lang === 'fa' ? 'fa-IR' : 'en-US';
+          const date = new Date().toLocaleDateString(loc, { weekday: 'long', day: 'numeric', month: 'long' });
+          const apps = [
+            ...x.nav.filter((n) => n.id !== 'home').map((n) => ({ href: n.href, icon: `<span class="ms">${n.icon}</span>`, label: n.label })),
+            ...x.cvs.map((v) => ({ href: v.href, icon: '<span class="ms">description</span>', label: v.label, ext: true, t: 1 })),
+          ];
+          return `
+          <section class="glance">
+            <p class="date">${e(date)}</p>
+            <p class="body-m"><span class="ms">wb_sunny</span> ${e(c.location)} · ${e(c.now[0].label)}: ${e(c.now[0].text)}</p>
+          </section>
+          <section class="w-profile">
+            ${x.photoTag('w-photo', 80, 80)}
+            <div><p class="title-m">${e(c.name)}</p><p class="body-s">${e(c.role)}</p></div>
+          </section>
+          <section class="grid">${apps.map((a, i) => `
+            <a class="app" href="${a.href}" ${a.ext ? 'target="_blank" rel="noopener"' : ''} style="--i:${i}"><span class="app-ic ${a.t ? 't' : ''}">${a.icon}</span><span class="app-l">${e(a.label)}</span></a>`).join('')}
+          </section>
+          <section class="w-now"><p class="label-m">${e(u.now)}</p>${x.now()}</section>
+          <a class="search" href="#/about"><span class="ms">search</span><span>${L[x.lang].search}</span></a>
+          <nav class="dock">${x.socialLinks('dock-ic')}</nav>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>

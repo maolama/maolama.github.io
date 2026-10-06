@@ -1,0 +1,71 @@
+/* 15 · Scrapbook — polaroids, tape, sticky notes and handwriting */
+:root {
+  --font-body: "Inter", "Vazirmatn", system-ui, sans-serif; --display-weight: 600; --display-tracking: -.02em;
+  --hand: "Caveat", "Vazirmatn", cursive;
+  --paper: oklch(.99 .01 calc(var(--h) + 30)); --tape: oklch(.88 .07 calc(var(--h) + 20) / .75);
+  --r-card: 4px; --card-bg: var(--paper); --card-shadow: 0 10px 22px -14px var(--shadow-color);
+}
+[data-theme="dark"] { --paper: oklch(.27 .02 calc(var(--h) + 30)); --tape: oklch(.6 .07 calc(var(--h) + 20) / .55); }
+body { background-color: var(--surface-container); background-image: linear-gradient(var(--outline-variant) 1px, transparent 1px); background-size: 100% 32px; }
+.hand { font-family: var(--hand); font-weight: 700; }
+html:lang(fa) .hand { font-family: "Vazirmatn"; font-weight: 700; }
+
+.top { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; padding: 16px clamp(16px, 4vw, 40px); }
+.hand-name { position: relative; font: 700 2.2rem var(--hand); color: var(--primary); }
+html:lang(fa) .hand-name { font: 800 1.6rem "Vazirmatn"; }
+.hand-name svg { position: absolute; inset-inline: 0; bottom: -6px; width: 100%; height: 14px; }
+.hand-name path, .doodle path { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 260; stroke-dashoffset: 260; animation: draw 1.2s var(--ease) .3s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.ctrl { display: flex; align-items: center; gap: 4px; }
+.tape-btn { padding: 6px 16px; background: var(--tape); font-weight: 600; transform: rotate(-3deg); }
+#view { max-width: 1100px; margin: 0 auto; padding: 16px clamp(16px, 4vw, 40px) 120px; }
+
+.paper { position: relative; padding: 28px 30px; background: var(--paper); box-shadow: var(--card-shadow); }
+.tape-top::before, .tape-tl::before { content: ""; position: absolute; width: 110px; height: 28px; background: var(--tape); top: -14px; left: 50%; margin-left: -55px; transform: rotate(-3deg); }
+.tape-tl::before { left: -18px; top: 6px; margin: 0; transform: rotate(-40deg); }
+[dir="rtl"] .tape-tl::before { left: auto; right: -18px; transform: rotate(40deg); }
+
+.collage { position: relative; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 48px; align-items: center; padding: 28px 0 56px; }
+.polaroid { position: relative; margin: 0; padding: 12px 12px 6px; background: #fff; color: #333; box-shadow: 0 16px 30px -14px rgb(0 0 0 / .45); transform: rotate(-4deg); animation: drop .8s var(--ease-spring) both; }
+[dir="rtl"] .polaroid { transform: rotate(4deg); }
+@keyframes drop { from { opacity: 0; transform: translateY(-30px) rotate(-12deg); } }
+.polaroid img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.polaroid figcaption { font-size: 1.7rem; text-align: center; padding: 6px 0; }
+html:lang(fa) .polaroid figcaption { font-size: 1.1rem; }
+.note-main { transform: rotate(.8deg); animation: rise .8s var(--ease-decel) .15s both; }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } }
+.note-main h1 { margin-bottom: 14px; }
+.scribble { position: absolute; bottom: 8px; inset-inline-start: 200px; font-size: 1.8rem; color: var(--primary); display: flex; align-items: center; gap: 4px; transform: rotate(-6deg); }
+.doodle { width: 90px; height: 45px; transform: scaleY(-1) rotate(160deg); }
+[dir="rtl"] .doodle { transform: rotate(20deg) scaleX(-1); }
+
+.stickies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin: 24px 0 56px; }
+.sticky { position: relative; padding: 30px 24px 26px; color: oklch(.25 .04 var(--h)); box-shadow: 0 14px 22px -14px rgb(0 0 0 / .45); transition: transform .35s var(--ease-spring); }
+.sticky.s0 { background: oklch(.93 .09 95); transform: rotate(-2deg); }
+.sticky.s1 { background: oklch(.9 .07 calc(var(--h) + 120)); transform: rotate(1.5deg); }
+.sticky.s2 { background: oklch(.9 .07 calc(var(--h) + 300)); transform: rotate(-1deg); }
+.sticky:hover { transform: rotate(0) scale(1.03); }
+.sticky .pin { position: absolute; top: -12px; left: 50%; margin-left: -12px; color: oklch(.55 .2 25); font-variation-settings: "FILL" 1; }
+.sticky .ic { display: block; margin-bottom: 10px; }
+.sticky p { margin: 6px 0 0; }
+
+.row2 { display: grid; grid-template-columns: 1fr 1.3fr; gap: 28px; margin-bottom: 56px; }
+.card-h { font-size: 1.9rem; margin: 0 0 10px; color: var(--primary); line-height: 1.1; }
+html:lang(fa) .card-h { font-size: 1.3rem; line-height: 1.6; }
+.index-card { padding: 22px 26px; background: var(--paper) linear-gradient(transparent 46px, oklch(.65 .15 20 / .45) 46px 48px, transparent 48px); background-size: 100% 100%; box-shadow: var(--card-shadow); transform: rotate(-1deg); }
+.clipped { position: relative; padding: 26px 28px; background: var(--paper); box-shadow: var(--card-shadow); transform: rotate(.6deg); }
+.clip { position: absolute; top: -14px; inset-inline-end: 30px; font-size: 40px; color: var(--outline); transform: rotate(30deg); }
+.rl { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 10px; }
+.rl li { display: flex; flex-direction: column; padding-bottom: 8px; border-bottom: 1px dashed var(--outline-variant); }
+.loves { margin-top: 12px; }
+
+.card { box-shadow: var(--card-shadow); }
+#view:not([data-page="home"]) > .page-head h1 { font-family: var(--hand); font-size: 3.4rem; color: var(--primary); }
+html:lang(fa) #view:not([data-page="home"]) > .page-head h1 { font-family: "Vazirmatn"; font-size: 2.2rem; }
+
+@media (max-width: 820px) {
+  .collage { grid-template-columns: 1fr; gap: 28px; }
+  .polaroid { width: 220px; justify-self: center; }
+  .scribble { display: none; }
+  .stickies, .row2 { grid-template-columns: 1fr; }
+}

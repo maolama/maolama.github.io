@@ -1,18 +1,32 @@
-# Personal website
+# Personal website: Mohammad Ali Olama
 
-A bilingual (English LTR / Persian RTL) personal website in Material 3 style.
-It's static HTML, CSS and JS with no build step, served by GitHub Pages.
+A bilingual (English LTR / Persian RTL) personal website. It's static HTML, CSS and JS with no build step, served by GitHub Pages.
 
-Pages: Home · About · Projects · Writing · Resume · Contact (hash routes such as `#/about`).
+Pages: Home · About · Work · Journey · Blog · Contact (hash routes such as `#/about`).
 
-- `assets/js/content.js`: **all content, in both languages**. This is the only file you need to edit for text.
-- `assets/js/site.js`: shared engine (routing, language/RTL, light/dark theme, ripple, animations, shared pages)
-- `assets/css/material.css`: Material 3 foundation (type scale, buttons, cards, chips, lists, motion)
-- `designs/<name>/`: candidate designs (workspace, constellation, story); each sets its own colours, layout, home and about pages
-- `assets/img/`: photo (set its path in `content.js`)
-- `assets/cv.pdf`: CV file for the "Download CV" button
-- `index.html`: for now, a gallery for comparing designs; the chosen design will replace it
+## Where things live
 
-Fonts: Roboto Flex (English) and Vazirmatn (Persian), with Material Symbols icons. Only the icons used are downloaded.
+| Path | What it is |
+|---|---|
+| `assets/js/content.js` | **All text, in both languages.** The only file you need to edit for content. Items marked `MOCK` are placeholders. |
+| `assets/js/site.js` | Shared engine: routing, language/RTL, colour themes, light/dark, animations, shared pages and components |
+| `assets/css/base.css` | Shared foundation: colour system (any hue becomes a full light and dark scheme), type scale, Material components |
+| `designs/<name>/` | The 20 candidate designs. Each sets its own layout, fonts, home page and default colour. |
+| `designs/_thumbs/` | Gallery screenshots |
+| `index.html` | For now, the design gallery. The chosen design will replace it. |
+| `assets/img/` | Photos (set the path in `content.js`) |
+| `assets/cv-academic.pdf`, `assets/cv-developer.pdf` | CV downloads (to be added) |
 
-Local preview: `python3 -m http.server 8765`, then open http://localhost:8765
+## Fonts
+
+- English body text: Roboto Flex, Inter, IBM Plex Sans or Literata, depending on the design. All are chosen for on-screen readability.
+- Persian: Vazirmatn everywhere.
+- Icons: Material Symbols. Only the icons a page actually uses are downloaded.
+
+## Local preview
+
+```
+python3 -m http.server 8765
+```
+
+Then open http://localhost:8765

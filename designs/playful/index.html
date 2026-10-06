@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mohammad Ali Olama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-base="../../">
+  <div id="app"></div>
+  <script src="../../assets/js/content.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script>
+    Site.init({
+      id: 'playful', theme: { h: 100, c: 0.17 }, icons: ['star', 'bolt'],
+
+      shell: (c, x) => `
+        <header class="nav">
+          <a class="logo" href="#/">${x.esc(c.short)}<span class="ms fill">star</span></a>
+          <nav class="links" aria-label="Main">${x.nav.map((n) => `<a class="nb" data-nav="${n.id}" href="${n.href}">${x.esc(n.label)}</a>`).join('')}</nav>
+          <div class="ctrl">${x.paletteBtn('sq')}${x.modeBtn('sq')}${x.langBtn('sq lang', true)}</div>
+        </header>
+        <main id="view"></main>
+        ${x.toolbar('mobile-only')}`,
+
+      pages: {
+        home: (c, x) => {
+          const e = x.esc, u = c.ui, h = c.hobbies;
+          const stickers = [['science', c.roles[0]], ['auto_stories', c.roles[3]], ['sports_esports', c.roles[4]], ['terminal', c.roles[2]]];
+          return `
+          <section class="hero">
+            <div class="hero-text">
+              <p class="hey">${e(c.hello)} <span class="ms wave">waving_hand</span></p>
+              <h1 class="big">${e(c.headline)}</h1>
+              <div class="stickers">${stickers.map(([i, t], n) => `<span class="sticker s${n}"><span class="ms">${i}</span>${e(t)}</span>`).join('')}</div>
+              <div class="actions"><a class="nbtn primary" href="#/work">${e(u.seeWork)}</a><a class="nbtn" href="#/contact">${e(u.getInTouch)}</a></div>
+            </div>
+            <figure class="frame">${x.photoTag('', 300, 360)}<figcaption class="bubble">${e(c.short)} 👋</figcaption></figure>
+          </section>
+          <div class="band"><div class="track">${[...c.keywords, ...c.keywords].map((k) => `<span>${e(k)}</span><span class="ms fill">star</span>`).join('')}</div></div>
+          <section class="grid">
+            ${c.focus.map((f, i) => `<article class="box c${i}" data-reveal style="--i:${i}"><span class="ms big-ic">${f.icon}</span><h3 class="title-l">${e(f.title)}</h3><p>${e(f.desc)}</p></article>`).join('')}
+          </section>
+          <section class="duo">
+            <div class="box c3" data-reveal><h2 class="title-l">${e(u.now)}</h2>${x.now()}</div>
+            <div class="box c4" data-reveal style="--i:1"><h2 class="title-l">${e(u.research)}</h2>
+              <ul class="rl">${c.research.map((r) => `<li><span class="pill">${e(r.status)}</span>${e(r.title)}</li>`).join('')}</ul>
+              <a class="nbtn small" href="#/work">${e(u.seeWork)}</a></div>
+          </section>
+          <section class="box c5 wide" data-reveal><h2 class="title-l">${e(u.loves)}</h2>${x.hobbies()}</section>`;
+        },
+      },
+    });
+  </script>
+</body>
+</html>
