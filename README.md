@@ -1,11 +1,14 @@
 # Personal academic & professional website
 
-A static site with no build step: plain HTML, CSS and JS, served by GitHub Pages.
+A bilingual (English / Persian) static site with no build step, served by GitHub Pages.
 
-- `index.html`: all content (sections: About, Experience & Education, Research, Publications, Projects, Contact)
-- `assets/css/style.css`: design (colour tokens at the top, with light and dark themes)
-- `assets/js/main.js`: theme toggle, scroll reveal, tabs
-- `assets/cv.pdf`: put your CV here (the "Download CV" button links to it)
-- `assets/img/`: photos and images
+- `assets/js/content.js`: **all content, in both languages**. This is the only file you need to edit for text.
+- `assets/js/site.js`: shared language engine (switching, RTL, remembering the visitor's choice)
+- `assets/img/`: your photo (set its path in `content.js`)
+- `assets/cv.pdf`: your CV (the "Download CV" links point here)
+- `designs/<name>/`: four candidate designs (scholar, editorial, bento, swiss), all reading the same content
+- `index.html`: for now, a gallery for comparing the designs; the chosen design will replace it
+
+Fonts: Inter for English, Vazirmatn for Persian, with design-specific heading fonts.
 
 Local preview: `python3 -m http.server 8765`, then open http://localhost:8765
