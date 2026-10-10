@@ -182,14 +182,14 @@
       </div>`;
 
     Site.init({
-      id: 'final', theme: { h: 185, c: 0.1 }, icons: ['home_pin', 'join_inner', 'flag', 'chevron_right', 'north_east'],
+      id: 'final', lang: 'en', lockTheme: true, theme: { h: 252, c: 0.13 }, icons: ['home_pin', 'join_inner', 'flag', 'chevron_right', 'north_east'],
 
       shell: (c, x) => `
         <header class="topbar">
           <a class="mark" href="#/">${x.esc(c.initials)}</a>
           <span class="title-m who">${x.esc(c.name)}</span>
           <span class="grow"></span>
-          ${x.paletteBtn('icon-btn tonal ripple')}${x.modeBtn('icon-btn tonal ripple')}${x.langBtn('btn tonal ripple lang-btn')}
+          ${x.modeBtn('icon-btn tonal ripple')}
         </header>
         <main id="view"></main>
         <footer class="foot">
@@ -216,6 +216,7 @@
       after(page, c) {
         document.getElementById('toolbar')?.classList.remove('hidden');
         if (page === 'home') ticker();
+        if (page === 'work') fetch('https://api.github.com/users/maolama').then((r) => r.json()).then((d) => { const el = document.getElementById('repo-count'); if (el && d.public_repos) el.textContent = d.public_repos; }).catch(() => {});
         if (page === 'journey') {
           document.getElementById('road')._d = periods(c);
           requestAnimationFrame(layoutRoad);
@@ -262,6 +263,69 @@
           </section>`;
         },
 
+        work: (c, x) => {
+          const e = x.esc, u = c.ui;
+          // Small illustration per research item (index-matched to content.research).
+          const arts = [
+            // Thesis: a judge's scale tipping towards the long answer
+            `<svg viewBox="0 0 300 150" aria-hidden="true">
+              <line class="a-line" x1="150" y1="22" x2="150" y2="128"/><rect class="a-soft" x="118" y="126" width="64" height="8" rx="4"/>
+              <g class="tilt"><line class="a-beam" x1="62" y1="44" x2="238" y2="44"/>
+                <line class="a-line" x1="72" y1="44" x2="72" y2="70"/><line class="a-line" x1="228" y1="44" x2="228" y2="70"/>
+                <g transform="translate(40 72)"><rect class="a-acc" width="64" height="7" rx="3.5"/><rect class="a-acc" y="11" width="56" height="7" rx="3.5"/><rect class="a-acc" y="22" width="64" height="7" rx="3.5"/><rect class="a-acc" y="33" width="48" height="7" rx="3.5"/><rect class="a-acc" y="44" width="60" height="7" rx="3.5"/></g>
+                <g transform="translate(200 72)"><rect class="a-alt" width="56" height="7" rx="3.5"/></g></g>
+              <circle class="a-acc" cx="150" cy="22" r="7"/></svg>`,
+            // Reflect or Shift: simulated users drifting between recommenders
+            `<svg viewBox="0 0 300 150" aria-hidden="true">
+              ${[0, 1, 2, 3].map((i) => `<rect class="a-soft" x="${30 + i * 66}" y="20" width="44" height="30" rx="9"/><text class="a-txt" x="${52 + i * 66}" y="40">${['RND', 'SVD', 'LLM', 'LLM+'][i]}</text>`).join('')}
+              ${Array.from({ length: 14 }, (_, i) => { const xx = 30 + (i % 7) * 40, yy = 92 + Math.floor(i / 7) * 30; return `<path class="a-link" d="M${xx} ${yy} Q ${xx} 70 ${52 + (i % 4) * 66} 52"/><circle class="${i % 3 ? 'a-acc' : 'a-alt'} drift" style="--d:${i * 0.3}s" cx="${xx}" cy="${yy}" r="7"/>`; }).join('')}</svg>`,
+            // Verbosity bias: short vs. padded answers, the judge prefers the tall ones
+            `<svg viewBox="0 0 300 150" aria-hidden="true">
+              <line class="a-line" x1="24" y1="130" x2="276" y2="130"/>
+              ${[[40, 70], [34, 82], [46, 74], [30, 88], [38, 78]].map(([a, b], i) => `<rect class="a-soft grow" style="--d:${i * 0.1}s" x="${36 + i * 48}" y="${130 - a}" width="16" height="${a}" rx="4"/><rect class="a-acc grow" style="--d:${i * 0.1 + 0.05}s" x="${54 + i * 48}" y="${130 - b}" width="16" height="${b}" rx="4"/>`).join('')}
+              <text class="a-txt big" x="262" y="34">فا</text></svg>`,
+          ];
+          const tones = [0, 60, 140, 220, 300];
+          const projects = c.projects.map((p, i) => `
+            <a class="repo k-${p.kind || 'project'}" data-kind="${p.kind || 'project'}" href="${p.url}" target="_blank" rel="noopener" data-reveal style="--i:${i % 6};--o:${tones[i % 5]}">
+              <span class="repo-art"><span class="ms">${p.icon}</span></span>
+              <span class="repo-body">
+                <span class="title-m">${e(p.title)}</span>
+                <span class="body-s muted">${e(p.desc)}</span>
+                <span class="repo-foot"><span class="tags">${p.tags.map((t) => `<span class="tag">${e(t)}</span>`).join('')}</span>${x.brand('github', 'brand gh')}</span>
+              </span>
+            </a>`).join('');
+          return `
+          ${x.head('work')}
+          <h2 class="title-l block-title" data-reveal>${e(u.research)}</h2>
+          <div class="papers">${c.research.map((r, i) => {
+            const [o, cl] = r.url ? [`<a class="paper ripple" href="${r.url}" target="_blank" rel="noopener" data-reveal style="--i:${i}">`, '</a>'] : [`<article class="paper" data-reveal style="--i:${i}">`, '</article>'];
+            return `${o}<div class="paper-art">${arts[i] || ''}</div>
+              <div class="paper-body"><div class="rc-top"><span class="status label-m">${e(r.status)}</span><span class="tag">${e(r.tag)}</span></div>
+              <h3 class="title-l">${e(r.title)}</h3><p class="body-m muted">${e(r.desc)}</p>
+              ${r.url ? `<span class="label-l code-link">${x.brand('github', 'brand')}${e(u.code)} <span class="ms flip">arrow_forward</span></span>` : ''}</div>${cl}`;
+          }).join('')}</div>
+
+          <div class="proj-head" data-reveal>
+            <h2 class="title-l">${e(u.projects)}</h2>
+            <div class="chips">${['all', 'project', 'fun'].map((k) => `<button class="chip filter ripple ${k === 'all' ? 'selected' : ''}" data-filter="${k}"><span class="ms chip-check">check</span>${e({ all: u.all, project: 'ML & LLMs', fun: u.fun }[k])}</button>`).join('')}</div>
+          </div>
+          <div class="repos">${projects}</div>
+
+          <a class="gh-strip ripple" href="${SITE.github}" target="_blank" rel="noopener" data-reveal>
+            ${x.brand('github', 'brand gh-big')}
+            <span class="gh-text"><span class="headline-s"><span id="repo-count">40+</span> public repositories</span><span class="body-m muted">From Tetris in my first year to LLM alignment today. github.com/maolama</span></span>
+            <span class="ms flip">arrow_forward</span>
+          </a>`;
+        },
+
+        blog: (c, x) => `
+          ${x.head('blog')}
+          <div class="empty" data-reveal>
+            <svg viewBox="0 0 200 140" aria-hidden="true"><rect class="e-page" x="52" y="18" width="96" height="112" rx="10"/><line class="e-line" x1="68" y1="44" x2="132" y2="44"/><line class="e-line" x1="68" y1="62" x2="124" y2="62"/><line class="e-line" x1="68" y1="80" x2="116" y2="80"/><path class="e-pen" d="M150 92 l20 -20 l10 10 l-20 20 l-14 4 z"/></svg>
+            <p class="body-l muted">No posts yet.</p>
+          </div>`,
+
         about: (c, x) => `
           ${x.head('about')}
           <div class="about-layout">
@@ -276,10 +340,7 @@
           </div>
           <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.focus)}</h2>${x.focus()}</section>
           <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.loves)}</h2>${x.reading()}<div data-reveal>${x.hobbies()}</div></section>
-          <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.quotes)}</h2>${x.quotes()}</section>
-          <section class="block" data-reveal><h2 class="block-title title-l">${x.esc(c.ui.languages)}</h2>
-            <div class="chips">${c.languages.map((l) => `<span class="chip"><span class="ms">translate</span>${x.esc(l.k)} · ${x.esc(l.v)}</span>`).join('')}</div>
-          </section>`,
+          <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.quotes)}</h2>${x.quotes()}</section>`,
 
         journey: (c, x) => {
           const e = x.esc, u = c.ui;

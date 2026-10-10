@@ -63,10 +63,9 @@ window.SITE = {
     roles: ['an LLM researcher', 'a backend developer', 'a data scientist', 'a bookworm', 'a gamer'],
     keywords: ['LLM evaluation', 'Data science', 'Books', 'Backend', 'Films', 'Games', 'Travel'],
     tags: [
-      { icon: 'balance', label: 'LLM evaluation' },
+      { icon: 'balance', label: 'LLM researcher' },
       { icon: 'dns', label: 'Backend developer' },
       { icon: 'auto_stories', label: 'Bookworm' },
-      { icon: 'sports_esports', label: 'Gamer' },
     ],
 
     now: [
@@ -164,7 +163,7 @@ window.SITE = {
         about: 'The person behind the papers and the pull requests.',
         work: 'Research I am doing, and things I have built (some just for fun).',
         journey: 'Where I have studied and worked. Scroll to travel the road.',
-        blog: 'Notes and essays. Coming soon.',
+        blog: 'Notes and essays.',
         contact: 'Say hello. I usually reply within a few days.',
       },
       focus: 'What I do', now: 'Lately', loves: 'Things I love', languages: 'Languages',

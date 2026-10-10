@@ -250,9 +250,11 @@
     const base = document.body.dataset.base || '';
     const q = new URLSearchParams(location.search);
     let lang = LANGS.includes(q.get('lang')) ? q.get('lang') : (LANGS.includes(store.get('lang')) ? store.get('lang') : 'en');
+    if (d.lang) lang = d.lang; // design pins a single language
     try { theme = JSON.parse(store.get(`theme:${d.id}`)) || d.theme; } catch (e) { theme = d.theme; }
     mode = q.get('mode') || store.get('mode') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     if (q.get('h')) theme = { h: +q.get('h'), c: +(q.get('c') || 0.12) };
+    if (d.lockTheme) theme = d.theme; // design pins its colour
     if (q.get('static')) root.classList.add('static'); // used for gallery screenshots
     if (q.has('mode') || q.has('h')) {
       // one-off overrides (from the gallery): apply once, then drop them from the address
