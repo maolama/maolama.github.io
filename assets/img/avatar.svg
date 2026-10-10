@@ -1,79 +1,70 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Developer illustration">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dfeaff"/><stop offset="1" stop-color="#a9c4f7"/></linearGradient>
-    <linearGradient id="hood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f5fb8"/><stop offset="1" stop-color="#1c3c80"/></linearGradient>
-    <linearGradient id="lap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d7e1f4"/><stop offset="1" stop-color="#b3c3e2"/></linearGradient>
-    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2e27"/><stop offset="1" stop-color="#231b17"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2ecff"/><stop offset="1" stop-color="#abc6f7"/></linearGradient>
+    <linearGradient id="hood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3366c4"/><stop offset="1" stop-color="#1e4189"/></linearGradient>
+    <linearGradient id="lap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3a55"/><stop offset="1" stop-color="#1c273b"/></linearGradient>
   </defs>
   <rect width="400" height="400" fill="url(#bg)"/>
 
-  <!-- code editor window behind (left) -->
-  <g transform="translate(34 64)">
-    <rect width="132" height="96" rx="12" fill="#0f1b33" opacity=".92"/>
-    <circle cx="14" cy="13" r="4" fill="#ff6159"/><circle cx="27" cy="13" r="4" fill="#ffbd2e"/><circle cx="40" cy="13" r="4" fill="#28c840"/>
-    <rect x="14" y="30" width="38" height="6" rx="3" fill="#7aa7ff"/><rect x="56" y="30" width="44" height="6" rx="3" fill="#e9a23b"/>
-    <rect x="26" y="44" width="56" height="6" rx="3" fill="#8be0b5"/><rect x="86" y="44" width="24" height="6" rx="3" fill="#7aa7ff"/>
-    <rect x="26" y="58" width="30" height="6" rx="3" fill="#e9a23b"/><rect x="60" y="58" width="50" height="6" rx="3" fill="#c3d2f0"/>
-    <rect x="14" y="72" width="22" height="6" rx="3" fill="#7aa7ff"/>
-    <rect x="40" y="71" width="3" height="9" fill="#ffffff"><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect>
+  <!-- Windows-style editor window with Java code -->
+  <g transform="translate(30 58)">
+    <rect width="150" height="104" rx="8" fill="#ffffff"/>
+    <rect width="150" height="20" rx="8" fill="#eef2f9"/><rect y="12" width="150" height="8" fill="#eef2f9"/>
+    <g stroke="#5b6b86" stroke-width="1.6" stroke-linecap="round">
+      <line x1="108" y1="10" x2="114" y2="10"/>
+      <rect x="122" y="7" width="6" height="6" fill="none"/>
+      <path d="M136 7 l6 6 M142 7 l-6 6"/>
+    </g>
+    <text font-family="Consolas, 'Cascadia Code', ui-monospace, monospace" font-size="9.5" font-weight="600">
+      <tspan x="10" y="36" fill="#c2410c">public class</tspan><tspan fill="#1e3a8a"> Me {</tspan>
+      <tspan x="18" y="51" fill="#c2410c">void</tspan><tspan fill="#0f766e"> code</tspan><tspan fill="#1e3a8a">() {</tspan>
+      <tspan x="26" y="66" fill="#1e3a8a">coffee.</tspan><tspan fill="#0f766e">sip</tspan><tspan fill="#1e3a8a">();</tspan>
+      <tspan x="26" y="81" fill="#1e3a8a">build.</tspan><tspan fill="#0f766e">run</tspan><tspan fill="#1e3a8a">();</tspan>
+      <tspan x="18" y="96" fill="#1e3a8a">} }</tspan>
+    </text>
   </g>
-  <!-- terminal window behind (right) -->
-  <g transform="translate(254 92)">
-    <rect width="116" height="62" rx="12" fill="#ffffff" opacity=".9"/>
-    <text x="12" y="27" font-family="ui-monospace, Menlo, monospace" font-size="13" font-weight="700" fill="#2f5fb8">$ git push</text>
-    <text x="12" y="47" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#1f8f5f">✓ done</text>
+
+  <!-- body -->
+  <path d="M86 400 C 92 320, 140 288, 200 288 C 260 288, 308 320, 314 400 Z" fill="url(#hood)"/>
+  <path d="M174 290 Q200 316 226 290" fill="#f0c2a0"/>
+  <path d="M170 292 L200 322 L230 292" fill="none" stroke="#1a3672" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- neck, ears, head -->
+  <path d="M184 250 L184 292 Q200 302 216 292 L216 250 Z" fill="#e6b08b"/>
+  <ellipse cx="148" cy="200" rx="9" ry="14" fill="#eab894"/>
+  <ellipse cx="252" cy="200" rx="9" ry="14" fill="#eab894"/>
+  <path d="M148 186 C 148 140, 172 124, 200 124 C 228 124, 252 140, 252 186 C 252 222, 240 256, 200 262 C 160 256, 148 222, 148 186 Z" fill="#f3c9a6"/>
+
+  <!-- simple short hair -->
+  <path d="M146 192 C 140 136, 168 112, 202 112 C 238 112, 262 138, 254 192 C 250 172, 246 160, 238 152 C 214 156, 186 150, 166 140 C 158 152, 150 168, 146 192 Z" fill="#2e241f"/>
+  <path d="M172 132 C 190 122, 214 120, 232 128" fill="none" stroke="#4a3b33" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+
+  <!-- face -->
+  <path d="M166 180 Q177 175 188 179" fill="none" stroke="#3a2d26" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M212 179 Q223 175 234 180" fill="none" stroke="#3a2d26" stroke-width="3.5" stroke-linecap="round"/>
+  <ellipse cx="177" cy="196" rx="5" ry="6" fill="#2b211c"/>
+  <ellipse cx="223" cy="196" rx="5" ry="6" fill="#2b211c"/>
+  <circle cx="179" cy="194" r="1.6" fill="#ffffff"/>
+  <circle cx="225" cy="194" r="1.6" fill="#ffffff"/>
+  <path d="M200 202 Q196 218 200 222 Q204 223 207 220" fill="none" stroke="#d99a76" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="166" cy="216" rx="9" ry="5" fill="#f19a8a" opacity=".25"/>
+  <ellipse cx="234" cy="216" rx="9" ry="5" fill="#f19a8a" opacity=".25"/>
+  <path d="M186 234 Q200 244 214 234" fill="none" stroke="#9a4a33" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- laptop (back) with a Windows logo -->
+  <path d="M106 400 L126 324 L274 324 L294 400 Z" fill="url(#lap)"/>
+  <rect x="126" y="320" width="148" height="7" rx="3.5" fill="#4b5b78"/>
+  <g transform="translate(184 348) skewY(-4)" fill="#4f9cff">
+    <rect width="15" height="14" rx="1"/><rect x="17" width="15" height="14" rx="1"/>
+    <rect y="16" width="15" height="14" rx="1"/><rect x="17" y="16" width="15" height="14" rx="1"/>
   </g>
 
-  <!-- body / hoodie with headphones around the neck -->
-  <path d="M84 400 C 90 318, 140 284, 200 284 C 260 284, 310 318, 316 400 Z" fill="url(#hood)"/>
-  <path d="M170 288 L200 326 L230 288" fill="none" stroke="#173468" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="182" y="246" width="36" height="44" rx="14" fill="#e8b48f"/>
-  <path d="M150 292 C 150 318, 250 318, 250 292" fill="none" stroke="#1b2333" stroke-width="7" stroke-linecap="round"/>
-  <rect x="136" y="280" width="22" height="30" rx="9" fill="#e09a2c"/>
-  <rect x="242" y="280" width="22" height="30" rx="9" fill="#e09a2c"/>
-
-  <!-- head (clean-shaven) -->
-  <ellipse cx="200" cy="196" rx="58" ry="64" fill="#f2c4a0"/>
-  <ellipse cx="142" cy="202" rx="9" ry="13" fill="#e8b48f"/>
-  <ellipse cx="258" cy="202" rx="9" ry="13" fill="#e8b48f"/>
-  <path d="M168 236 Q200 250 232 236" fill="none" stroke="#e3ad88" stroke-width="3" stroke-linecap="round" opacity=".7"/>
-
-  <!-- full, freshly-implanted hair: dense, neat hairline with fine strands -->
-  <path d="M140 196 C 130 128, 168 104, 206 106 C 248 108, 272 132, 262 196 C 258 168, 250 156, 236 150 C 212 152, 182 150, 162 152 C 150 158, 144 172, 140 196 Z" fill="url(#hair)"/>
-  <path d="M150 152 C 160 120, 200 104, 238 114 C 222 112, 196 118, 178 132 C 200 122, 226 122, 244 134 C 214 130, 186 138, 164 156 Z" fill="#4a3a30"/>
-  <g stroke="#5a463a" stroke-width="2" stroke-linecap="round" opacity=".9">
-    <path d="M162 152 l-3 -9"/><path d="M172 150 l-2 -10"/><path d="M182 149 l-1 -10"/><path d="M192 149 l0 -10"/><path d="M202 149 l1 -10"/><path d="M212 149 l2 -10"/><path d="M222 150 l2 -9"/><path d="M232 151 l3 -9"/>
-  </g>
-  <g fill="#2b211c">
-    <circle cx="166" cy="155" r="1.6"/><circle cx="176" cy="153" r="1.6"/><circle cx="186" cy="152" r="1.6"/><circle cx="196" cy="152" r="1.6"/><circle cx="206" cy="152" r="1.6"/><circle cx="216" cy="152" r="1.6"/><circle cx="226" cy="153" r="1.6"/><circle cx="236" cy="155" r="1.6"/>
-  </g>
-  <!-- a little sparkle on the new hair -->
-  <path d="M248 112 Q251 104 259 101 Q251 98 248 90 Q245 98 237 101 Q245 104 248 112Z" fill="#e09a2c"/>
-
-  <!-- eyebrows, glasses, smile -->
-  <path d="M158 174 q14 -6 28 0" fill="none" stroke="#2b211c" stroke-width="4" stroke-linecap="round"/>
-  <path d="M214 174 q14 -6 28 0" fill="none" stroke="#2b211c" stroke-width="4" stroke-linecap="round"/>
-  <g fill="none" stroke="#1b2333" stroke-width="5">
-    <rect x="152" y="182" width="40" height="30" rx="10"/>
-    <rect x="208" y="182" width="40" height="30" rx="10"/>
-    <path d="M192 194 Q200 188 208 194"/>
-  </g>
-  <rect x="156" y="186" width="32" height="22" rx="8" fill="#9fd0ff" opacity=".28"/>
-  <rect x="212" y="186" width="32" height="22" rx="8" fill="#9fd0ff" opacity=".28"/>
-  <circle cx="172" cy="197" r="4" fill="#1b2333"/>
-  <circle cx="228" cy="197" r="4" fill="#1b2333"/>
-  <path d="M184 228 Q200 240 216 228" fill="none" stroke="#7a3f2a" stroke-width="4" stroke-linecap="round"/>
-
-  <!-- laptop (back side), with a </> sticker -->
-  <path d="M104 400 L124 322 L276 322 L296 400 Z" fill="url(#lap)"/>
-  <rect x="124" y="318" width="152" height="8" rx="4" fill="#97a9cf"/>
-  <rect x="166" y="344" width="68" height="30" rx="10" fill="#2f5fb8"/>
-  <text x="200" y="365" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="17" font-weight="800" fill="#ffffff">&lt;/&gt;</text>
-
-  <!-- coffee mug -->
-  <g transform="translate(306 318)">
-    <path d="M10 -14 q-6 -10 0 -18 M24 -14 q-6 -10 0 -18" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-    <rect width="36" height="40" rx="8" fill="#e09a2c"/>
-    <path d="M36 10 q14 0 14 12 q0 12 -14 12" fill="none" stroke="#e09a2c" stroke-width="6"/>
+  <!-- Java coffee cup -->
+  <g transform="translate(304 316)">
+    <path d="M12 -10 q-7 -9 0 -18 q7 -9 0 -18" fill="none" stroke="#e76f00" stroke-width="3.5" stroke-linecap="round" opacity=".9"/>
+    <path d="M24 -10 q-7 -9 0 -18" fill="none" stroke="#e76f00" stroke-width="3.5" stroke-linecap="round" opacity=".7"/>
+    <path d="M0 0 h40 l-4 38 q-1 6 -7 6 h-18 q-6 0 -7 -6 Z" fill="#ffffff"/>
+    <path d="M40 8 q14 0 13 12 q-1 12 -15 12" fill="none" stroke="#ffffff" stroke-width="5"/>
+    <text x="20" y="27" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="800" fill="#1565c0">Java</text>
   </g>
 </svg>
