@@ -11,6 +11,7 @@ Pages: Home · About · Work · Journey · Blog · Contact (hash routes such as 
 | `assets/js/content.js` | **All text, in both languages.** The only file you need to edit for content. Items marked `MOCK` are placeholders. |
 | `assets/js/site.js` | Shared engine: routing, language/RTL, colour themes, light/dark, animations, shared pages and components |
 | `assets/css/base.css` | Shared foundation: colour system (any hue becomes a full light and dark scheme), type scale, Material components |
+| `designs/` | Design gallery (`designs/index.html`) and the 20 alternative designs. `designs/final/` redirects to the root. |
 | `designs/<name>/` | The 20 candidate designs. Each sets its own layout, fonts, home page and default colour. |
 | `designs/_thumbs/` | Gallery screenshots |
 | `index.html` | For now, the design gallery. The chosen design will replace it. |

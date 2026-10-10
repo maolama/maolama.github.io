@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design Gallery</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #f4f3f1; --card: #fff; --text: #17171a; --muted: #62626b; --line: #e3e2df; --accent: #3d5afe; color-scheme: light; }
+    :root[data-mode="dark"] { --bg: #101013; --card: #1a1a1f; --text: #f0f0f3; --muted: #a2a2ad; --line: #2b2b33; --accent: #8c9eff; color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.6 "Roboto Flex", "Vazirmatn", system-ui, sans-serif; transition: background .3s, color .3s; }
+    header { max-width: 1320px; margin: 0 auto; padding: 44px 20px 12px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 600; letter-spacing: -.03em; }
+    header p { margin: 0; color: var(--muted); max-width: 760px; }
+    .bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; max-width: 1320px; margin: 0 auto; padding: 14px 20px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); }
+    .seg { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); }
+    .seg button { border: 0; background: none; color: var(--muted); font: 500 .88rem inherit; font-family: inherit; padding: 6px 14px; border-radius: 99px; cursor: pointer; }
+    .seg button.on { background: var(--text); color: var(--bg); }
+    .grow { flex: 1; }
+    main { max-width: 1320px; margin: 0 auto; padding: 8px 20px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+    .card { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgb(0 0 0 / .35); }
+    .thumb { position: relative; display: block; aspect-ratio: 16 / 10; background: var(--line); overflow: hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .6s cubic-bezier(.2,0,0,1); }
+    .card:hover .thumb img { transform: scale(1.03); }
+    .num { position: absolute; top: 10px; left: 10px; padding: 2px 10px; border-radius: 99px; background: rgb(0 0 0 / .65); color: #fff; font-size: .8rem; font-weight: 600; }
+    .info { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 18px; flex: 1; }
+    .row { display: flex; align-items: center; gap: 8px; }
+    h2 { margin: 0; font-size: 1.15rem; font-weight: 600; }
+    .tag { font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+    .info p { margin: 0; color: var(--muted); font-size: .92rem; flex: 1; }
+    .links { display: flex; gap: 8px; margin-top: 10px; }
+    .links a { flex: 1; text-align: center; padding: 8px 0; border-radius: 99px; font-size: .88rem; font-weight: 600; text-decoration: none; }
+    .links a:first-child { background: var(--text); color: var(--bg); }
+    .links a:last-child { border: 1px solid var(--line); color: var(--text); }
+    .hide { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pick your favourite</h1>
+    <p>20 designs for your personal website, all sharing the same content. Every design has a <b>palette button</b> (7 colour themes, plus any custom colour), a <b>light / dark</b> switch, and English ⇄ فارسی with proper right-to-left layout. The thumbnails show each design's default colours.</p>
+  </header>
+  <div class="bar">
+    <div class="seg" id="filters"></div>
+    <span class="grow"></span>
+    <div class="seg" id="modes"><button data-m="light" class="on">Light</button><button data-m="dark">Dark</button></div>
+  </div>
+  <main id="grid"></main>
+  <script>
+    const D = [
+      ['final', 'Final ★', 'Material 3', 'The chosen direction: Workspace look, floating toolbar, minimal home, Path road as the Journey page, real content and links.'],
+      ['story', 'Story', 'Material 3', 'Your favourite, refined: word-by-word headline, parallax shapes, scrolling keyword band and the floating toolbar.'],
+      ['chat', 'Chat', 'Material 3', 'The home page is a conversation with you. Visitors tap questions and you “answer”. Fits an LLM researcher.'],
+      ['notebook', 'Notebook', 'Themed', 'Your site as a Jupyter notebook: cells, outputs, a timeline plot, and a “Run all” button.'],
+      ['bento', 'Bento', 'Material 3', 'Everything at a glance in tiles: map from Shiraz to Tehran, mini bookshelf, socials, research.'],
+      ['glass', 'Glass', 'Apple visionOS', 'Frosted glass windows floating over a slowly moving aurora, with a side “ornament” navigation.'],
+      ['fluent', 'Fluent', 'Microsoft Fluent 2', 'Windows 11 feel: Mica background, navigation pane with sliding indicator, layered cards.'],
+      ['terminal', 'Terminal', 'Themed', 'A friendly console that types itself out. Visitors can type commands like help, work, cv, lang.'],
+      ['path', 'Path', 'Material 3', 'A winding road through your life (Shiraz → Sharif → Mahsan → TeIAS) that draws itself as you scroll.'],
+      ['editorial', 'Editorial', 'Minimal', 'A calm magazine: big serif masthead, columns, rules, drop cap and a black-and-white portrait.'],
+      ['playful', 'Playful', 'Neubrutalism', 'Bold outlines, hard shadows, stickers and a speech bubble. Loud, fun, still readable.'],
+      ['constellation', 'Constellation', 'Material 3', 'An interactive “token graph” that reacts to the mouse, typing roles, and counters.'],
+      ['workspace', 'Workspace', 'Material 3', 'App-like layout: navigation rail, morphing Material shapes, dashboard with a profile card.'],
+      ['bookshelf', 'Bookshelf', 'Themed', 'A little library: the books on the shelf are the menu, plus an open book with your “lately”.'],
+      ['desktop', 'Desktop', 'Themed', 'A tiny operating system: menu bar with clock, draggable window, polaroid and sticky-note widgets, dock.'],
+      ['scrapbook', 'Scrapbook', 'Themed', 'Polaroid with tape, sticky notes, handwriting and doodles. Cozy and personal.'],
+      ['quest', 'Quest', 'Themed', 'An RPG character sheet: stats, main quest (your thesis), side quests, inventory, achievements.'],
+      ['passport', 'Passport', 'Themed', 'A boarding pass SYZ → THR, itinerary as flight legs, destinations as tickets, travel stamps.'],
+      ['cinema', 'Cinema', 'Themed', 'Your premiere: letterbox opening, “Starring”, posters for research, trailers, and end credits.'],
+      ['pocket', 'Pocket', 'Material 3', 'One calm card, link-in-bio style. The lightest and simplest of all.'],
+      ['launcher', 'Launcher', 'Material You', 'An Android home screen: widgets, app icons for each page, apps open like on a phone.'],
+    ];
+    const groups = ['All', 'Material 3', 'Themed', 'Other styles'];
+    const groupOf = (t) => (t.startsWith('Material') ? 'Material 3' : t === 'Themed' ? 'Themed' : 'Other styles');
+    let mode = 'light', filter = 'All';
+    const grid = document.getElementById('grid');
+    function render() {
+      document.documentElement.dataset.mode = mode;
+      grid.innerHTML = D.map(([id, name, tag, desc], i) => `
+        <article class="card ${filter === 'All' || groupOf(tag) === filter ? '' : 'hide'}">
+          <a class="thumb" href="${id === 'final' ? '../' : id + '/'}?lang=en&mode=${mode}"><img src="_thumbs/${id}-${mode}.jpg" alt="${name} preview" loading="lazy"><span class="num">${String(i + 1).padStart(2, '0')}</span></a>
+          <div class="info">
+            <div class="row"><h2>${name}</h2><span class="tag">${tag}</span></div>
+            <p>${desc}</p>
+            <div class="links"><a href="${id === 'final' ? '../' : id + '/'}?lang=en&mode=${mode}">Open</a><a href="${id === 'final' ? '../' : id + '/'}?lang=fa&mode=${mode}" lang="fa">فارسی</a></div>
+          </div>
+        </article>`).join('');
+    }
+    document.getElementById('filters').innerHTML = groups.map((g) => `<button data-f="${g}" class="${g === 'All' ? 'on' : ''}">${g}</button>`).join('');
+    document.addEventListener('click', (e) => {
+      const m = e.target.closest('[data-m]'), f = e.target.closest('[data-f]');
+      if (m) { mode = m.dataset.m; document.querySelectorAll('[data-m]').forEach((b) => b.classList.toggle('on', b === m)); render(); }
+      if (f) { filter = f.dataset.f; document.querySelectorAll('[data-f]').forEach((b) => b.classList.toggle('on', b === f)); render(); }
+    });
+    render();
+  </script>
+</body>
+</html>
