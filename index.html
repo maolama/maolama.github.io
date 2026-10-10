@@ -285,7 +285,7 @@
               ${[[40, 70], [34, 82], [46, 74], [30, 88], [38, 78]].map(([a, b], i) => `<rect class="a-soft grow" style="--d:${i * 0.1}s" x="${36 + i * 48}" y="${130 - a}" width="16" height="${a}" rx="4"/><rect class="a-acc grow" style="--d:${i * 0.1 + 0.05}s" x="${54 + i * 48}" y="${130 - b}" width="16" height="${b}" rx="4"/>`).join('')}
               <text class="a-txt big" x="262" y="34">فا</text></svg>`,
           ];
-          const tones = [0, 60, 140, 220, 300];
+          const tones = [0, -40, 180, -70, 160]; // blues, teal and amber only
           const projects = c.projects.map((p, i) => `
             <a class="repo k-${p.kind || 'project'}" data-kind="${p.kind || 'project'}" href="${p.url}" target="_blank" rel="noopener" data-reveal style="--i:${i % 6};--o:${tones[i % 5]}">
               <span class="repo-art"><span class="ms">${p.icon}</span></span>

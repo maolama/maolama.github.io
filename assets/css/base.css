@@ -29,9 +29,9 @@
   --secondary: oklch(.5 calc(var(--c) * .4) var(--h));
   --secondary-container: oklch(.92 calc(var(--c) * .3) var(--h));
   --on-secondary-container: oklch(.28 calc(var(--c) * .35) var(--h));
-  --tertiary: oklch(.52 calc(var(--c) * .9) calc(var(--h) + 70));
-  --tertiary-container: oklch(.92 calc(var(--c) * .5) calc(var(--h) + 70));
-  --on-tertiary-container: oklch(.3 calc(var(--c) * .7) calc(var(--h) + 70));
+  --tertiary: oklch(.52 calc(var(--c) * .9) calc(var(--h) + var(--t-off, 70)));
+  --tertiary-container: oklch(.92 calc(var(--c) * .5) calc(var(--h) + var(--t-off, 70)));
+  --on-tertiary-container: oklch(.3 calc(var(--c) * .7) calc(var(--h) + var(--t-off, 70)));
   --surface: oklch(.985 calc(var(--c) * .07) var(--h));
   --surface-container-lowest: oklch(1 0 0);
   --surface-container-low: oklch(.968 calc(var(--c) * .09) var(--h));
@@ -55,9 +55,9 @@
   --secondary: oklch(.8 calc(var(--c) * .35) var(--h));
   --secondary-container: oklch(.36 calc(var(--c) * .3) var(--h));
   --on-secondary-container: oklch(.92 calc(var(--c) * .25) var(--h));
-  --tertiary: oklch(.82 calc(var(--c) * .7) calc(var(--h) + 70));
-  --tertiary-container: oklch(.38 calc(var(--c) * .6) calc(var(--h) + 70));
-  --on-tertiary-container: oklch(.92 calc(var(--c) * .4) calc(var(--h) + 70));
+  --tertiary: oklch(.82 calc(var(--c) * .7) calc(var(--h) + var(--t-off, 70)));
+  --tertiary-container: oklch(.38 calc(var(--c) * .6) calc(var(--h) + var(--t-off, 70)));
+  --on-tertiary-container: oklch(.92 calc(var(--c) * .4) calc(var(--h) + var(--t-off, 70)));
   --surface: oklch(.17 calc(var(--c) * .12) var(--h));
   --surface-container-lowest: oklch(.14 calc(var(--c) * .1) var(--h));
   --surface-container-low: oklch(.2 calc(var(--c) * .13) var(--h));
@@ -428,7 +428,7 @@ a.stamp, a.game { color: var(--on-surface); }
 .reading .headline-m { font-weight: 600; }
 .fav { margin-inline-start: auto; border-radius: 99px; }
 .pages-stack { position: relative; width: 64px; height: 78px; flex: none; }
-.pages-stack i { position: absolute; inset: 0; border-radius: 4px 8px 8px 4px; background: oklch(.6 .12 calc(var(--h) + var(--i) * 40)); box-shadow: 0 2px 6px rgb(0 0 0 / .2); transform: rotate(calc((var(--i) - 3) * 4deg)) translateY(calc(var(--i) * -2px)); transform-origin: bottom center; animation: fan .9s var(--ease-spring) both; animation-delay: calc(var(--i) * 60ms); }
+.pages-stack i { position: absolute; inset: 0; border-radius: 4px 8px 8px 4px; background: oklch(.6 .12 calc(var(--h) + (var(--i) - 3) * 10)); box-shadow: 0 2px 6px rgb(0 0 0 / .2); transform: rotate(calc((var(--i) - 3) * 4deg)) translateY(calc(var(--i) * -2px)); transform-origin: bottom center; animation: fan .9s var(--ease-spring) both; animation-delay: calc(var(--i) * 60ms); }
 @keyframes fan { from { transform: none; } }
 
 /* ---------- Quotes ---------- */

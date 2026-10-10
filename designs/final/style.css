@@ -1,5 +1,5 @@
 /* Final — Workspace look, floating toolbar, minimal graphical home, Path road for Journey */
-:root { --r-card: 24px; --card-bg: var(--surface-container-low); --display-weight: 560; --display-tracking: -.035em; }
+:root { --t-off: 180; --r-card: 24px; --card-bg: var(--surface-container-low); --display-weight: 560; --display-tracking: -.035em; }
 .grow { flex: 1; }
 
 /* ---------- Top bar ---------- */
@@ -174,13 +174,13 @@ a.paper:hover .code-link .ms { transform: translateX(4px); }
 .repos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
 .repo { display: flex; flex-direction: column; border-radius: 24px; overflow: hidden; background: var(--surface-container-low); transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
 .repo:hover { transform: translateY(-4px); box-shadow: var(--elev-2); }
-.repo-art { position: relative; height: 96px; display: grid; place-items: center; overflow: hidden; color: #fff; background: linear-gradient(135deg, oklch(.5 .13 calc(var(--h) + var(--o))), oklch(.68 .12 calc(var(--h) + var(--o) + 40))); }
+.repo-art { position: relative; height: 96px; display: grid; place-items: center; overflow: hidden; color: #fff; background: linear-gradient(135deg, oklch(.5 .13 calc(var(--h) + var(--o))), oklch(.68 .12 calc(var(--h) + var(--o) + 15))); }
 .repo-art::before, .repo-art::after { content: ""; position: absolute; border-radius: 50%; background: rgb(255 255 255 / .12); }
 .repo-art::before { width: 140px; height: 140px; top: -60px; inset-inline-end: -40px; }
 .repo-art::after { width: 70px; height: 70px; bottom: -30px; inset-inline-start: 20px; }
 .repo-art .ms { position: relative; z-index: 1; font-size: 46px; transition: transform .5s var(--ease-spring); font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48; }
 .repo:hover .repo-art .ms { transform: scale(1.15) rotate(-8deg); }
-.repo.k-fun .repo-art { background: repeating-linear-gradient(45deg, rgb(255 255 255 / .08) 0 10px, transparent 10px 20px), linear-gradient(135deg, oklch(.55 .17 calc(var(--o) + 20)), oklch(.72 .16 calc(var(--o) + 70))); }
+.repo.k-fun .repo-art { background: repeating-linear-gradient(45deg, rgb(255 255 255 / .08) 0 10px, transparent 10px 20px), linear-gradient(135deg, oklch(.58 .14 calc(var(--h) + var(--o))), oklch(.74 .13 calc(var(--h) + var(--o) + 25))); }
 .repo-body { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 18px; flex: 1; }
 .repo-body .body-s { flex: 1; }
 .repo-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
