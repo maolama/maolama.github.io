@@ -14,7 +14,7 @@ Pages: Home · About · Work · Journey · Blog · Contact (hash routes such as 
 | `designs/` | Design gallery (`designs/index.html`) and the 20 alternative designs. `designs/final/` redirects to the root. |
 | `designs/<name>/` | The 20 candidate designs. Each sets its own layout, fonts, home page and default colour. |
 | `designs/_thumbs/` | Gallery screenshots |
-| `index.html` | For now, the design gallery. The chosen design will replace it. |
+| `index.html` | The live site (the final design; its styles are in `designs/final/style.css`). |
 | `assets/img/` | Photos (set the path in `content.js`) |
 | `assets/cv-academic.pdf`, `assets/cv-developer.pdf` | CV downloads (to be added) |
 
