@@ -30,6 +30,16 @@ window.SITE = {
     moka: { from: '2025-10', to: null, kind: 'work' },
   },
 
+  // Reading stats (update `pages` and `asOf` whenever you like).
+  reading: { pages: 7007, since: '2026-03-21', asOf: '2026-10-10' },
+
+  // Quotes I love. MOCK: replace with your own; `lang` lets English and Persian quotes sit side by side.
+  quotes: [
+    { text: 'A favourite line from a book goes here.', by: 'Author', source: 'Book title', lang: 'en' },
+    { text: 'جمله‌ای زیبا از کتابی که خوانده‌اید اینجا می‌نشیند.', by: 'نویسنده', source: 'نام کتاب', lang: 'fa' },
+    { text: 'Another quote that stayed with you.', by: 'Author', source: 'Book title', lang: 'en' },
+  ],
+
   nav: [
     { id: 'home', icon: 'home' },
     { id: 'about', icon: 'person' },
@@ -44,37 +54,37 @@ window.SITE = {
     name: 'Mohammad Ali Olama',
     short: 'Mohammad Ali',
     initials: 'MA',
-    role: 'LLM researcher & backend lead',
+    role: 'LLM researcher & backend developer',
     location: 'Tehran, Iran',
     born: 'Shiraz, Iran',
     hello: "Hi, I'm Mohammad Ali",
     headline: 'I study how AI models judge other AI models, and why they seem to love long answers.',
-    intro: "I'm a data science master's student at TeIAS in Tehran, researching how large language models evaluate each other. By day I also lead a backend team at Mahsan. Away from my desk, I'm usually reading, watching a film, or lost in a video game.",
-    roles: ['an LLM researcher', 'a backend team lead', 'a data scientist', 'a bookworm', 'a gamer'],
+    intro: "I'm a data science master's student at TeIAS in Tehran, researching how large language models evaluate each other. By day I'm also a senior backend developer at Mahsan. Away from my desk, I'm usually reading, watching a film, or lost in a video game.",
+    roles: ['an LLM researcher', 'a backend developer', 'a data scientist', 'a bookworm', 'a gamer'],
     keywords: ['LLM evaluation', 'Data science', 'Books', 'Backend', 'Teaching', 'Films', 'Games', 'Travel'],
     tags: [
       { icon: 'balance', label: 'LLM evaluation' },
-      { icon: 'dns', label: 'Backend lead' },
+      { icon: 'dns', label: 'Backend developer' },
       { icon: 'auto_stories', label: 'Bookworm' },
       { icon: 'sports_esports', label: 'Gamer' },
     ],
 
     now: [
-      { icon: 'menu_book', label: 'Reading', text: 'One Hundred Years of Solitude' }, // MOCK
+      { icon: 'menu_book', label: 'Read this year', text: '7,007 pages since Nowruz' },
       { icon: 'science', label: 'Working on', text: 'My thesis on bias in LLM judges' },
-      { icon: 'sports_esports', label: 'Playing', text: 'Hollow Knight' }, // MOCK
+      { icon: 'sports_esports', label: 'Favourite game', text: 'God of War' },
     ],
 
     focus: [
       { icon: 'balance', title: 'Evaluating LLMs', desc: 'When an AI grades other AIs, is it fair? I look for the hidden biases, like a taste for longer answers.' },
-      { icon: 'dns', title: 'Building software', desc: 'I lead a backend team working on a mobility-management platform: Java, Spring and lots of code review.' },
+      { icon: 'dns', title: 'Building software', desc: 'Senior backend developer on a mobility-management platform: Java, Spring, and a soft spot for good tests.' },
       { icon: 'co_present', title: 'Teaching', desc: 'Since 2020 I have been a TA, often head TA, from data structures to machine learning.' },
     ],
 
     story: [
       'I was born in **Shiraz**, the city of poets and gardens, and now live in **Tehran**.',
       'I studied computer science at Sharif University of Technology, where I fell for algorithms and started teaching as a TA. Halfway through, I joined Mahsan as a backend developer and became the team’s testing nerd.',
-      "Today I'm doing my master's in data science at TeIAS, asking a simple question: when we use AI models to judge other AI models, can we trust the verdict? I also lead a small backend team at Mahsan.",
+      "Today I'm doing my master's in data science at TeIAS, asking a simple question: when we use AI models to judge other AI models, can we trust the verdict? I also build backend systems at Mahsan.",
     ],
     funFact: 'Fun fact: my research is about AI models preferring long answers, so I try to keep mine short.',
 
@@ -100,7 +110,7 @@ window.SITE = {
       { id: 'bsc', when: '2019 – 2024', icon: 'school', title: 'B.Sc. Computer Science', org: 'Sharif University of Technology', desc: 'Algorithms, systems, and a growing love for machine learning.', url: 'https://www.sharif.edu/' },
       { id: 'hovika', when: 'Nov 2022 – Mar 2025', icon: 'code', title: 'Software Developer', org: 'Mahsan · Hovika (IAM)', desc: 'Backend for an identity and access management product. Raised test coverage from ~20% to 70%+.', url: null },
       { id: 'msc', when: '2024 – 2027', icon: 'psychology', title: 'M.Sc. Data Science', org: 'TeIAS', desc: 'Research on LLM evaluation with Prof. Yaghoobzadeh and Prof. Bahrak. Graduate scholarship.', url: 'https://teias.institute/' },
-      { id: 'moka', when: 'Oct 2025 – now', icon: 'groups', title: 'Backend Team Lead', org: 'Mahsan · Moka (EMM)', desc: 'Leading three senior developers: multi-tenancy, a big Spring Boot 4 / Java 25 upgrade, admin notifications.', url: null },
+      { id: 'moka', when: 'Oct 2025 – now', icon: 'groups', title: 'Senior Backend Developer', org: 'Mahsan · Moka (EMM)', desc: 'Multi-tenancy, a big Spring Boot 4 / Java 25 upgrade, and an admin notification system.', url: null },
     ],
     teaching: 'Teaching assistant since 2020 at Sharif and TeIAS: head TA for Algorithms, Machine Learning, Mathematics for Data Science and Data Structures, and TA for Large Language Models.',
     awards: [
@@ -111,32 +121,29 @@ window.SITE = {
     languages: [{ k: 'Persian', v: 'Native' }, { k: 'English', v: 'Fluent' }],
 
     hobbies: {
-      books: [ // MOCK
-        { title: 'One Hundred Years of Solitude', by: 'Gabriel García Márquez', url: 'https://www.goodreads.com/search?q=One+Hundred+Years+of+Solitude' },
-        { title: 'The Blind Owl', by: 'Sadegh Hedayat', url: 'https://www.goodreads.com/search?q=The+Blind+Owl+Hedayat' },
-        { title: 'Dune', by: 'Frank Herbert', url: 'https://www.goodreads.com/search?q=Dune+Frank+Herbert' },
-        { title: 'Sapiens', by: 'Yuval Noah Harari', url: 'https://www.goodreads.com/search?q=Sapiens+Harari' },
-        { title: 'The Little Prince', by: 'Antoine de Saint-Exupéry', url: 'https://www.goodreads.com/search?q=The+Little+Prince' },
+      // Each item gets a small generated cover: `art` = Material Symbol + two colours.
+      books: [
+        { title: 'The Lord of the Rings', by: 'J.R.R. Tolkien', url: 'https://www.goodreads.com/search?q=The+Lord+of+the+Rings+Tolkien', art: { icon: 'radio_button_unchecked', c1: '#17120c', c2: '#3d2c12', fg: '#e8c25a' } },
+        { title: 'Percy Jackson', by: 'Rick Riordan', url: 'https://www.goodreads.com/search?q=Percy+Jackson+Riordan', art: { icon: 'tsunami', c1: '#06506b', c2: '#1aa5c0' } },
+        { title: 'The Call of the Wild', by: 'Jack London', url: 'https://www.goodreads.com/search?q=The+Call+of+the+Wild+Jack+London', art: { icon: 'nightlight', c1: '#141e3c', c2: '#3c5a8c', fg: '#f6e7b0' } },
+        { title: 'White Fang', by: 'Jack London', url: 'https://www.goodreads.com/search?q=White+Fang+Jack+London', art: { icon: 'ac_unit', c1: '#2c3e57', c2: '#7f9cbf' } },
       ],
-      movies: [ // MOCK
-        { title: 'Interstellar', year: 2014, url: 'https://www.imdb.com/title/tt0816692/' },
-        { title: 'A Separation', year: 2011, url: 'https://www.imdb.com/title/tt1832382/' },
-        { title: 'Spirited Away', year: 2001, url: 'https://www.imdb.com/title/tt0245429/' },
-        { title: 'The Shawshank Redemption', year: 1994, url: 'https://www.imdb.com/title/tt0111161/' },
-        { title: 'Inception', year: 2010, url: 'https://www.imdb.com/title/tt1375666/' },
+      screen: [
+        { title: 'The Lord of the Rings', meta: 'Film trilogy · 2001–2003', url: 'https://www.imdb.com/title/tt0120737/', art: { icon: 'landscape', c1: '#1e2a16', c2: '#7c6a2a', fg: '#f1d98a' } },
+        { title: 'Ted Lasso', meta: 'Series · 2020–2023', url: 'https://www.imdb.com/title/tt10986410/', art: { icon: 'sports_soccer', c1: '#0b2f78', c2: '#2a64c8', fg: '#ffd84d' } },
       ],
-      games: [ // MOCK
-        { title: 'The Witcher 3', meta: 'RPG', url: 'https://store.steampowered.com/app/292030/' },
-        { title: 'Red Dead Redemption 2', meta: 'Adventure', url: 'https://store.steampowered.com/app/1174180/' },
-        { title: 'Hollow Knight', meta: 'Metroidvania', url: 'https://store.steampowered.com/app/367520/' },
-        { title: 'Portal 2', meta: 'Puzzle', url: 'https://store.steampowered.com/app/620/' },
-        { title: 'Civilization VI', meta: 'Strategy', url: 'https://store.steampowered.com/app/289070/' },
+      games: [
+        { title: 'God of War', meta: 'Series · absolute art', url: 'https://www.playstation.com/en-us/god-of-war/', art: { icon: 'swords', c1: '#3b0606', c2: '#a3201a', fg: '#f3d9b1' } },
+        { title: 'Crash Team Racing', meta: 'Crash Bandicoot series', url: 'https://www.crashbandicoot.com/crashteamracing', art: { icon: 'sports_motorsports', c1: '#d9480f', c2: '#fab005' } },
+        { title: 'Stronghold Crusader', meta: 'Castle-building strategy', url: 'https://store.steampowered.com/app/40970/', art: { icon: 'fort', c1: '#6b4a1f', c2: '#d4a24c' } },
+      ],
+      sport: [
+        { title: 'Ping pong', meta: 'Not a pro, just love it', url: 'https://en.wikipedia.org/wiki/Table_tennis', art: { icon: 'sports_tennis', c1: '#0f5c3a', c2: '#2f9e6a' } },
       ],
       travel: [ // MOCK
         { place: 'Shiraz', note: 'Where I was born', url: 'https://en.wikipedia.org/wiki/Shiraz' },
         { place: 'Tehran', note: 'Home now', url: 'https://en.wikipedia.org/wiki/Tehran' },
         { place: 'Isfahan', note: 'Those bridges', url: 'https://en.wikipedia.org/wiki/Isfahan' },
-        { place: 'Yazd', note: 'Wind-catchers', url: 'https://en.wikipedia.org/wiki/Yazd' },
         { place: 'Next?', note: 'Suggestions welcome', next: true },
       ],
     },
@@ -146,7 +153,7 @@ window.SITE = {
 
     chat: [
       { q: 'What do you research?', a: 'How LLMs judge other LLMs. Spoiler: they are suckers for long answers, even when the extra words add nothing.' },
-      { q: 'What do you do at work?', a: 'I lead a backend team at Mahsan, mostly Java and Spring. I still have a soft spot for a good test suite.' },
+      { q: 'What do you do at work?', a: 'I am a senior backend developer at Mahsan, mostly Java and Spring. I still have a soft spot for a good test suite.' },
       { q: 'What do you do for fun?', a: 'Books first, always. Then films, video games, and travelling whenever I get the chance.' },
       { q: 'Where are you from?', a: 'I was born in Shiraz and now live in Tehran.' },
       { q: 'How can I reach you?', a: 'Email is best. You can also find me on LinkedIn and GitHub.' },
@@ -164,7 +171,8 @@ window.SITE = {
       focus: 'What I do', now: 'Lately', loves: 'Things I love', languages: 'Languages',
       research: 'Research', projects: 'Projects', fun: 'Just for fun', all: 'All', moreOnGithub: 'More on GitHub',
       teaching: 'Teaching', toolbox: 'Toolbox', awards: 'Honours', cv: { academic: 'Academic CV', developer: 'Developer CV' },
-      hobby: { books: 'Books', movies: 'Movies', games: 'Games', travel: 'Travel' },
+      hobby: { books: 'Books', screen: 'Films & series', games: 'Games', sport: 'Sport', travel: 'Travel' },
+      pagesRead: 'pages read since Nowruz', perDay: 'pages a day, on average', fav: 'Favourite genre: Fantasy', quotes: 'Lines I keep coming back to',
       soonTitle: 'The blog is warming up', soonText: 'I have a few posts brewing. Here is what is coming:',
       contactTitle: "Let's talk", contactText: 'Research collaboration, a job, a book recommendation, or just a hello. My inbox is open.',
       copy: 'Copy email', copied: 'Email copied', write: 'Send an email',
@@ -183,37 +191,37 @@ window.SITE = {
     name: 'محمدعلی علما',
     short: 'محمدعلی',
     initials: 'مع',
-    role: 'پژوهشگر مدل‌های زبانی و سرپرست تیم بک‌اند',
+    role: 'پژوهشگر مدل‌های زبانی و توسعه‌دهنده‌ی بک‌اند',
     location: 'تهران',
     born: 'شیراز',
     hello: 'سلام، من محمدعلی هستم',
     headline: 'پژوهشم درباره‌ی این است که مدل‌های هوش مصنوعی چطور پاسخ مدل‌های دیگر را داوری می‌کنند، و چرا انگار جواب‌های طولانی را بیشتر می‌پسندند.',
-    intro: 'دانشجوی کارشناسی ارشد علوم داده در مؤسسه‌ی مطالعات پیشرفته‌ی تهران (TeIAS) هستم و درباره‌ی اینکه مدل‌های زبانی بزرگ چطور یکدیگر را ارزیابی می‌کنند پژوهش می‌کنم. هم‌زمان سرپرست یک تیم بک‌اند در شرکت ماهسان هستم. وقتی پشت میزم نیستم، احتمالاً مشغول کتاب خواندن، فیلم دیدن یا بازی‌ام.',
-    roles: ['پژوهشگر مدل‌های زبانی', 'سرپرست تیم بک‌اند', 'دانشمند داده', 'عاشق کتاب', 'اهل بازی'],
+    intro: 'دانشجوی کارشناسی ارشد علوم داده در مؤسسه‌ی مطالعات پیشرفته‌ی تهران (TeIAS) هستم و درباره‌ی اینکه مدل‌های زبانی بزرگ چطور یکدیگر را ارزیابی می‌کنند پژوهش می‌کنم. هم‌زمان توسعه‌دهنده‌ی ارشد بک‌اند در شرکت ماهسان هستم. وقتی پشت میزم نیستم، احتمالاً مشغول کتاب خواندن، فیلم دیدن یا بازی‌ام.',
+    roles: ['پژوهشگر مدل‌های زبانی', 'توسعه‌دهنده‌ی بک‌اند', 'دانشمند داده', 'عاشق کتاب', 'اهل بازی'],
     keywords: ['ارزیابی مدل‌های زبانی', 'علوم داده', 'کتاب', 'بک‌اند', 'تدریس', 'سینما', 'بازی', 'سفر'],
     tags: [
       { icon: 'balance', label: 'ارزیابی مدل‌های زبانی' },
-      { icon: 'dns', label: 'سرپرست بک‌اند' },
+      { icon: 'dns', label: 'توسعه‌دهنده‌ی بک‌اند' },
       { icon: 'auto_stories', label: 'کتاب‌خوان' },
       { icon: 'sports_esports', label: 'اهل بازی' },
     ],
 
     now: [
-      { icon: 'menu_book', label: 'در حال خواندن', text: 'صد سال تنهایی' },
+      { icon: 'menu_book', label: 'امسال خوانده‌ام', text: '۷٬۰۰۷ صفحه از اول فروردین' },
       { icon: 'science', label: 'مشغول کار روی', text: 'پایان‌نامه‌ام درباره‌ی سوگیری داورهای مدل زبانی' },
-      { icon: 'sports_esports', label: 'در حال بازی', text: 'Hollow Knight' },
+      { icon: 'sports_esports', label: 'بازی محبوب', text: 'God of War' },
     ],
 
     focus: [
       { icon: 'balance', title: 'ارزیابی مدل‌های زبانی', desc: 'وقتی یک هوش مصنوعی به پاسخ‌های هوش مصنوعی دیگری نمره می‌دهد، آیا منصف است؟ دنبال سوگیری‌های پنهانش می‌گردم؛ مثل علاقه به جواب‌های طولانی‌تر.' },
-      { icon: 'dns', title: 'ساختن نرم‌افزار', desc: 'سرپرست یک تیم بک‌اند روی یک پلتفرم مدیریت دستگاه‌های همراه هستم: جاوا، Spring و کلی بازبینی کد.' },
+      { icon: 'dns', title: 'ساختن نرم‌افزار', desc: 'توسعه‌دهنده‌ی ارشد بک‌اند روی یک پلتفرم مدیریت دستگاه‌های همراه: جاوا، Spring و علاقه‌ای قدیمی به تست‌های خوب.' },
       { icon: 'co_present', title: 'تدریس', desc: 'از ۱۳۹۹ دستیار آموزشی و اغلب دستیار ارشد بوده‌ام؛ از ساختمان داده تا یادگیری ماشین.' },
     ],
 
     story: [
       'در **شیراز**، شهر شعر و باغ، به دنیا آمده‌ام و حالا در **تهران** زندگی می‌کنم.',
       'کارشناسی علوم کامپیوتر را در دانشگاه صنعتی شریف خواندم؛ همان‌جا عاشق الگوریتم‌ها شدم و دستیار آموزشی شدم. وسط همین دوره به شرکت ماهسان پیوستم و توسعه‌دهنده‌ی بک‌اند شدم؛ همان‌جا بود که شیفته‌ی تست‌نویسی شدم.',
-      'حالا دانشجوی کارشناسی ارشد علوم داده در TeIAS هستم و دنبال جواب یک سؤال ساده‌ام: وقتی از مدل‌های هوش مصنوعی برای داوری مدل‌های دیگر استفاده می‌کنیم، می‌شود به حکمشان اعتماد کرد؟ هم‌زمان سرپرست یک تیم کوچک بک‌اند در ماهسان هستم.',
+      'حالا دانشجوی کارشناسی ارشد علوم داده در TeIAS هستم و دنبال جواب یک سؤال ساده‌ام: وقتی از مدل‌های هوش مصنوعی برای داوری مدل‌های دیگر استفاده می‌کنیم، می‌شود به حکمشان اعتماد کرد؟ هم‌زمان در ماهسان سیستم‌های بک‌اند می‌سازم.',
     ],
     funFact: 'نکته‌ی جالب: پژوهشم درباره‌ی علاقه‌ی مدل‌ها به جواب‌های طولانی است؛ برای همین سعی می‌کنم جواب‌های خودم را کوتاه نگه دارم.',
 
@@ -239,7 +247,7 @@ window.SITE = {
       { id: 'bsc', when: '۲۰۱۹ – ۲۰۲۴', icon: 'school', title: 'کارشناسی علوم کامپیوتر', org: 'دانشگاه صنعتی شریف', desc: 'الگوریتم، سیستم‌ها و علاقه‌ای که کم‌کم به یادگیری ماشین پیدا کردم.', url: 'https://www.sharif.edu/' },
       { id: 'hovika', when: 'آبان ۱۴۰۱ – اسفند ۱۴۰۳', icon: 'code', title: 'توسعه‌دهنده‌ی نرم‌افزار', org: 'ماهسان · هویکا (مدیریت هویت و دسترسی)', desc: 'بک‌اند یک محصول مدیریت هویت و دسترسی. پوشش تست را از حدود ۲۰٪ به بیش از ۷۰٪ رساندیم.', url: null },
       { id: 'msc', when: '۲۰۲۴ – ۲۰۲۷', icon: 'psychology', title: 'کارشناسی ارشد علوم داده', org: 'TeIAS', desc: 'پژوهش روی ارزیابی مدل‌های زبانی با دکتر یعقوب‌زاده و دکتر بحرک. با بورسیه‌ی تحصیلی.', url: 'https://teias.institute/' },
-      { id: 'moka', when: 'مهر ۱۴۰۴ – اکنون', icon: 'groups', title: 'سرپرست تیم بک‌اند', org: 'ماهسان · موکا (مدیریت دستگاه‌های همراه)', desc: 'سرپرستی سه توسعه‌دهنده‌ی ارشد: چندمستأجری، ارتقای بزرگ به Spring Boot 4 و Java 25، و سامانه‌ی اعلان مدیران.', url: null },
+      { id: 'moka', when: 'مهر ۱۴۰۴ – اکنون', icon: 'groups', title: 'توسعه‌دهنده‌ی ارشد بک‌اند', org: 'ماهسان · موکا (مدیریت دستگاه‌های همراه)', desc: 'چندمستأجری، ارتقای بزرگ به Spring Boot 4 و Java 25، و سامانه‌ی اعلان مدیران.', url: null },
     ],
     teaching: 'از ۱۳۹۹ دستیار آموزشی در شریف و TeIAS: دستیار ارشد درس‌های الگوریتم، یادگیری ماشین، ریاضیات علوم داده و ساختمان داده، و دستیار درس مدل‌های زبانی بزرگ.',
     awards: [
@@ -251,31 +259,27 @@ window.SITE = {
 
     hobbies: {
       books: [
-        { title: 'صد سال تنهایی', by: 'گابریل گارسیا مارکز', url: 'https://www.goodreads.com/search?q=One+Hundred+Years+of+Solitude' },
-        { title: 'بوف کور', by: 'صادق هدایت', url: 'https://www.goodreads.com/search?q=The+Blind+Owl+Hedayat' },
-        { title: 'تلماسه', by: 'فرانک هربرت', url: 'https://www.goodreads.com/search?q=Dune+Frank+Herbert' },
-        { title: 'انسان خردمند', by: 'یووال نوح هراری', url: 'https://www.goodreads.com/search?q=Sapiens+Harari' },
-        { title: 'شازده کوچولو', by: 'آنتوان دو سنت‌اگزوپری', url: 'https://www.goodreads.com/search?q=The+Little+Prince' },
+        { title: 'ارباب حلقه‌ها', by: 'جی. آر. آر. تالکین', url: 'https://www.goodreads.com/search?q=The+Lord+of+the+Rings+Tolkien', art: { icon: 'radio_button_unchecked', c1: '#17120c', c2: '#3d2c12', fg: '#e8c25a' } },
+        { title: 'پرسی جکسون', by: 'ریک ریوردان', url: 'https://www.goodreads.com/search?q=Percy+Jackson+Riordan', art: { icon: 'tsunami', c1: '#06506b', c2: '#1aa5c0' } },
+        { title: 'آوای وحش', by: 'جک لندن', url: 'https://www.goodreads.com/search?q=The+Call+of+the+Wild+Jack+London', art: { icon: 'nightlight', c1: '#141e3c', c2: '#3c5a8c', fg: '#f6e7b0' } },
+        { title: 'سپیددندان', by: 'جک لندن', url: 'https://www.goodreads.com/search?q=White+Fang+Jack+London', art: { icon: 'ac_unit', c1: '#2c3e57', c2: '#7f9cbf' } },
       ],
-      movies: [
-        { title: 'میان‌ستاره‌ای', year: 2014, url: 'https://www.imdb.com/title/tt0816692/' },
-        { title: 'جدایی نادر از سیمین', year: 2011, url: 'https://www.imdb.com/title/tt1832382/' },
-        { title: 'شهر اشباح', year: 2001, url: 'https://www.imdb.com/title/tt0245429/' },
-        { title: 'رستگاری در شاوشنک', year: 1994, url: 'https://www.imdb.com/title/tt0111161/' },
-        { title: 'تلقین', year: 2010, url: 'https://www.imdb.com/title/tt1375666/' },
+      screen: [
+        { title: 'ارباب حلقه‌ها', meta: 'سه‌گانه‌ی سینمایی · ۲۰۰۱–۲۰۰۳', url: 'https://www.imdb.com/title/tt0120737/', art: { icon: 'landscape', c1: '#1e2a16', c2: '#7c6a2a', fg: '#f1d98a' } },
+        { title: 'Ted Lasso', meta: 'سریال · ۲۰۲۰–۲۰۲۳', url: 'https://www.imdb.com/title/tt10986410/', art: { icon: 'sports_soccer', c1: '#0b2f78', c2: '#2a64c8', fg: '#ffd84d' } },
       ],
       games: [
-        { title: 'The Witcher 3', meta: 'نقش‌آفرینی', url: 'https://store.steampowered.com/app/292030/' },
-        { title: 'Red Dead Redemption 2', meta: 'ماجرایی', url: 'https://store.steampowered.com/app/1174180/' },
-        { title: 'Hollow Knight', meta: 'مترویدوانیا', url: 'https://store.steampowered.com/app/367520/' },
-        { title: 'Portal 2', meta: 'معمایی', url: 'https://store.steampowered.com/app/620/' },
-        { title: 'Civilization VI', meta: 'استراتژی', url: 'https://store.steampowered.com/app/289070/' },
+        { title: 'God of War', meta: 'مجموعه · یک اثر هنری کامل', url: 'https://www.playstation.com/en-us/god-of-war/', art: { icon: 'swords', c1: '#3b0606', c2: '#a3201a', fg: '#f3d9b1' } },
+        { title: 'Crash Team Racing', meta: 'مجموعه‌ی کرش بندیکوت', url: 'https://www.crashbandicoot.com/crashteamracing', art: { icon: 'sports_motorsports', c1: '#d9480f', c2: '#fab005' } },
+        { title: 'Stronghold Crusader', meta: 'استراتژی قلعه‌سازی', url: 'https://store.steampowered.com/app/40970/', art: { icon: 'fort', c1: '#6b4a1f', c2: '#d4a24c' } },
       ],
-      travel: [
+      sport: [
+        { title: 'پینگ‌پنگ', meta: 'حرفه‌ای نیستم، فقط عاشقشم', url: 'https://fa.wikipedia.org/wiki/تنیس_روی_میز', art: { icon: 'sports_tennis', c1: '#0f5c3a', c2: '#2f9e6a' } },
+      ],
+      travel: [ // MOCK
         { place: 'شیراز', note: 'زادگاهم', url: 'https://fa.wikipedia.org/wiki/شیراز' },
         { place: 'تهران', note: 'خانه‌ی فعلی', url: 'https://fa.wikipedia.org/wiki/تهران' },
         { place: 'اصفهان', note: 'آن پل‌ها', url: 'https://fa.wikipedia.org/wiki/اصفهان' },
-        { place: 'یزد', note: 'بادگیرها', url: 'https://fa.wikipedia.org/wiki/یزد' },
         { place: 'مقصد بعدی؟', note: 'پیشنهاد دارید؟', next: true },
       ],
     },
@@ -285,7 +289,7 @@ window.SITE = {
 
     chat: [
       { q: 'روی چه چیزی پژوهش می‌کنی؟', a: 'اینکه مدل‌های زبانی چطور مدل‌های دیگر را داوری می‌کنند. لو بدهم؟ دلشان برای جواب‌های طولانی ضعف می‌رود، حتی وقتی کلمه‌های اضافه چیزی به جواب اضافه نمی‌کنند.' },
-      { q: 'سر کار چه می‌کنی؟', a: 'سرپرست یک تیم بک‌اند در ماهسان هستم؛ بیشتر جاوا و Spring. هنوز هم یک مجموعه‌تست خوب حالم را خوب می‌کند.' },
+      { q: 'سر کار چه می‌کنی؟', a: 'توسعه‌دهنده‌ی ارشد بک‌اند در ماهسان هستم؛ بیشتر جاوا و Spring. هنوز هم یک مجموعه‌تست خوب حالم را خوب می‌کند.' },
       { q: 'برای تفریح چه می‌کنی؟', a: 'اول از همه کتاب. بعد فیلم، بازی‌های ویدیویی، و هر وقت فرصت شود سفر.' },
       { q: 'اهل کجایی؟', a: 'در شیراز به دنیا آمده‌ام و حالا در تهران زندگی می‌کنم.' },
       { q: 'چطور با تو در تماس باشم؟', a: 'ایمیل بهترین راه است. در لینکدین و گیت‌هاب هم هستم.' },
@@ -303,7 +307,8 @@ window.SITE = {
       focus: 'چه کار می‌کنم', now: 'این روزها', loves: 'چیزهایی که دوست دارم', languages: 'زبان‌ها',
       research: 'پژوهش', projects: 'پروژه‌ها', fun: 'برای سرگرمی', all: 'همه', moreOnGithub: 'بیشتر در گیت‌هاب',
       teaching: 'تدریس', toolbox: 'جعبه‌ابزار', awards: 'افتخارات', cv: { academic: 'رزومه‌ی پژوهشی', developer: 'رزومه‌ی برنامه‌نویسی' },
-      hobby: { books: 'کتاب', movies: 'فیلم', games: 'بازی', travel: 'سفر' },
+      hobby: { books: 'کتاب', screen: 'فیلم و سریال', games: 'بازی', sport: 'ورزش', travel: 'سفر' },
+      pagesRead: 'صفحه کتاب از اول فروردین', perDay: 'صفحه در روز، به‌طور میانگین', fav: 'ژانر محبوب: فانتزی', quotes: 'جمله‌هایی که بارها به آن‌ها برمی‌گردم',
       soonTitle: 'وبلاگ در حال آماده شدن است', soonText: 'چند نوشته در دست دارم. این‌ها به‌زودی می‌آیند:',
       contactTitle: 'گفت‌وگو کنیم', contactText: 'همکاری پژوهشی، فرصت شغلی، پیشنهاد یک کتاب خوب یا فقط یک سلام. همیشه خوشحال می‌شوم.',
       copy: 'کپی ایمیل', copied: 'ایمیل کپی شد', write: 'ارسال ایمیل',

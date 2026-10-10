@@ -15,7 +15,7 @@
 .foot-links { display: flex; }
 
 /* ---------- Home ---------- */
-.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 4vw, 56px); min-height: calc(100svh - 220px); padding: 12px 0 8px; }
+.hero { overflow-x: clip; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 4vw, 56px); min-height: calc(100svh - 220px); padding: 12px 0 8px; }
 .hello { background: var(--surface-container-low); box-shadow: none; height: 36px; margin-bottom: 18px; animation: rise .7s var(--ease-decel) both; }
 .wave { color: oklch(.75 .16 80) !important; animation: wave 2.4s ease-in-out infinite; transform-origin: 70% 70%; }
 @keyframes wave { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(14deg); } 20%, 40% { transform: rotate(-8deg); } }

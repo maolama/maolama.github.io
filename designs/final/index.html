@@ -217,7 +217,7 @@
           const doors = [
             { href: '#/work', icon: 'science', t: u.research, d: c.research[0].title, tone: '' },
             { href: '#/work', icon: 'code', t: u.projects, d: `${c.projects.length}+ ${x.lang === 'fa' ? 'پروژه، چندتایی فقط برای سرگرمی' : 'projects, a few just for fun'}`, tone: 'secondary' },
-            { href: '#/about', icon: 'auto_stories', t: u.loves, d: `${u.hobby.books} · ${u.hobby.movies} · ${u.hobby.games} · ${u.hobby.travel}`, tone: 'tertiary' },
+            { href: '#/about', icon: 'auto_stories', t: u.loves, d: `${u.hobby.books} · ${u.hobby.screen} · ${u.hobby.games} · ${u.hobby.sport}`, tone: 'tertiary' },
           ];
           return `
           <section class="hero">
@@ -263,7 +263,8 @@
             </figure>
           </div>
           <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.focus)}</h2>${x.focus()}</section>
-          <section class="block" data-reveal><h2 class="block-title title-l">${x.esc(c.ui.loves)}</h2>${x.hobbies()}</section>
+          <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.loves)}</h2>${x.reading()}<div data-reveal>${x.hobbies()}</div></section>
+          <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.quotes)}</h2>${x.quotes()}</section>
           <section class="block" data-reveal><h2 class="block-title title-l">${x.esc(c.ui.languages)}</h2>
             <div class="chips">${c.languages.map((l) => `<span class="chip"><span class="ms">translate</span>${x.esc(l.k)} · ${x.esc(l.v)}</span>`).join('')}</div>
           </section>`,

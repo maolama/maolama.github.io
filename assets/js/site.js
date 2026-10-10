@@ -17,7 +17,7 @@
     { h: 195, c: 0.11 }, { h: 275, c: 0.13 }, { h: 40, c: 0.13 }, { h: 150, c: 0.1 },
     { h: 350, c: 0.12 }, { h: 80, c: 0.12 }, { h: 260, c: 0.012 },
   ];
-  const UI_ICONS = ['arrow_back', 'arrow_forward', 'check', 'close', 'content_copy', 'dark_mode', 'light_mode', 'download', 'mail', 'open_in_new', 'send', 'palette', 'location_on', 'lightbulb', 'draft', 'movie', 'flight_takeoff', 'north_east', 'waving_hand', 'auto_stories', 'translate', 'favorite', 'star', 'expand_more'];
+  const UI_ICONS = ['arrow_back', 'arrow_forward', 'check', 'close', 'content_copy', 'dark_mode', 'light_mode', 'download', 'mail', 'open_in_new', 'send', 'palette', 'location_on', 'lightbulb', 'draft', 'movie', 'flight_takeoff', 'north_east', 'waving_hand', 'auto_stories', 'translate', 'favorite', 'star', 'expand_more', 'format_quote', 'auto_awesome', 'sports_tennis', 'sports_esports'];
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches || new URLSearchParams(location.search).has('static');
 
@@ -336,22 +336,46 @@
           </li>`).join('')}</ol>`,
         hobbies: () => {
           const h = c.hobbies;
-          const icons = { books: 'auto_stories', movies: 'movie', games: 'sports_esports', travel: 'flight_takeoff' };
+          const icons = { books: 'auto_stories', screen: 'movie', movies: 'movie', games: 'sports_esports', sport: 'sports_tennis', travel: 'flight_takeoff' };
+          const cls = { books: 'book', screen: 'poster', movies: 'poster', games: 'game', sport: 'game', travel: 'stamp' };
           const off = [0, 50, 110, 170, 250];
+          const item = (k, it, i) => {
+            const a = it.art, style = `--o:${off[i % 5]};--i:${i}${a ? `;--c1:${a.c1};--c2:${a.c2};--fg:${a.fg || '#fff'}` : ''}`;
+            const [open, close] = tag(it.url, `${cls[k]} ${a ? 'has-art' : ''} ${it.next ? 'next' : ''}`, `style="${style}"`);
+            if (k === 'travel') return `${open}<span class="ms">${it.next ? 'flight_takeoff' : 'location_on'}</span><span class="stamp-place">${esc(it.place)}</span><span class="stamp-note">${esc(it.note)}</span>${close}`;
+            const art = a ? `<span class="ms art-ic">${a.icon}</span>` : '';
+            if (k === 'books') return `${open}${art}<span class="book-title">${esc(it.title)}</span><span class="book-by">${esc(it.by)}</span>${close}`;
+            if (cls[k] === 'poster') return `${open}${art || '<span class="ms">movie</span>'}<span class="poster-title">${esc(it.title)}</span><span class="poster-year">${esc(it.meta || x.num(it.year))}</span>${close}`;
+            return `${open}${art ? `<span class="game-art">${art}</span>` : '<span class="ms">sports_esports</span>'}<span class="game-title" dir="auto">${esc(it.title)}</span><span class="game-meta">${esc(it.meta)}</span>${close}`;
+          };
+          const keys = Object.keys(h);
           return `
           <div class="hobbies" data-tabs>
-            <div class="seg" role="tablist">${Object.keys(icons).map((k, i) => `
-              <button class="seg-btn ripple ${i ? '' : 'on'}" data-tab="${k}" role="tab"><span class="ms">${icons[k]}</span><span>${esc(u.hobby[k])}</span></button>`).join('')}</div>
-            <div class="shelf" data-panel="books">${h.books.map((b, i) => `
-              ${tag(b.url, 'book', `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="book-title">${esc(b.title)}</span><span class="book-by">${esc(b.by)}</span>${tag(b.url)[1]}`).join('')}</div>
-            <div class="shelf" data-panel="movies" hidden>${h.movies.map((m, i) => `
-              ${tag(m.url, 'poster', `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="ms">movie</span><span class="poster-title">${esc(m.title)}</span><span class="poster-year">${x.num(m.year)}</span>${tag(m.url)[1]}`).join('')}</div>
-            <div class="shelf" data-panel="games" hidden>${h.games.map((g, i) => `
-              ${tag(g.url, 'game', `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="ms">sports_esports</span><span class="game-title" dir="auto">${esc(g.title)}</span><span class="game-meta">${esc(g.meta)}</span>${tag(g.url)[1]}`).join('')}</div>
-            <div class="shelf" data-panel="travel" hidden>${h.travel.map((t, i) => `
-              ${tag(t.url, `stamp ${t.next ? 'next' : ''}`, `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="ms">${t.next ? 'flight_takeoff' : 'location_on'}</span><span class="stamp-place">${esc(t.place)}</span><span class="stamp-note">${esc(t.note)}</span>${tag(t.url)[1]}`).join('')}</div>
+            <div class="seg" role="tablist">${keys.map((k, i) => `
+              <button class="seg-btn ripple ${i ? '' : 'on'}" data-tab="${k}" role="tab"><span class="ms">${icons[k]}</span><span>${esc(u.hobby[k] || k)}</span></button>`).join('')}</div>
+            ${keys.map((k, n) => `<div class="shelf" data-panel="${k}" ${n ? 'hidden' : ''}>${h[k].map((it, i) => item(k, it, i)).join('')}</div>`).join('')}
           </div>`;
         },
+        reading: () => {
+          const r = SITE.reading;
+          if (!r) return '';
+          const days = Math.max(1, Math.round((new Date(r.asOf) - new Date(r.since)) / 864e5));
+          const per = Math.round(r.pages / days);
+          return `
+          <div class="reading" data-reveal>
+            <div class="pages-stack" aria-hidden="true">${Array.from({ length: 7 }, (_, i) => `<i style="--i:${i}"></i>`).join('')}</div>
+            <div class="reading-n"><span class="display-m">${r.pages.toLocaleString(x.lang === "fa" ? "fa-IR" : "en-US")}</span><span class="body-m muted">${esc(u.pagesRead)}</span></div>
+            <div class="reading-n"><span class="headline-m">≈ ${x.num(per)}</span><span class="body-m muted">${esc(u.perDay)}</span></div>
+            <span class="chip fav"><span class="ms">auto_awesome</span>${esc(u.fav)}</span>
+          </div>`;
+        },
+        quotes: () => `
+          <div class="quotes">${(SITE.quotes || []).map((q, i) => `
+            <figure class="quote" data-reveal style="--i:${i}" lang="${q.lang}" dir="${q.lang === 'fa' ? 'rtl' : 'ltr'}">
+              <span class="ms qmark">format_quote</span>
+              <blockquote class="title-m">${esc(q.text)}</blockquote>
+              <figcaption class="body-s muted">— ${esc(q.by)}${q.source ? `, <cite>${esc(q.source)}</cite>` : ''}</figcaption>
+            </figure>`).join('')}</div>`,
       };
       return { c, x };
     }

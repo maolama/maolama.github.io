@@ -81,7 +81,7 @@
             ${blk('./now.sh', `<ul class="plain">${c.now.map((n) => `<li><span class="key">${e(n.label)}:</span> ${e(n.text)}</li>`).join('')}</ul>`)}
             ${blk('ls ~/loves', `<ul class="plain">
               <li><span class="key">books/</span> ${h.books.map((b) => e(b.title)).join(' · ')}</li>
-              <li><span class="key">films/</span> ${h.movies.map((b) => e(b.title)).join(' · ')}</li>
+              <li><span class="key">films/</span> ${h.screen.map((b) => e(b.title)).join(' · ')}</li>
               <li><span class="key">games/</span> <span dir="ltr">${h.games.map((b) => e(b.title)).join(' · ')}</span></li>
               <li><span class="key">travel/</span> ${h.travel.filter((t) => !t.next).map((b) => e(b.place)).join(' · ')}</li></ul>`)}
             ${blk('cat links.txt', `<p class="links">${x.socials.map((s) => `<a class="lnk" href="${s.url}" target="_blank" rel="noopener">${x.brand(s.id)}${e(s.label)}</a>`).join('')}</p>`)}
