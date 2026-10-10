@@ -61,7 +61,7 @@ window.SITE = {
     headline: 'I study how AI models judge other AI models, and why they seem to love long answers.',
     intro: "I'm a data science master's student at TeIAS in Tehran, researching how large language models evaluate each other. By day I'm also a senior backend developer at Mahsan. Away from my desk, I'm usually reading, watching a film, or lost in a video game.",
     roles: ['an LLM researcher', 'a backend developer', 'a data scientist', 'a bookworm', 'a gamer'],
-    keywords: ['LLM evaluation', 'Data science', 'Books', 'Backend', 'Teaching', 'Films', 'Games', 'Travel'],
+    keywords: ['LLM evaluation', 'Data science', 'Books', 'Backend', 'Films', 'Games', 'Travel'],
     tags: [
       { icon: 'balance', label: 'LLM evaluation' },
       { icon: 'dns', label: 'Backend developer' },
@@ -78,12 +78,11 @@ window.SITE = {
     focus: [
       { icon: 'balance', title: 'Evaluating LLMs', desc: 'When an AI grades other AIs, is it fair? I look for the hidden biases, like a taste for longer answers.' },
       { icon: 'dns', title: 'Building software', desc: 'Senior backend developer on a mobility-management platform: Java, Spring, and a soft spot for good tests.' },
-      { icon: 'co_present', title: 'Teaching', desc: 'Since 2020 I have been a TA, often head TA, from data structures to machine learning.' },
     ],
 
     story: [
       'I was born in **Shiraz**, the city of poets and gardens, and now live in **Tehran**.',
-      'I studied computer science at Sharif University of Technology, where I fell for algorithms and started teaching as a TA. Halfway through, I joined Mahsan as a backend developer and became the team’s testing nerd.',
+      'I studied computer science at Sharif University of Technology and fell for algorithms. Halfway through, I joined Mahsan as a backend developer and became the team’s testing nerd.',
       "Today I'm doing my master's in data science at TeIAS, asking a simple question: when we use AI models to judge other AI models, can we trust the verdict? I also build backend systems at Mahsan.",
     ],
     funFact: 'Fun fact: my research is about AI models preferring long answers, so I try to keep mine short.',
@@ -123,22 +122,22 @@ window.SITE = {
     hobbies: {
       // Each item gets a small generated cover: `art` = Material Symbol + two colours.
       books: [
-        { title: 'The Lord of the Rings', by: 'J.R.R. Tolkien', url: 'https://www.goodreads.com/search?q=The+Lord+of+the+Rings+Tolkien', art: { icon: 'radio_button_unchecked', c1: '#17120c', c2: '#3d2c12', fg: '#e8c25a' } },
-        { title: 'Percy Jackson', by: 'Rick Riordan', url: 'https://www.goodreads.com/search?q=Percy+Jackson+Riordan', art: { icon: 'tsunami', c1: '#06506b', c2: '#1aa5c0' } },
-        { title: 'The Call of the Wild', by: 'Jack London', url: 'https://www.goodreads.com/search?q=The+Call+of+the+Wild+Jack+London', art: { icon: 'nightlight', c1: '#141e3c', c2: '#3c5a8c', fg: '#f6e7b0' } },
-        { title: 'White Fang', by: 'Jack London', url: 'https://www.goodreads.com/search?q=White+Fang+Jack+London', art: { icon: 'ac_unit', c1: '#2c3e57', c2: '#7f9cbf' } },
+        { title: 'The Lord of the Rings', by: 'J.R.R. Tolkien', url: 'https://www.goodreads.com/search?q=The+Lord+of+the+Rings+Tolkien', cover: 'https://upload.wikimedia.org/wikipedia/en/e/e9/First_Single_Volume_Edition_of_The_Lord_of_the_Rings.gif', art: { icon: 'radio_button_unchecked', c1: '#17120c', c2: '#3d2c12', fg: '#e8c25a' } },
+        { title: 'Percy Jackson', by: 'Rick Riordan', url: 'https://www.goodreads.com/search?q=Percy+Jackson+Riordan', cover: 'https://upload.wikimedia.org/wikipedia/en/3/3b/The_Lightning_Thief_cover.jpg', art: { icon: 'tsunami', c1: '#06506b', c2: '#1aa5c0' } },
+        { title: 'The Call of the Wild', by: 'Jack London', url: 'https://www.goodreads.com/search?q=The+Call+of+the+Wild+Jack+London', cover: 'https://upload.wikimedia.org/wikipedia/commons/2/26/JackLondoncallwild.jpg', art: { icon: 'nightlight', c1: '#141e3c', c2: '#3c5a8c', fg: '#f6e7b0' } },
+        { title: 'White Fang', by: 'Jack London', url: 'https://www.goodreads.com/search?q=White+Fang+Jack+London', cover: 'https://upload.wikimedia.org/wikipedia/commons/1/14/JackLondonwhitefang1.jpg', art: { icon: 'ac_unit', c1: '#2c3e57', c2: '#7f9cbf' } },
       ],
       screen: [
-        { title: 'The Lord of the Rings', meta: 'Film trilogy · 2001–2003', url: 'https://www.imdb.com/title/tt0120737/', art: { icon: 'landscape', c1: '#1e2a16', c2: '#7c6a2a', fg: '#f1d98a' } },
-        { title: 'Ted Lasso', meta: 'Series · 2020–2023', url: 'https://www.imdb.com/title/tt10986410/', art: { icon: 'sports_soccer', c1: '#0b2f78', c2: '#2a64c8', fg: '#ffd84d' } },
+        { title: 'The Lord of the Rings', meta: 'Film trilogy · 2001–2003', url: 'https://www.imdb.com/title/tt0120737/', cover: 'https://upload.wikimedia.org/wikipedia/en/f/fb/Lord_Rings_Fellowship_Ring.jpg', art: { icon: 'landscape', c1: '#1e2a16', c2: '#7c6a2a', fg: '#f1d98a' } },
+        { title: 'Ted Lasso', meta: 'Series · 2020–2023', url: 'https://www.imdb.com/title/tt10986410/', cover: 'https://upload.wikimedia.org/wikipedia/en/7/73/Tedlassotitlecard.jpg', art: { icon: 'sports_soccer', c1: '#0b2f78', c2: '#2a64c8', fg: '#ffd84d' } },
       ],
       games: [
-        { title: 'God of War', meta: 'Series · absolute art', url: 'https://www.playstation.com/en-us/god-of-war/', art: { icon: 'swords', c1: '#3b0606', c2: '#a3201a', fg: '#f3d9b1' } },
-        { title: 'Crash Team Racing', meta: 'Crash Bandicoot series', url: 'https://www.crashbandicoot.com/crashteamracing', art: { icon: 'sports_motorsports', c1: '#d9480f', c2: '#fab005' } },
-        { title: 'Stronghold Crusader', meta: 'Castle-building strategy', url: 'https://store.steampowered.com/app/40970/', art: { icon: 'fort', c1: '#6b4a1f', c2: '#d4a24c' } },
+        { title: 'God of War', meta: 'Series · absolute art', url: 'https://www.playstation.com/en-us/god-of-war/', cover: 'https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg', art: { icon: 'swords', c1: '#3b0606', c2: '#a3201a', fg: '#f3d9b1' } },
+        { title: 'Crash Team Racing', meta: 'Crash Bandicoot series', url: 'https://www.crashbandicoot.com/crashteamracing', cover: 'https://upload.wikimedia.org/wikipedia/en/3/36/Crash_Team_Racing_Nitro-Fueled_cover_art.jpg', art: { icon: 'sports_motorsports', c1: '#d9480f', c2: '#fab005' } },
+        { title: 'Stronghold Crusader', meta: 'Castle-building strategy', url: 'https://store.steampowered.com/app/40970/', cover: 'https://upload.wikimedia.org/wikipedia/en/9/9c/Crusadercover.jpg', art: { icon: 'fort', c1: '#6b4a1f', c2: '#d4a24c' } },
       ],
       sport: [
-        { title: 'Ping pong', meta: 'Not a pro, just love it', url: 'https://en.wikipedia.org/wiki/Table_tennis', art: { icon: 'sports_tennis', c1: '#0f5c3a', c2: '#2f9e6a' } },
+        { title: 'Ping pong', meta: 'Not a pro, just love it', url: 'https://en.wikipedia.org/wiki/Table_tennis', cover: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Mondial_Ping_-_Men%27s_Singles_-_Round_4_-_Kenta_Matsudaira-Vladimir_Samsonov_-_57.jpg/480px-Mondial_Ping_-_Men%27s_Singles_-_Round_4_-_Kenta_Matsudaira-Vladimir_Samsonov_-_57.jpg', art: { icon: 'sports_tennis', c1: '#0f5c3a', c2: '#2f9e6a' } },
       ],
       travel: [ // MOCK
         { place: 'Shiraz', note: 'Where I was born', url: 'https://en.wikipedia.org/wiki/Shiraz' },
@@ -198,7 +197,7 @@ window.SITE = {
     headline: 'پژوهشم درباره‌ی این است که مدل‌های هوش مصنوعی چطور پاسخ مدل‌های دیگر را داوری می‌کنند، و چرا انگار جواب‌های طولانی را بیشتر می‌پسندند.',
     intro: 'دانشجوی کارشناسی ارشد علوم داده در مؤسسه‌ی مطالعات پیشرفته‌ی تهران (TeIAS) هستم و درباره‌ی اینکه مدل‌های زبانی بزرگ چطور یکدیگر را ارزیابی می‌کنند پژوهش می‌کنم. هم‌زمان توسعه‌دهنده‌ی ارشد بک‌اند در شرکت ماهسان هستم. وقتی پشت میزم نیستم، احتمالاً مشغول کتاب خواندن، فیلم دیدن یا بازی‌ام.',
     roles: ['پژوهشگر مدل‌های زبانی', 'توسعه‌دهنده‌ی بک‌اند', 'دانشمند داده', 'عاشق کتاب', 'اهل بازی'],
-    keywords: ['ارزیابی مدل‌های زبانی', 'علوم داده', 'کتاب', 'بک‌اند', 'تدریس', 'سینما', 'بازی', 'سفر'],
+    keywords: ['ارزیابی مدل‌های زبانی', 'علوم داده', 'کتاب', 'بک‌اند', 'سینما', 'بازی', 'سفر'],
     tags: [
       { icon: 'balance', label: 'ارزیابی مدل‌های زبانی' },
       { icon: 'dns', label: 'توسعه‌دهنده‌ی بک‌اند' },
@@ -215,12 +214,11 @@ window.SITE = {
     focus: [
       { icon: 'balance', title: 'ارزیابی مدل‌های زبانی', desc: 'وقتی یک هوش مصنوعی به پاسخ‌های هوش مصنوعی دیگری نمره می‌دهد، آیا منصف است؟ دنبال سوگیری‌های پنهانش می‌گردم؛ مثل علاقه به جواب‌های طولانی‌تر.' },
       { icon: 'dns', title: 'ساختن نرم‌افزار', desc: 'توسعه‌دهنده‌ی ارشد بک‌اند روی یک پلتفرم مدیریت دستگاه‌های همراه: جاوا، Spring و علاقه‌ای قدیمی به تست‌های خوب.' },
-      { icon: 'co_present', title: 'تدریس', desc: 'از ۱۳۹۹ دستیار آموزشی و اغلب دستیار ارشد بوده‌ام؛ از ساختمان داده تا یادگیری ماشین.' },
     ],
 
     story: [
       'در **شیراز**، شهر شعر و باغ، به دنیا آمده‌ام و حالا در **تهران** زندگی می‌کنم.',
-      'کارشناسی علوم کامپیوتر را در دانشگاه صنعتی شریف خواندم؛ همان‌جا عاشق الگوریتم‌ها شدم و دستیار آموزشی شدم. وسط همین دوره به شرکت ماهسان پیوستم و توسعه‌دهنده‌ی بک‌اند شدم؛ همان‌جا بود که شیفته‌ی تست‌نویسی شدم.',
+      'کارشناسی علوم کامپیوتر را در دانشگاه صنعتی شریف خواندم؛ همان‌جا عاشق الگوریتم‌ها شدم. وسط همین دوره به شرکت ماهسان پیوستم و توسعه‌دهنده‌ی بک‌اند شدم؛ همان‌جا بود که شیفته‌ی تست‌نویسی شدم.',
       'حالا دانشجوی کارشناسی ارشد علوم داده در TeIAS هستم و دنبال جواب یک سؤال ساده‌ام: وقتی از مدل‌های هوش مصنوعی برای داوری مدل‌های دیگر استفاده می‌کنیم، می‌شود به حکمشان اعتماد کرد؟ هم‌زمان در ماهسان سیستم‌های بک‌اند می‌سازم.',
     ],
     funFact: 'نکته‌ی جالب: پژوهشم درباره‌ی علاقه‌ی مدل‌ها به جواب‌های طولانی است؛ برای همین سعی می‌کنم جواب‌های خودم را کوتاه نگه دارم.',
@@ -259,22 +257,22 @@ window.SITE = {
 
     hobbies: {
       books: [
-        { title: 'ارباب حلقه‌ها', by: 'جی. آر. آر. تالکین', url: 'https://www.goodreads.com/search?q=The+Lord+of+the+Rings+Tolkien', art: { icon: 'radio_button_unchecked', c1: '#17120c', c2: '#3d2c12', fg: '#e8c25a' } },
-        { title: 'پرسی جکسون', by: 'ریک ریوردان', url: 'https://www.goodreads.com/search?q=Percy+Jackson+Riordan', art: { icon: 'tsunami', c1: '#06506b', c2: '#1aa5c0' } },
-        { title: 'آوای وحش', by: 'جک لندن', url: 'https://www.goodreads.com/search?q=The+Call+of+the+Wild+Jack+London', art: { icon: 'nightlight', c1: '#141e3c', c2: '#3c5a8c', fg: '#f6e7b0' } },
-        { title: 'سپیددندان', by: 'جک لندن', url: 'https://www.goodreads.com/search?q=White+Fang+Jack+London', art: { icon: 'ac_unit', c1: '#2c3e57', c2: '#7f9cbf' } },
+        { title: 'ارباب حلقه‌ها', by: 'جی. آر. آر. تالکین', url: 'https://www.goodreads.com/search?q=The+Lord+of+the+Rings+Tolkien', cover: 'https://upload.wikimedia.org/wikipedia/en/e/e9/First_Single_Volume_Edition_of_The_Lord_of_the_Rings.gif', art: { icon: 'radio_button_unchecked', c1: '#17120c', c2: '#3d2c12', fg: '#e8c25a' } },
+        { title: 'پرسی جکسون', by: 'ریک ریوردان', url: 'https://www.goodreads.com/search?q=Percy+Jackson+Riordan', cover: 'https://upload.wikimedia.org/wikipedia/en/3/3b/The_Lightning_Thief_cover.jpg', art: { icon: 'tsunami', c1: '#06506b', c2: '#1aa5c0' } },
+        { title: 'آوای وحش', by: 'جک لندن', url: 'https://www.goodreads.com/search?q=The+Call+of+the+Wild+Jack+London', cover: 'https://upload.wikimedia.org/wikipedia/commons/2/26/JackLondoncallwild.jpg', art: { icon: 'nightlight', c1: '#141e3c', c2: '#3c5a8c', fg: '#f6e7b0' } },
+        { title: 'سپیددندان', by: 'جک لندن', url: 'https://www.goodreads.com/search?q=White+Fang+Jack+London', cover: 'https://upload.wikimedia.org/wikipedia/commons/1/14/JackLondonwhitefang1.jpg', art: { icon: 'ac_unit', c1: '#2c3e57', c2: '#7f9cbf' } },
       ],
       screen: [
-        { title: 'ارباب حلقه‌ها', meta: 'سه‌گانه‌ی سینمایی · ۲۰۰۱–۲۰۰۳', url: 'https://www.imdb.com/title/tt0120737/', art: { icon: 'landscape', c1: '#1e2a16', c2: '#7c6a2a', fg: '#f1d98a' } },
-        { title: 'Ted Lasso', meta: 'سریال · ۲۰۲۰–۲۰۲۳', url: 'https://www.imdb.com/title/tt10986410/', art: { icon: 'sports_soccer', c1: '#0b2f78', c2: '#2a64c8', fg: '#ffd84d' } },
+        { title: 'ارباب حلقه‌ها', meta: 'سه‌گانه‌ی سینمایی · ۲۰۰۱–۲۰۰۳', url: 'https://www.imdb.com/title/tt0120737/', cover: 'https://upload.wikimedia.org/wikipedia/en/f/fb/Lord_Rings_Fellowship_Ring.jpg', art: { icon: 'landscape', c1: '#1e2a16', c2: '#7c6a2a', fg: '#f1d98a' } },
+        { title: 'Ted Lasso', meta: 'سریال · ۲۰۲۰–۲۰۲۳', url: 'https://www.imdb.com/title/tt10986410/', cover: 'https://upload.wikimedia.org/wikipedia/en/7/73/Tedlassotitlecard.jpg', art: { icon: 'sports_soccer', c1: '#0b2f78', c2: '#2a64c8', fg: '#ffd84d' } },
       ],
       games: [
-        { title: 'God of War', meta: 'مجموعه · یک اثر هنری کامل', url: 'https://www.playstation.com/en-us/god-of-war/', art: { icon: 'swords', c1: '#3b0606', c2: '#a3201a', fg: '#f3d9b1' } },
-        { title: 'Crash Team Racing', meta: 'مجموعه‌ی کرش بندیکوت', url: 'https://www.crashbandicoot.com/crashteamracing', art: { icon: 'sports_motorsports', c1: '#d9480f', c2: '#fab005' } },
-        { title: 'Stronghold Crusader', meta: 'استراتژی قلعه‌سازی', url: 'https://store.steampowered.com/app/40970/', art: { icon: 'fort', c1: '#6b4a1f', c2: '#d4a24c' } },
+        { title: 'God of War', meta: 'مجموعه · یک اثر هنری کامل', url: 'https://www.playstation.com/en-us/god-of-war/', cover: 'https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg', art: { icon: 'swords', c1: '#3b0606', c2: '#a3201a', fg: '#f3d9b1' } },
+        { title: 'Crash Team Racing', meta: 'مجموعه‌ی کرش بندیکوت', url: 'https://www.crashbandicoot.com/crashteamracing', cover: 'https://upload.wikimedia.org/wikipedia/en/3/36/Crash_Team_Racing_Nitro-Fueled_cover_art.jpg', art: { icon: 'sports_motorsports', c1: '#d9480f', c2: '#fab005' } },
+        { title: 'Stronghold Crusader', meta: 'استراتژی قلعه‌سازی', url: 'https://store.steampowered.com/app/40970/', cover: 'https://upload.wikimedia.org/wikipedia/en/9/9c/Crusadercover.jpg', art: { icon: 'fort', c1: '#6b4a1f', c2: '#d4a24c' } },
       ],
       sport: [
-        { title: 'پینگ‌پنگ', meta: 'حرفه‌ای نیستم، فقط عاشقشم', url: 'https://fa.wikipedia.org/wiki/تنیس_روی_میز', art: { icon: 'sports_tennis', c1: '#0f5c3a', c2: '#2f9e6a' } },
+        { title: 'پینگ‌پنگ', meta: 'حرفه‌ای نیستم، فقط عاشقشم', url: 'https://fa.wikipedia.org/wiki/تنیس_روی_میز', cover: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Mondial_Ping_-_Men%27s_Singles_-_Round_4_-_Kenta_Matsudaira-Vladimir_Samsonov_-_57.jpg/480px-Mondial_Ping_-_Men%27s_Singles_-_Round_4_-_Kenta_Matsudaira-Vladimir_Samsonov_-_57.jpg', art: { icon: 'sports_tennis', c1: '#0f5c3a', c2: '#2f9e6a' } },
       ],
       travel: [ // MOCK
         { place: 'شیراز', note: 'زادگاهم', url: 'https://fa.wikipedia.org/wiki/شیراز' },

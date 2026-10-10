@@ -66,18 +66,31 @@
       };
       cards.forEach((el) => place(el, el.dataset.birth ? 0 : Math.min(1, ps[+el.dataset.i].lane)));
       const t0 = ps[0].from, t1 = Math.max(...ps.map((p) => p.to));
-      let ppy = narrow ? 130 : 170;
+      // Piecewise scale: each start/end date is a key; long empty stretches are capped.
+      const keys = [...new Set([...ps.flatMap((p) => [p.from, Math.min(p.to, t1)]), t1].map((t) => +t.toFixed(4)))].sort((a, b) => a - b);
+      const ppy = narrow ? 120 : 150, cap = narrow ? 170 : 200, minSeg = 70;
+      const seg = keys.slice(1).map((t, i) => Math.min(cap, Math.max(minSeg, (t - keys[i]) * ppy)));
+      const birth = wrap.querySelector('.stop[data-birth]');
+      const Y0 = birth.offsetHeight + 110;
+      const y = (t) => {
+        let acc = Y0;
+        for (let i = 1; i < keys.length; i++) {
+          if (t <= keys[i] + 1e-6) return acc + Math.max(0, t - keys[i - 1]) / (keys[i] - keys[i - 1]) * seg[i - 1];
+          acc += seg[i - 1];
+        }
+        return acc;
+      };
+      // Make room so cards in the same column never overlap.
       const cols = {};
       cards.filter((el) => !el.dataset.birth).forEach((el) => {
         const p = ps[+el.dataset.i], col = narrow ? 0 : Math.min(1, p.lane);
         (cols[col] = cols[col] || []).push({ el, p });
       });
       Object.values(cols).forEach((list) => list.sort((a, b) => a.p.from - b.p.from).forEach((it, i, arr) => {
-        if (i) ppy = Math.max(ppy, (arr[i - 1].el.offsetHeight + 36) / (it.p.from - arr[i - 1].p.from));
+        if (!i) return;
+        const need = arr[i - 1].el.offsetHeight + 36 - (y(it.p.from) - y(arr[i - 1].p.from));
+        if (need > 0) { const k = keys.findIndex((t) => Math.abs(t - it.p.from) < 1e-3); seg[Math.max(0, k - 1)] += need; }
       }));
-      const birth = wrap.querySelector('.stop[data-birth]');
-      const Y0 = birth.offsetHeight + 150;
-      const y = (t) => Y0 + (t - t0) * ppy;
       const lastCard = Math.max(...cards.map((el) => (el.dataset.birth ? 0 : y(ps[+el.dataset.i].from) - 30 + el.offsetHeight)));
       const yEnd = Math.max(y(t1), lastCard - 20), H = yEnd + 90;
       wrap.style.height = H + 'px';
@@ -108,7 +121,7 @@
         for (let yy = from + 8; yy < to - 4; yy += 14) rungs += `M${laneX(lo.lane)} ${yy} L${laneX(hi.lane)} ${yy} `;
       });
       let ticks = '';
-      for (let t = Math.ceil(t0); t <= t1; t++) ticks += `M${x0 - 7} ${y(t)} L${x0 + 7} ${y(t)} `;
+      // (no year ticks: the road is compressed, so equal years are not equal distances)
       const svg = wrap.querySelector('svg');
       svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
       const roads = [main, ...branches];
@@ -118,7 +131,6 @@
       wrap.querySelectorAll('.band').forEach((b, i) => {
         const o = ov[i], bottom = o.e >= t1 - 1e-6 ? yEnd : y(o.e);
         b.style.top = y(o.s) + 'px'; b.style.height = (bottom - y(o.s)) + 'px';
-        b.querySelector('.band-chip').style.left = (x0 + laneX(maxLane)) / 2 + 12 + 'px';
       });
       wrap._y = { dots, cards, now, roads: [...svg.querySelectorAll('.lit .prog')], cars: [...svg.querySelectorAll('.car')], ranges: [null, ...branchPs.map((p) => p._range)] };
       roadScroll();
@@ -297,7 +309,7 @@
               <defs><clipPath id="reveal" clipPathUnits="userSpaceOnUse"><rect class="reveal-rect" x="-50" y="0" width="100000" height="0"/></clipPath></defs>
               <g class="base"></g><g class="lit" clip-path="url(#reveal)"></g><g class="cars"></g>
             </svg>
-            ${ov.map((o) => `<div class="band" aria-hidden="true"><span class="band-chip"><span class="ms">join_inner</span><span><b>${o.e >= Math.max(...ps.map((p) => p.to)) - 1e-6 ? `${x.num(yr(o.s))}–${e(u.today)}` : range(o.s, o.e)}</b><small>${e(o.a.kind !== o.b.kind ? u.studyWork : u.together)}</small></span></span></div>`).join('')}
+            ${ov.map(() => `<div class="band" aria-hidden="true"></div>`).join('')}
             <span class="dot" data-birth="1" aria-hidden="true"><span class="ms">home_pin</span></span>
             <article class="stop card" data-birth="1">
               <p class="label-l when">${e(u.born)}</p>
@@ -308,10 +320,6 @@
             <span class="now" aria-hidden="true"><span class="ms">flag</span><span class="label-m">${e(u.today)}</span></span>
           </section>
           <div class="after-road">
-            <div class="card teach" data-reveal>
-              <span class="icon-tile tertiary"><span class="ms">co_present</span></span>
-              <div><h3 class="title-m">${e(u.teaching)}</h3><p class="body-m muted">${e(c.teaching)}</p></div>
-            </div>
             <section data-reveal style="--i:1"><h2 class="block-title title-l">${e(u.awards)}</h2>${x.awards()}</section>
             <section data-reveal style="--i:2"><h2 class="block-title title-l">${e(u.toolbox)}</h2><div class="chips">${c.skills.map((s) => `<span class="chip">${e(s)}</span>`).join('')}</div></section>
           </div>`;

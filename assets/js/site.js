@@ -348,12 +348,16 @@
             if (cls[k] === 'poster') return `${open}${art || '<span class="ms">movie</span>'}<span class="poster-title">${esc(it.title)}</span><span class="poster-year">${esc(it.meta || x.num(it.year))}</span>${close}`;
             return `${open}${art ? `<span class="game-art">${art}</span>` : '<span class="ms">sports_esports</span>'}<span class="game-title" dir="auto">${esc(it.title)}</span><span class="game-meta">${esc(it.meta)}</span>${close}`;
           };
+          // Drawn cover in front, the real cover (if any) tucked behind it and revealed on hover.
+          const pair = (it, i, html) => it.cover
+            ? `<span class="pair" style="--i:${i}"><img class="real" src="${it.cover}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">${html}</span>`
+            : html;
           const keys = Object.keys(h);
           return `
           <div class="hobbies" data-tabs>
             <div class="seg" role="tablist">${keys.map((k, i) => `
               <button class="seg-btn ripple ${i ? '' : 'on'}" data-tab="${k}" role="tab"><span class="ms">${icons[k]}</span><span>${esc(u.hobby[k] || k)}</span></button>`).join('')}</div>
-            ${keys.map((k, n) => `<div class="shelf" data-panel="${k}" ${n ? 'hidden' : ''}>${h[k].map((it, i) => item(k, it, i)).join('')}</div>`).join('')}
+            ${keys.map((k, n) => `<div class="shelf" data-panel="${k}" ${n ? 'hidden' : ''}>${h[k].map((it, i) => pair(it, i, item(k, it, i))).join('')}</div>`).join('')}
           </div>`;
         },
         reading: () => {
