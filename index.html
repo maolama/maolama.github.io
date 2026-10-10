@@ -335,12 +335,11 @@
             </div>
             <figure class="about-photo" data-reveal style="--i:1">
               <div class="shape-frame"><svg viewBox="0 0 100 100" aria-hidden="true"><path data-shape="10,.06,.03,.5" data-c="50,50,46"></path></svg>${x.photoTag('photo')}</div>
-              <figcaption class="body-s muted"><span class="ms">location_on</span>${x.esc(c.born)} → ${x.esc(c.location)}</figcaption>
             </figure>
           </div>
           <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.focus)}</h2>${x.focus()}</section>
           <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.loves)}</h2>${x.reading()}<div data-reveal>${x.hobbies()}</div></section>
-          <section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.quotes)}</h2>${x.quotes()}</section>`,
+          ${SITE.quotes?.length ? `<section class="block"><h2 class="block-title title-l" data-reveal>${x.esc(c.ui.quotes)}</h2>${x.quotes()}</section>` : ''}`,
 
         journey: (c, x) => {
           const e = x.esc, u = c.ui;
@@ -375,7 +374,6 @@
             <article class="stop card" data-birth="1">
               <p class="label-l when">${e(u.born)}</p>
               <h3 class="title-l">${e(c.born)}</h3>
-              <p class="body-m muted">${x.rich(c.story[0])}</p>
             </article>
             ${ps.map(card).join('')}
             <span class="now" aria-hidden="true"><span class="ms">flag</span><span class="label-m">${e(u.today)}</span></span>

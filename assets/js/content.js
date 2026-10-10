@@ -6,7 +6,7 @@
   - Items marked MOCK are placeholders to replace.
 */
 window.SITE = {
-  photo: 'https://picsum.photos/seed/olama-portrait/600/720', // MOCK: replace with 'assets/img/photo.jpg'
+  photo: 'assets/img/avatar.svg', // drawn developer illustration; replace with 'assets/img/photo.jpg' later
   email: 'olama.mohammadali2000@gmail.com',
   github: 'https://github.com/maolama',
 
@@ -34,11 +34,9 @@ window.SITE = {
   reading: { pages: 7007, since: '2026-03-21', asOf: '2026-10-10' },
 
   // Quotes I love. MOCK: replace with your own; `lang` lets English and Persian quotes sit side by side.
-  quotes: [
-    { text: 'A favourite line from a book goes here.', by: 'Author', source: 'Book title', lang: 'en' },
-    { text: 'جمله‌ای زیبا از کتابی که خوانده‌اید اینجا می‌نشیند.', by: 'نویسنده', source: 'نام کتاب', lang: 'fa' },
-    { text: 'Another quote that stayed with you.', by: 'Author', source: 'Book title', lang: 'en' },
-  ],
+  // Empty = the quotes section is hidden. Example entry:
+  // { text: 'A line you love.', by: 'Author', source: 'Book title', lang: 'en' },
+  quotes: [],
 
   nav: [
     { id: 'home', icon: 'home' },
@@ -80,7 +78,6 @@ window.SITE = {
     ],
 
     story: [
-      'I was born in **Shiraz**, the city of poets and gardens, and now live in **Tehran**.',
       'I studied computer science at Sharif University of Technology and fell for algorithms. Halfway through, I joined Mahsan as a backend developer and became the team’s testing nerd.',
       "Today I'm doing my master's in data science at TeIAS, asking a simple question: when we use AI models to judge other AI models, can we trust the verdict? I also build backend systems at Mahsan.",
     ],
