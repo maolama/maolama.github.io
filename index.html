@@ -8,13 +8,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="designs/final/style.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=202610102337">
+  <link rel="stylesheet" href="designs/final/style.css?v=202610102337">
 </head>
 <body data-base="">
   <div id="app"></div>
-  <script src="assets/js/content.js"></script>
-  <script src="assets/js/site.js"></script>
+  <script src="assets/js/content.js?v=202610102337"></script>
+  <script src="assets/js/site.js?v=202610102337"></script>
   <script>
     /* ============ Journey road (from the Path design) ============ */
     const ym = (s) => {
@@ -374,7 +374,7 @@
             <article class="stop card" data-birth="1">
               <p class="label-l when">${e(u.born)}</p>
               <h3 class="title-l">${e(c.born)}</h3>
-              <p class="body-m muted"><span class="ms bday">cake</span>${new Date(SITE.birthday + 'T00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+              ${(() => { const [yy, mm, dd] = String(SITE.birthday || '').split('-').map(Number); if (!yy || !mm || !dd) return ''; const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; return `<p class="body-m muted"><span class="ms bday">cake</span>${months[mm - 1]} ${dd}, ${yy}</p>`; })()}
             </article>
             ${ps.map(card).join('')}
             <span class="now" aria-hidden="true"><span class="ms">flag</span><span class="label-m">${e(u.today)}</span></span>
