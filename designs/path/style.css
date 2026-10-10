@@ -1,11 +1,11 @@
-/* 08 · Path — a winding road through the milestones, drawn as you scroll */
+/* 08 · Path — a time-scaled road; parallel lanes show overlapping periods */
 :root { --r-card: 24px; --card-bg: var(--surface-container-low); --display-weight: 560; --display-tracking: -.03em; }
 .top { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; padding: 18px clamp(16px, 4vw, 40px); }
 .brand-mark { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary); }
 .acts { display: flex; gap: 6px; }
 #view { max-width: 1100px; margin: 0 auto; padding: 8px clamp(16px, 4vw, 40px) 120px; }
 
-.intro { display: flex; gap: 32px; align-items: flex-start; padding: 40px 0 56px; animation: rise .8s var(--ease-decel) both; }
+.intro { display: flex; gap: 32px; align-items: flex-start; padding: 40px 0 64px; animation: rise .8s var(--ease-decel) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(20px); } }
 .avatar { width: 120px; height: 120px; border-radius: 40px; object-fit: cover; flex: none; transform: rotate(-4deg); box-shadow: 8px 8px 0 var(--primary-container); }
 [dir="rtl"] .avatar { transform: rotate(4deg); box-shadow: -8px 8px 0 var(--primary-container); }
@@ -13,27 +13,59 @@
 .intro h1 { margin-bottom: 14px; max-width: 22ch; }
 .intro p.body-l { max-width: 64ch; margin: 0; }
 
-.path { position: relative; padding: 20px 0 40px; }
-.path svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+/* ---------- The road ---------- */
+.path { position: relative; min-height: 600px; margin-bottom: 40px; }
+.path svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 1; }
 .road { fill: none; stroke: var(--outline-variant); stroke-width: 3; stroke-dasharray: 2 10; stroke-linecap: round; }
-.prog { fill: none; stroke: var(--primary); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset .15s linear; }
-.car { fill: var(--primary); stroke: var(--surface); stroke-width: 4; }
-.dot { position: absolute; z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: var(--surface-container-highest); color: var(--on-surface-variant); box-shadow: 0 0 0 6px var(--surface); transition: background .4s var(--ease), color .4s var(--ease), transform .4s var(--ease-spring); }
-.dot .ms { font-size: 22px; }
-.stop { position: relative; width: calc(50% - 64px); margin-bottom: 56px; padding: 24px 26px; opacity: .55; transform: translateY(16px) scale(.98); transition: opacity .6s var(--ease), transform .6s var(--ease-decel), background .4s; }
-.stop:nth-of-type(odd) { margin-inline-end: auto; }
-.stop:nth-of-type(even) { margin-inline-start: auto; }
-.stop.reached { opacity: 1; transform: none; background: var(--surface-container); }
-.dot:has(+ .stop.reached) { background: var(--primary); color: var(--on-primary); transform: scale(1.08); }
-.when { color: var(--primary); margin: 0 0 4px; }
-.stop h3 { margin-bottom: 8px; }
-.stop p { margin: 0 0 6px; }
-.stop .now-list { margin-top: 8px; }
-.loves { padding: 32px; margin-top: 24px; }
+.tick { stroke: var(--outline-variant); stroke-width: 2; stroke-linecap: round; }
+.prog { fill: none; stroke: var(--primary); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.prog.branch { stroke: var(--tertiary); }
+.rung { stroke: color-mix(in oklch, var(--tertiary) 55%, var(--primary)); stroke-width: 2.5; stroke-linecap: round; opacity: .7; }
+.car { fill: var(--primary); stroke: var(--surface); stroke-width: 4; transition: opacity .25s; }
+.car.alt { fill: var(--tertiary); }
 
-@media (max-width: 720px) {
+/* Stations */
+.dot, .now { position: absolute; z-index: 3; translate: -50% -50%; }
+.dot { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--surface-container-highest); color: var(--on-surface-variant); box-shadow: 0 0 0 6px var(--surface); transition: background .4s var(--ease), color .4s var(--ease), scale .4s var(--ease-spring); }
+.dot .ms { font-size: 22px; }
+.dot.reached { background: var(--primary); color: var(--on-primary); scale: 1.08; }
+.dot.reached:has(+ .stop.work) { background: var(--tertiary); color: var(--surface); }
+.now { display: flex; align-items: center; gap: 6px; padding: 6px 12px 6px 10px; border-radius: 99px; background: var(--surface-container-highest); color: var(--on-surface-variant); box-shadow: 0 0 0 6px var(--surface); transition: background .4s, color .4s; }
+.now .ms { font-size: 18px; }
+.now.reached { background: var(--primary); color: var(--on-primary); }
+.now.reached::after { content: ""; position: absolute; inset: -6px; border-radius: inherit; box-shadow: 0 0 0 2px var(--primary); animation: ping 2s ease-out infinite; }
+@keyframes ping { to { box-shadow: 0 0 0 14px transparent; } }
+
+/* Cards */
+.stop { position: absolute; z-index: 2; padding: 22px 24px; opacity: .5; transform: translateY(14px) scale(.98); transition: opacity .6s var(--ease), transform .6s var(--ease-decel), background .4s, box-shadow .4s; }
+.stop.reached { opacity: 1; transform: none; background: var(--surface-container); }
+.stop.work.reached { box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--tertiary) 45%, transparent); }
+.when { color: var(--primary); margin: 0 0 4px; }
+.stop.work .when { color: var(--tertiary); }
+.stop h3 { margin-bottom: 6px; }
+.stop p { margin: 0 0 6px; }
+.ov-note { display: flex; align-items: flex-start; gap: 8px; margin: 10px 0 0 !important; padding: 8px 12px; border-radius: 12px; font-size: .85rem; line-height: 1.5; background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.ov-note .ms { font-size: 18px; margin-top: 1px; }
+
+/* Overlap bands */
+.band { position: absolute; inset-inline: -12px; z-index: 0; border-radius: 20px; opacity: .35; transition: opacity .6s var(--ease);
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--tertiary-container) 70%, transparent) 30%, color-mix(in oklch, var(--tertiary-container) 70%, transparent) 70%, transparent),
+    repeating-linear-gradient(135deg, transparent 0 10px, color-mix(in oklch, var(--tertiary) 8%, transparent) 10px 12px); }
+.band.reached { opacity: 1; }
+.band-chip { position: absolute; top: 50%; z-index: 4; translate: -50% -50%; display: flex; align-items: center; gap: 6px; max-width: 108px; padding: 6px 9px; border-radius: 14px; background: var(--tertiary); color: var(--surface); box-shadow: 0 6px 16px -8px var(--shadow-color); }
+.band-chip .ms { font-size: 18px; }
+.band-chip > span:last-child { display: flex; flex-direction: column; line-height: 1.2; }
+.band-chip b { font-size: .8rem; }
+.band-chip small { font-size: .68rem; opacity: .9; }
+
+.loves { padding: 32px; }
+
+@media (max-width: 760px) {
   .intro { flex-direction: column; gap: 20px; padding-top: 16px; }
   .avatar { width: 96px; height: 96px; border-radius: 32px; }
-  .stop { width: auto; margin-inline: 56px 0 !important; }
+  .stop { padding: 18px; }
+  .dot { width: 38px; height: 38px; }
+  .dot .ms { font-size: 19px; }
+  .band-chip { display: none; }
   .loves { padding: 20px; }
 }

@@ -15,48 +15,153 @@
   <script src="../../assets/js/content.js"></script>
   <script src="../../assets/js/site.js"></script>
   <script>
-    // Draws a winding road through the milestones and "drives" it as you scroll.
-    function layoutPath() {
-      const wrap = document.querySelector('.path');
-      if (!wrap) return;
-      const svg = wrap.querySelector('svg');
-      const W = wrap.clientWidth, H = wrap.clientHeight;
-      const rtl = document.documentElement.dir === 'rtl', narrow = W < 720;
-      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-      const stops = [...wrap.querySelectorAll('.stop')];
-      const pts = stops.map((s, i) => {
-        let px = narrow ? 22 : W / 2 + (i % 2 ? 1 : -1) * W * 0.05;
-        if (narrow && rtl) px = W - 22;
-        return [px, s.offsetTop + 30];
+    /*
+      A time-scaled road. The main lane carries study; whenever two things happen at once
+      (e.g. B.Sc. + job), a second lane branches off, runs in parallel, and merges back.
+      Overlaps are highlighted with a band and "zipper" rungs between the lanes.
+    */
+    const ym = (s) => {
+      if (!s) { const d = new Date(); return d.getFullYear() + d.getMonth() / 12; }
+      const [y, m] = s.split('-').map(Number);
+      return y + (m ? (m - 1) / 12 : 0);
+    };
+    const yr = (t) => Math.floor(t + 1e-6);
+
+    function periods(c) {
+      const ps = c.journey.map((j) => {
+        const d = SITE.timeline[j.id];
+        return { j, from: ym(d.from), to: ym(d.to), open: !d.to, kind: d.kind };
+      }).sort((a, b) => a.from - b.from);
+      const ends = [];
+      ps.forEach((p) => {
+        let l = ends.findIndex((e) => e <= p.from + 1e-6);
+        if (l < 0) l = ends.length;
+        ends[l] = p.to; p.lane = l;
       });
-      const all = [[pts[0][0], 0], ...pts, [pts.at(-1)[0], H]];
-      let d = `M${all[0][0]} ${all[0][1]}`;
-      for (let i = 1; i < all.length; i++) {
-        const [x0, y0] = all[i - 1], [x1, y1] = all[i], my = (y0 + y1) / 2;
-        d += ` C${x0} ${my}, ${x1} ${my}, ${x1} ${y1}`;
+      const ov = [];
+      for (let i = 0; i < ps.length; i++) for (let k = i + 1; k < ps.length; k++) {
+        const s = Math.max(ps[i].from, ps[k].from), e = Math.min(ps[i].to, ps[k].to);
+        if (e - s > 0.05) ov.push({ s, e, a: ps[i], b: ps[k] });
       }
-      svg.querySelectorAll('path').forEach((p) => p.setAttribute('d', d));
-      const prog = svg.querySelector('.prog');
-      const L = prog.getTotalLength();
-      prog.style.strokeDasharray = L;
-      wrap.querySelectorAll('.dot').forEach((dot, i) => { dot.style.left = pts[i][0] + 'px'; dot.style.top = pts[i][1] + 'px'; });
-      wrap._L = L; wrap._pts = pts;
+      return { ps, ov };
+    }
+
+    // Find the point on a y-monotonic path at a given y.
+    function pointAtY(path, y) {
+      const L = path.getTotalLength();
+      let lo = 0, hi = L;
+      for (let i = 0; i < 22; i++) { const mid = (lo + hi) / 2; path.getPointAtLength(mid).y < y ? (lo = mid) : (hi = mid); }
+      return path.getPointAtLength(lo);
+    }
+
+    function layout() {
+      const wrap = document.getElementById('path');
+      if (!wrap || !wrap._d) return;
+      const { ps, ov } = wrap._d;
+      const W = wrap.clientWidth, narrow = W < 760;
+      const rtl = document.documentElement.dir === 'rtl', sgn = rtl ? -1 : 1; // +1 = towards inline-end
+      const gap = narrow ? 30 : 124, maxLane = Math.max(...ps.map((p) => p.lane));
+      const x0 = narrow ? (rtl ? W - 26 : 26) : W / 2 - sgn * gap * maxLane / 2;
+      const laneX = (l) => x0 + sgn * l * gap;
+      const cards = [...wrap.querySelectorAll('.stop')];
+
+      // 1. Place cards horizontally (physical px) so their heights can be measured.
+      const place = (el, side) => {
+        let a, b; // physical left / right edges
+        if (narrow) { const edge = laneX(maxLane) + sgn * 30; [a, b] = rtl ? [0, edge] : [edge, W]; }
+        else if (side === 0) { const edge = x0 - sgn * 46; [a, b] = rtl ? [edge, W] : [0, edge]; }
+        else { const edge = laneX(maxLane) + sgn * 46; [a, b] = rtl ? [0, edge] : [edge, W]; }
+        el.style.left = a + 'px'; el.style.width = (b - a) + 'px';
+      };
+      cards.forEach((el) => place(el, el.dataset.birth ? 0 : Math.min(1, ps[+el.dataset.i].lane)));
+
+      // 2. Choose a time scale so cards in the same column never collide.
+      const t0 = ps[0].from, t1 = Math.max(...ps.map((p) => p.to));
+      let ppy = narrow ? 130 : 170;
+      const cols = {};
+      cards.filter((el) => !el.dataset.birth).forEach((el) => {
+        const p = ps[+el.dataset.i], col = narrow ? 0 : Math.min(1, p.lane);
+        (cols[col] = cols[col] || []).push({ el, p });
+      });
+      Object.values(cols).forEach((list) => list.sort((a, b) => a.p.from - b.p.from).forEach((it, i, arr) => {
+        if (i) ppy = Math.max(ppy, (arr[i - 1].el.offsetHeight + 36) / (it.p.from - arr[i - 1].p.from));
+      }));
+      const birth = wrap.querySelector('.stop[data-birth]');
+      const Y0 = birth.offsetHeight + 150;
+      const y = (t) => Y0 + (t - t0) * ppy;
+      const yEnd = y(t1), H = yEnd + 90;
+      wrap.style.height = H + 'px';
+
+      // 3. Cards + stations vertically.
+      birth.style.top = '0px';
+      cards.forEach((el) => { if (!el.dataset.birth) el.style.top = (y(ps[+el.dataset.i].from) - 30) + 'px'; });
+      const dots = [...wrap.querySelectorAll('.dot')];
+      dots.forEach((d) => {
+        const bx = d.dataset.birth ? x0 : laneX(ps[+d.dataset.i].lane);
+        const by = d.dataset.birth ? 30 : y(ps[+d.dataset.i].from);
+        d.style.left = bx + 'px'; d.style.top = by + 'px'; d._y = by;
+      });
+      cards.forEach((el) => { el._y = el.dataset.birth ? 30 : y(ps[+el.dataset.i].from); });
+      const now = wrap.querySelector('.now');
+      now.style.left = x0 + 'px'; now.style.top = yEnd + 'px'; now._y = yEnd;
+
+      // 4. Roads: main lane (with a winding stretch from birth), branches for parallel lanes.
+      const wig = narrow ? 18 : 90;
+      const main = `M${x0} 0 L${x0} 30 C${x0 + sgn * wig} ${30 + (Y0 - 30) * .35}, ${x0 - sgn * wig} ${30 + (Y0 - 30) * .65}, ${x0} ${Y0} L${x0} ${yEnd}`;
+      const branches = ps.filter((p) => p.lane > 0).map((p) => {
+        const xs = laneX(0), xl = laneX(p.lane), ys = y(p.from), ye = y(p.to), k = Math.min(70, (ye - ys) / 3);
+        p._straight = [ys + k, p.open ? ye : ye - k];
+        return p.open
+          ? `M${xs} ${ys} C${xs} ${ys + k * .6}, ${xl} ${ys + k * .4}, ${xl} ${ys + k} L${xl} ${ye}`
+          : `M${xs} ${ys} C${xs} ${ys + k * .6}, ${xl} ${ys + k * .4}, ${xl} ${ys + k} L${xl} ${ye - k} C${xl} ${ye - k * .4}, ${xs} ${ye - k * .6}, ${xs} ${ye}`;
+      });
+      let rungs = '';
+      ov.forEach((o) => {
+        const hi = o.a.lane > o.b.lane ? o.a : o.b, lo = hi === o.a ? o.b : o.a;
+        const [s0, s1] = hi._straight || [y(o.s), y(o.e)];
+        const from = Math.max(y(o.s), s0), to = Math.min(y(o.e), s1);
+        for (let yy = from + 8; yy < to - 4; yy += 14) rungs += `M${laneX(lo.lane)} ${yy} L${laneX(hi.lane)} ${yy} `;
+      });
+      let ticks = '';
+      for (let t = Math.ceil(t0); t <= t1; t++) ticks += `M${x0 - 7} ${y(t)} L${x0 + 7} ${y(t)} `;
+      const svg = wrap.querySelector('svg');
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const roads = [main, ...branches];
+      svg.querySelector('.base').innerHTML = roads.map((d) => `<path class="road" d="${d}"/>`).join('') + `<path class="tick" d="${ticks}"/>`;
+      svg.querySelector('.lit').innerHTML = `<path class="rung" d="${rungs}"/>` + roads.map((d, i) => `<path class="prog ${i ? 'branch' : ''}" d="${d}"/>`).join('');
+      svg.querySelector('.cars').innerHTML = roads.map((_, i) => `<circle class="car ${i ? 'alt' : ''}" r="${i ? 7 : 9}"/>`).join('');
+
+      // 5. Overlap bands.
+      wrap.querySelectorAll('.band').forEach((b, i) => {
+        const o = ov[i];
+        b.style.top = y(o.s) + 'px'; b.style.height = (y(o.e) - y(o.s)) + 'px';
+        const chip = b.querySelector('.band-chip');
+        chip.style.left = (x0 + laneX(maxLane)) / 2 + 12 + 'px'; // band extends 12px past the edge
+      });
+
+      wrap._y = { dots, cards, now, roads: [...svg.querySelectorAll('.lit .prog')], cars: [...svg.querySelectorAll('.car')], branchRanges: [null, ...ps.filter((p) => p.lane > 0).map((p) => [y(p.from), y(p.to)])] };
       onScroll();
     }
+
     function onScroll() {
-      const wrap = document.querySelector('.path');
-      if (!wrap || !wrap._L) return;
+      const wrap = document.getElementById('path');
+      if (!wrap || !wrap._y) return;
       const r = wrap.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, (innerHeight * 0.62 - r.top) / r.height));
-      const prog = wrap.querySelector('.prog'), car = wrap.querySelector('.car');
-      prog.style.strokeDashoffset = wrap._L * (1 - p);
-      const pt = prog.getPointAtLength(wrap._L * p);
-      car.setAttribute('cx', pt.x); car.setAttribute('cy', pt.y);
-      wrap.querySelectorAll('.stop').forEach((s, i) => s.classList.toggle('reached', wrap._pts[i][1] <= pt.y + 4));
+      const Y = Math.min(wrap.offsetHeight, Math.max(0, innerHeight * .62 - r.top));
+      wrap.querySelector('.reveal-rect').setAttribute('height', Y);
+      const g = wrap._y;
+      g.roads.forEach((p, i) => {
+        const car = g.cars[i], range = g.branchRanges[i];
+        const show = !range || (Y > range[0] && Y < range[1] + 4);
+        car.style.opacity = show ? 1 : 0;
+        if (show) { const pt = pointAtY(p, Y); car.setAttribute('cx', pt.x); car.setAttribute('cy', pt.y); }
+      });
+      [...g.dots, ...g.cards, g.now].forEach((el) => el.classList.toggle('reached', el._y <= Y + 2));
+      wrap.querySelectorAll('.band').forEach((b) => b.classList.toggle('reached', b.offsetTop <= Y));
     }
 
     Site.init({
-      id: 'path', theme: { h: 165, c: 0.1 }, icons: ['bolt', 'home_pin'],
+      id: 'path', theme: { h: 165, c: 0.1 }, icons: ['home_pin', 'join_inner', 'flag'],
 
       shell: (c, x) => `
         <header class="top">
@@ -68,25 +173,45 @@
 
       mount() {
         window.onscroll = onScroll;
-        window.onresize = layoutPath;
+        window.onresize = layout;
         const bar = document.getElementById('toolbar');
         let last = scrollY;
-        addEventListener('scroll', () => { const y = scrollY; bar.classList.toggle('hidden', y > last + 4 && y > 200 ? true : y < last - 4 ? false : bar.classList.contains('hidden')); last = y; });
+        addEventListener('scroll', () => {
+          const yy = scrollY;
+          if (yy > last + 4 && yy > 200) bar.classList.add('hidden');
+          if (yy < last - 4) bar.classList.remove('hidden');
+          last = yy;
+        });
       },
-      after(page) { if (page === 'home') { requestAnimationFrame(layoutPath); document.fonts.ready.then(layoutPath); } },
+
+      after(page, c) {
+        if (page !== 'home') return;
+        const wrap = document.getElementById('path');
+        wrap._d = periods(c);
+        requestAnimationFrame(layout);
+        document.fonts.ready.then(layout);
+      },
 
       pages: {
         home: (c, x) => {
-          const e = x.esc, u = c.ui, j = c.journey;
-          const teachWhen = x.lang === 'fa' ? '۲۰۲۰ – اکنون' : '2020 – now';
-          const stops = [
-            { icon: 'home_pin', when: u.born, title: c.born, body: `<p class="body-m muted">${x.rich(c.story[0])}</p>` },
-            ...[j[0]].map((s) => ({ icon: s.icon, when: s.when, title: s.title, body: `<p class="body-m org">${e(s.org)}</p><p class="body-m muted">${e(s.desc)}</p>` })),
-            { icon: 'co_present', when: teachWhen, title: u.teaching, body: `<p class="body-m muted">${e(c.teaching)}</p>` },
-            ...j.slice(1).map((s) => ({ icon: s.icon, when: s.when, title: s.title, body: `<p class="body-m org">${e(s.org)}</p><p class="body-m muted">${e(s.desc)}</p>` })),
-            { icon: 'bolt', when: u.now, title: c.research[0].title, body: x.now() },
-            { icon: 'flight_takeoff', when: '…', title: u.contactTitle, body: `<p class="body-m muted">${e(u.contactText)}</p><div class="actions"><a class="btn filled ripple" href="#/contact">${e(u.getInTouch)}</a>${x.cvButtons('btn tonal ripple').replace('btn filled ripple', 'btn tonal ripple')}</div>` },
-          ];
+          const e = x.esc, u = c.ui;
+          const { ps, ov } = periods(c);
+          const range = (a, b) => `${x.num(yr(a))}–${x.num(yr(b))}`;
+          const card = (p, i) => {
+            const notes = ov.filter((o) => o.a === p || o.b === p).map((o) => {
+              const other = o.a === p ? o.b : o.a;
+              return `<p class="ov-note"><span class="ms">join_inner</span><span>${e(u.alongside)} <b>${e(other.j.title)}</b> · ${range(o.s, o.e)}</span></p>`;
+            }).join('');
+            return `
+              <span class="dot" data-i="${i}" aria-hidden="true"><span class="ms">${p.j.icon}</span></span>
+              <article class="stop card ${p.kind}" data-i="${i}">
+                <p class="label-l when">${e(p.j.when)}</p>
+                <h3 class="title-l">${e(p.j.title)}</h3>
+                <p class="body-m org">${e(p.j.org)}</p>
+                <p class="body-m muted">${e(p.j.desc)}</p>
+                ${notes}
+              </article>`;
+          };
           return `
           <section class="intro">
             ${x.photoTag('avatar', 120, 120)}
@@ -96,15 +221,21 @@
               <p class="body-l muted">${e(c.intro)}</p>
             </div>
           </section>
-          <section class="path">
-            <svg aria-hidden="true"><path class="road"></path><path class="prog"></path><circle class="car" r="9"></circle></svg>
-            ${stops.map((s, i) => `
-              <span class="dot" aria-hidden="true"><span class="ms">${s.icon}</span></span>
-              <article class="stop card" style="--i:${i}">
-                <p class="label-l when">${e(s.when)}</p>
-                <h3 class="title-l">${e(s.title)}</h3>
-                ${s.body}
-              </article>`).join('')}
+          <section class="path" id="path">
+            <svg aria-hidden="true">
+              <defs><clipPath id="reveal" clipPathUnits="userSpaceOnUse"><rect class="reveal-rect" x="-50" y="0" width="100000" height="0"/></clipPath></defs>
+              <g class="base"></g><g class="lit" clip-path="url(#reveal)"></g><g class="cars"></g>
+            </svg>
+            ${ov.map((o) => `
+              <div class="band" aria-hidden="true"><span class="band-chip"><span class="ms">join_inner</span><span><b>${range(o.s, o.e)}</b><small>${e(o.a.kind !== o.b.kind ? u.studyWork : u.together)}</small></span></span></div>`).join('')}
+            <span class="dot" data-birth="1" aria-hidden="true"><span class="ms">home_pin</span></span>
+            <article class="stop card" data-birth="1">
+              <p class="label-l when">${e(u.born)}</p>
+              <h3 class="title-l">${e(c.born)}</h3>
+              <p class="body-m muted">${x.rich(c.story[0])}</p>
+            </article>
+            ${ps.map(card).join('')}
+            <span class="now" aria-hidden="true"><span class="ms">flag</span><span class="label-m">${e(u.today)}</span></span>
           </section>
           <section class="loves card"><h2 class="headline-s block-title">${e(u.loves)}</h2>${x.hobbies()}</section>`;
         },

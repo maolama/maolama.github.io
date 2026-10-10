@@ -22,6 +22,13 @@ window.SITE = {
     { id: 'github', url: 'https://github.com/mohammadolama', en: 'GitHub', fa: 'گیت‌هاب' },
   ],
 
+  // Dates for the Journey timeline, keyed by journey `id`. Use 'YYYY' or 'YYYY-MM'; to: null means "ongoing".
+  timeline: {
+    bsc: { from: '2019', to: '2024', kind: 'study' },
+    mahsan: { from: '2022-11', to: '2025-03', kind: 'work' },
+    msc: { from: '2024', to: null, kind: 'study' },
+  },
+
   nav: [
     { id: 'home', icon: 'home' },
     { id: 'about', icon: 'person' },
@@ -77,9 +84,9 @@ window.SITE = {
     ],
 
     journey: [
-      { when: '2019 – 2024', icon: 'school', title: 'B.Sc. Computer Science', org: 'Sharif University of Technology', desc: 'Algorithms, systems, and my first teaching jobs.' },
-      { when: '2022 – 2025', icon: 'code', title: 'Backend Developer', org: 'Mahsan', desc: 'Java and Spring on an identity and access management product. I also became the team’s testing nerd.' },
-      { when: '2024 – now', icon: 'psychology', title: 'M.Sc. Data Science', org: 'TeIAS', desc: 'Research on LLM evaluation with Prof. Yaghoobzadeh and Prof. Bahrak.' },
+      { id: 'bsc', when: '2019 – 2024', icon: 'school', title: 'B.Sc. Computer Science', org: 'Sharif University of Technology', desc: 'Algorithms, systems, and my first teaching jobs.' },
+      { id: 'mahsan', when: '2022 – 2025', icon: 'code', title: 'Backend Developer', org: 'Mahsan', desc: 'Java and Spring on an identity and access management product. I also became the team’s testing nerd.' },
+      { id: 'msc', when: '2024 – now', icon: 'psychology', title: 'M.Sc. Data Science', org: 'TeIAS', desc: 'Research on LLM evaluation with Prof. Yaghoobzadeh and Prof. Bahrak.' },
     ],
     teaching: 'Teaching assistant for 8+ semesters at Sharif and TeIAS, including head TA for Algorithms, Machine Learning and Data Structures.',
     skills: ['Python', 'PyTorch', 'LLM evaluation', 'DPO', 'Statistics', 'Java', 'Spring Boot', 'Docker', 'R'],
@@ -148,6 +155,7 @@ window.SITE = {
       palette: 'Colour theme', custom: 'Any colour', light: 'Light', dark: 'Dark', close: 'Close',
       switchTo: 'فارسی', switchShort: 'فا', mode: 'Light / dark', rights: 'Made with care',
       ask: 'Ask me something', typing: 'typing…', online: 'Usually replies fast',
+      alongside: 'Alongside', studyWork: 'Studying & working', together: 'At the same time', today: 'Today',
     },
   },
 
@@ -197,9 +205,9 @@ window.SITE = {
     ],
 
     journey: [
-      { when: '۲۰۱۹ – ۲۰۲۴', icon: 'school', title: 'کارشناسی علوم کامپیوتر', org: 'دانشگاه صنعتی شریف', desc: 'الگوریتم، سیستم‌ها و اولین تجربه‌های دستیار آموزشی.' },
-      { when: '۲۰۲۲ – ۲۰۲۵', icon: 'code', title: 'توسعه‌دهنده‌ی بک‌اند', org: 'شرکت ماهسان', desc: 'جاوا و Spring روی یک محصول مدیریت هویت و دسترسی. اینجا بود که شیفته‌ی تست‌نویسی شدم.' },
-      { when: '۲۰۲۴ – اکنون', icon: 'psychology', title: 'کارشناسی ارشد علوم داده', org: 'TeIAS', desc: 'پژوهش روی ارزیابی مدل‌های زبانی با دکتر یعقوب‌زاده و دکتر بحرک.' },
+      { id: 'bsc', when: '۲۰۱۹ – ۲۰۲۴', icon: 'school', title: 'کارشناسی علوم کامپیوتر', org: 'دانشگاه صنعتی شریف', desc: 'الگوریتم، سیستم‌ها و اولین تجربه‌های دستیار آموزشی.' },
+      { id: 'mahsan', when: '۲۰۲۲ – ۲۰۲۵', icon: 'code', title: 'توسعه‌دهنده‌ی بک‌اند', org: 'شرکت ماهسان', desc: 'جاوا و Spring روی یک محصول مدیریت هویت و دسترسی. اینجا بود که شیفته‌ی تست‌نویسی شدم.' },
+      { id: 'msc', when: '۲۰۲۴ – اکنون', icon: 'psychology', title: 'کارشناسی ارشد علوم داده', org: 'TeIAS', desc: 'پژوهش روی ارزیابی مدل‌های زبانی با دکتر یعقوب‌زاده و دکتر بحرک.' },
     ],
     teaching: 'بیش از ۸ ترم دستیار آموزشی در شریف و TeIAS؛ از جمله دستیار ارشد درس‌های الگوریتم، یادگیری ماشین و ساختمان داده.',
     skills: ['Python', 'PyTorch', 'ارزیابی LLM', 'DPO', 'آمار', 'Java', 'Spring Boot', 'Docker', 'R'],
@@ -268,6 +276,7 @@ window.SITE = {
       palette: 'رنگ‌بندی', custom: 'رنگ دلخواه', light: 'روشن', dark: 'تیره', close: 'بستن',
       switchTo: 'English', switchShort: 'EN', mode: 'روشن / تیره', rights: 'با حوصله ساخته شده',
       ask: 'از من بپرسید', typing: 'در حال نوشتن…', online: 'معمولاً زود جواب می‌دهد',
+      alongside: 'هم‌زمان با', studyWork: 'درس و کار هم‌زمان', together: 'هم‌زمان', today: 'امروز',
     },
   },
 };
