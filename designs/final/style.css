@@ -201,3 +201,4 @@ a.paper:hover .code-link .ms { transform: translateX(4px); }
 @keyframes write { 50% { transform: translate(-8px, 4px) rotate(-6deg); } }
 
 @media (max-width: 560px) { .gh-strip { padding: 18px; gap: 12px; } .gh-big { width: 30px; height: 30px; } }
+.bday { font-size: 18px; vertical-align: -3px; margin-inline-end: 6px; color: var(--tertiary); }

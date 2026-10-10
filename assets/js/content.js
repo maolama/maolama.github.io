@@ -7,6 +7,7 @@
 */
 window.SITE = {
   photo: 'assets/img/avatar.svg', // drawn developer illustration; replace with 'assets/img/photo.jpg' later
+  birthday: '2000-11-05',
   email: 'olama.mohammadali2000@gmail.com',
   github: 'https://github.com/maolama',
 

@@ -182,7 +182,7 @@
       </div>`;
 
     Site.init({
-      id: 'final', lang: 'en', lockTheme: true, theme: { h: 252, c: 0.13 }, icons: ['home_pin', 'join_inner', 'flag', 'chevron_right', 'north_east'],
+      id: 'final', lang: 'en', lockTheme: true, theme: { h: 252, c: 0.13 }, icons: ['cake', 'home_pin', 'join_inner', 'flag', 'chevron_right', 'north_east'],
 
       shell: (c, x) => `
         <header class="topbar">
@@ -363,7 +363,7 @@
               </article>`;
           };
           return `
-          ${x.head('journey', x.cvButtons())}
+          ${x.head('journey')}
           <section class="roadmap" id="road">
             <svg aria-hidden="true">
               <defs><clipPath id="reveal" clipPathUnits="userSpaceOnUse"><rect class="reveal-rect" x="-50" y="0" width="100000" height="0"/></clipPath></defs>
@@ -374,6 +374,7 @@
             <article class="stop card" data-birth="1">
               <p class="label-l when">${e(u.born)}</p>
               <h3 class="title-l">${e(c.born)}</h3>
+              <p class="body-m muted"><span class="ms bday">cake</span>${new Date(SITE.birthday + 'T00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
             </article>
             ${ps.map(card).join('')}
             <span class="now" aria-hidden="true"><span class="ms">flag</span><span class="label-m">${e(u.today)}</span></span>
