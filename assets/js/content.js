@@ -1,6 +1,6 @@
 /*
   All site content, in both languages. This is the only file you need to edit for text.
-  - Shared fields (photo, links, CV files, blog posts) are written once.
+  - Shared fields (photo, links, CV files, dates) are written once.
   - `icon` values are Material Symbols names: https://fonts.google.com/icons
   - Use **double asterisks** for bold text.
   - Items marked MOCK are placeholders to replace.
@@ -8,7 +8,7 @@
 window.SITE = {
   photo: 'https://picsum.photos/seed/olama-portrait/600/720', // MOCK: replace with 'assets/img/photo.jpg'
   email: 'olama.mohammadali2000@gmail.com',
-  github: 'https://github.com/mohammadolama',
+  github: 'https://github.com/maolama',
 
   cvs: [
     { id: 'academic', file: 'assets/cv-academic.pdf', icon: 'school' },
@@ -17,16 +17,17 @@ window.SITE = {
 
   socials: [
     { id: 'email', url: 'mailto:olama.mohammadali2000@gmail.com', en: 'Email', fa: 'ایمیل' },
-    { id: 'linkedin', url: 'https://www.linkedin.com/in/mohammad-ali-olama-2946b6253/', en: 'LinkedIn', fa: 'لینکدین' },
-    { id: 'scholar', url: 'https://scholar.google.com/', en: 'Google Scholar', fa: 'گوگل اسکالر' }, // TODO: your Scholar profile URL
-    { id: 'github', url: 'https://github.com/mohammadolama', en: 'GitHub', fa: 'گیت‌هاب' },
+    { id: 'linkedin', url: 'https://www.linkedin.com/in/mohammadali-olama/', en: 'LinkedIn', fa: 'لینکدین' },
+    { id: 'github', url: 'https://github.com/maolama', en: 'GitHub', fa: 'گیت‌هاب' },
+    // { id: 'scholar', url: 'https://scholar.google.com/citations?user=…', en: 'Google Scholar', fa: 'گوگل اسکالر' },
   ],
 
-  // Dates for the Journey timeline, keyed by journey `id`. Use 'YYYY' or 'YYYY-MM'; to: null means "ongoing".
+  // Dates for the Journey road, keyed by journey `id`. Use 'YYYY' or 'YYYY-MM'; to: null means "ongoing".
   timeline: {
     bsc: { from: '2019', to: '2024', kind: 'study' },
-    mahsan: { from: '2022-11', to: '2025-03', kind: 'work' },
+    hovika: { from: '2022-11', to: '2025-03', kind: 'work' },
     msc: { from: '2024', to: null, kind: 'study' },
+    moka: { from: '2025-10', to: null, kind: 'work' },
   },
 
   nav: [
@@ -43,109 +44,126 @@ window.SITE = {
     name: 'Mohammad Ali Olama',
     short: 'Mohammad Ali',
     initials: 'MA',
-    role: 'LLM researcher & developer',
+    role: 'LLM researcher & backend lead',
     location: 'Tehran, Iran',
     born: 'Shiraz, Iran',
     hello: "Hi, I'm Mohammad Ali",
     headline: 'I study how AI models judge other AI models, and why they seem to love long answers.',
-    intro: "I'm a data science master's student at TeIAS in Tehran, working on the evaluation of large language models. Before research pulled me in, I spent a few years building backend systems. Away from my desk, I'm usually reading, watching a film, or lost in a video game.",
-    roles: ['an LLM researcher', 'a data scientist', 'a backend developer', 'a bookworm', 'a gamer'],
+    intro: "I'm a data science master's student at TeIAS in Tehran, researching how large language models evaluate each other. By day I also lead a backend team at Mahsan. Away from my desk, I'm usually reading, watching a film, or lost in a video game.",
+    roles: ['an LLM researcher', 'a backend team lead', 'a data scientist', 'a bookworm', 'a gamer'],
     keywords: ['LLM evaluation', 'Data science', 'Books', 'Backend', 'Teaching', 'Films', 'Games', 'Travel'],
+    tags: [
+      { icon: 'balance', label: 'LLM evaluation' },
+      { icon: 'dns', label: 'Backend lead' },
+      { icon: 'auto_stories', label: 'Bookworm' },
+      { icon: 'sports_esports', label: 'Gamer' },
+    ],
 
     now: [
       { icon: 'menu_book', label: 'Reading', text: 'One Hundred Years of Solitude' }, // MOCK
-      { icon: 'science', label: 'Working on', text: 'My thesis: teaching LLMs to be concise' },
+      { icon: 'science', label: 'Working on', text: 'My thesis on bias in LLM judges' },
       { icon: 'sports_esports', label: 'Playing', text: 'Hollow Knight' }, // MOCK
     ],
 
     focus: [
       { icon: 'balance', title: 'Evaluating LLMs', desc: 'When an AI grades other AIs, is it fair? I look for the hidden biases, like a taste for longer answers.' },
-      { icon: 'terminal', title: 'Building software', desc: 'Three years as a backend developer taught me to love clean APIs and good tests.' },
-      { icon: 'co_present', title: 'Teaching', desc: '8+ semesters as a teaching assistant, from data structures to machine learning.' },
+      { icon: 'dns', title: 'Building software', desc: 'I lead a backend team working on a mobility-management platform: Java, Spring and lots of code review.' },
+      { icon: 'co_present', title: 'Teaching', desc: 'Since 2020 I have been a TA, often head TA, from data structures to machine learning.' },
     ],
 
     story: [
       'I was born in **Shiraz**, the city of poets and gardens, and now live in **Tehran**.',
-      'I studied computer science at Sharif University of Technology, where I fell for algorithms and started teaching as a TA. Alongside my studies I worked as a backend developer at Mahsan, building an identity and access management platform.',
-      "Today I'm doing my master's in data science at TeIAS. My research asks a simple question: when we use AI models to judge other AI models, can we trust the verdict?",
+      'I studied computer science at Sharif University of Technology, where I fell for algorithms and started teaching as a TA. Halfway through, I joined Mahsan as a backend developer and became the team’s testing nerd.',
+      "Today I'm doing my master's in data science at TeIAS, asking a simple question: when we use AI models to judge other AI models, can we trust the verdict? I also lead a small backend team at Mahsan.",
     ],
     funFact: 'Fun fact: my research is about AI models preferring long answers, so I try to keep mine short.',
 
     research: [
-      { status: 'In progress', tag: 'Thesis', title: 'Does training for conciseness reduce length bias in LLM judges?', desc: "My master's thesis. I train a model to prefer short answers and test whether it becomes a fairer judge.", url: 'https://github.com/mohammadolama' },
-      { status: '2025', tag: 'Co-author', title: 'Reflect or Shift?', desc: "We simulated 115 users with LLMs to see whether recommender systems quietly change people's tastes.", url: 'https://github.com/mohammadolama' },
-      { status: '2025', tag: 'Benchmark', title: 'Verbosity bias in Persian LLMs', desc: 'A Persian benchmark showing that models prefer longer answers, even when they add nothing new.', url: 'https://github.com/mohammadolama' },
+      { status: 'In progress', tag: 'Thesis', title: 'How training choices shape the biases of LLM judges', desc: 'Does a model trained to prefer concise answers become a less length-biased judge? Fine-tuning Qwen2.5 with DPO to find out.', url: null },
+      { status: 'Under review · WSDM 2027', tag: 'Paper', title: 'Reflect or Shift?', desc: "115 LLM-simulated users meet four recommenders. Do recommenders quietly reshape people's tastes? (Equal-contribution co-author.)", url: null },
+      { status: '2025', tag: 'Benchmark', title: 'Verbosity bias in LLM judges for Persian', desc: 'A 367-prompt bilingual benchmark: judges prefer longer answers even when the extra words add nothing.', url: 'https://github.com/maolama/verbosity-bias' },
     ],
     projects: [
-      { icon: 'image_search', title: 'Image Processing Suite', desc: 'Classic computer-vision algorithms from papers: template matching, hybrid images, texture synthesis.', tags: ['Python', 'OpenCV'], url: 'https://github.com/mohammadolama' },
-      { icon: 'health_and_safety', title: 'Breast Cancer Detection', desc: 'Comparing random forests and neural networks on medical images.', tags: ['TensorFlow', 'scikit-learn'], url: 'https://github.com/mohammadolama' },
-      { icon: 'apartment', title: 'Lyon Student Housing', desc: 'A small statistical model that scores flats by price, distance and transit.', tags: ['R'], url: 'https://github.com/mohammadolama' },
-      { icon: 'grid_view', title: 'Connect Four AI', desc: 'A Connect Four player using minimax with alpha-beta pruning.', tags: ['Python'], url: 'https://github.com/mohammadolama' },
+      { kind: 'project', icon: 'tune', title: 'LLM fine-tuning & alignment', desc: 'LoRA fine-tuning, DPO alignment and an LLM-as-a-judge study, from the graduate LLM course.', tags: ['PEFT', 'TRL', 'Unsloth'], url: 'https://github.com/maolama/LLM-Course-Spring2025' },
+      { kind: 'project', icon: 'database', title: 'Text-to-SQL agents', desc: 'A single prompt vs. a LangGraph router vs. a ReAct agent on the BIRD benchmark.', tags: ['LangGraph', 'Gemini'], url: 'https://github.com/maolama/LLM-Course-Spring2025' },
+      { kind: 'project', icon: 'model_training', title: 'Instruction fine-tuning, compared', desc: 'Prompt tuning vs. LoRA vs. partial fine-tuning of Gemma-2-2B, without ready-made pipelines.', tags: ['PyTorch', 'PEFT'], url: 'https://github.com/maolama/DeepLearning-Course-Spring2025' },
+      { kind: 'project', icon: 'keyboard', title: 'Persian NLP toolkit', desc: 'Typo-tolerant Persian city autocomplete (even with the wrong keyboard layout) and topic classification.', tags: ['scikit-learn', 'Hazm'], url: 'https://github.com/maolama/MachineLearning-Course-Fall2024' },
+      { kind: 'project', icon: 'apartment', title: 'Lyon housing analysis', desc: 'Scraping, EDA and price prediction for student housing in Lyon.', tags: ['Python', 'R'], url: 'https://github.com/maolama/AppliedDataScience-Course-Fall2024' },
+      { kind: 'fun', icon: 'translate', title: 'AI vocabulary builder', desc: 'A Google Sheet that fills itself with definitions and examples via Gemini, with quizzes and spaced repetition.', tags: ['Apps Script', 'Gemini'], url: 'https://github.com/maolama/google-sheets-ai-vocabulary-builder' },
+      { kind: 'fun', icon: 'chess', title: 'Hex Chess', desc: 'Chess on a hexagonal board, because regular chess was too easy.', tags: ['Java'], url: 'https://github.com/maolama/Hex_Chess' },
+      { kind: 'fun', icon: 'playing_cards', title: 'Hearthstone clone', desc: 'A card-battle game inspired by Hearthstone.', tags: ['Java'], url: 'https://github.com/maolama/Hearthstone' },
+      { kind: 'fun', icon: 'grid_view', title: 'Connect Four AI', desc: 'Minimax with alpha-beta pruning. It beats me regularly.', tags: ['Python'], url: 'https://github.com/maolama/ConnectFour' },
+      { kind: 'fun', icon: 'view_comfy_alt', title: 'Tetris & 2048', desc: 'Classic puzzle games, rebuilt from scratch in my first year.', tags: ['Java'], url: 'https://github.com/maolama/Tetris' },
     ],
 
     journey: [
-      { id: 'bsc', when: '2019 – 2024', icon: 'school', title: 'B.Sc. Computer Science', org: 'Sharif University of Technology', desc: 'Algorithms, systems, and my first teaching jobs.' },
-      { id: 'mahsan', when: '2022 – 2025', icon: 'code', title: 'Backend Developer', org: 'Mahsan', desc: 'Java and Spring on an identity and access management product. I also became the team’s testing nerd.' },
-      { id: 'msc', when: '2024 – now', icon: 'psychology', title: 'M.Sc. Data Science', org: 'TeIAS', desc: 'Research on LLM evaluation with Prof. Yaghoobzadeh and Prof. Bahrak.' },
+      { id: 'bsc', when: '2019 – 2024', icon: 'school', title: 'B.Sc. Computer Science', org: 'Sharif University of Technology', desc: 'Algorithms, systems, and a growing love for machine learning.', url: 'https://www.sharif.edu/' },
+      { id: 'hovika', when: 'Nov 2022 – Mar 2025', icon: 'code', title: 'Software Developer', org: 'Mahsan · Hovika (IAM)', desc: 'Backend for an identity and access management product. Raised test coverage from ~20% to 70%+.', url: null },
+      { id: 'msc', when: '2024 – 2027', icon: 'psychology', title: 'M.Sc. Data Science', org: 'TeIAS', desc: 'Research on LLM evaluation with Prof. Yaghoobzadeh and Prof. Bahrak. Graduate scholarship.', url: 'https://teias.institute/' },
+      { id: 'moka', when: 'Oct 2025 – now', icon: 'groups', title: 'Backend Team Lead', org: 'Mahsan · Moka (EMM)', desc: 'Leading three senior developers: multi-tenancy, a big Spring Boot 4 / Java 25 upgrade, admin notifications.', url: null },
     ],
-    teaching: 'Teaching assistant for 8+ semesters at Sharif and TeIAS, including head TA for Algorithms, Machine Learning and Data Structures.',
-    skills: ['Python', 'PyTorch', 'LLM evaluation', 'DPO', 'Statistics', 'Java', 'Spring Boot', 'Docker', 'R'],
+    teaching: 'Teaching assistant since 2020 at Sharif and TeIAS: head TA for Algorithms, Machine Learning, Mathematics for Data Science and Data Structures, and TA for Large Language Models.',
+    awards: [
+      { icon: 'emoji_events', text: 'Top 0.3% (458th of 164,278) in Iran’s national university entrance exam' },
+      { icon: 'workspace_premium', text: 'TeIAS graduate scholarship and tuition waiver' },
+    ],
+    skills: ['LLM-as-a-judge', 'DPO', 'PyTorch', 'Transformers', 'LangGraph', 'Python', 'Java', 'Spring Boot', 'PostgreSQL', 'Elasticsearch', 'Docker'],
     languages: [{ k: 'Persian', v: 'Native' }, { k: 'English', v: 'Fluent' }],
 
     hobbies: {
       books: [ // MOCK
-        { title: 'One Hundred Years of Solitude', by: 'Gabriel García Márquez' },
-        { title: 'The Blind Owl', by: 'Sadegh Hedayat' },
-        { title: 'Dune', by: 'Frank Herbert' },
-        { title: 'Sapiens', by: 'Yuval Noah Harari' },
-        { title: 'The Little Prince', by: 'Antoine de Saint-Exupéry' },
+        { title: 'One Hundred Years of Solitude', by: 'Gabriel García Márquez', url: 'https://www.goodreads.com/search?q=One+Hundred+Years+of+Solitude' },
+        { title: 'The Blind Owl', by: 'Sadegh Hedayat', url: 'https://www.goodreads.com/search?q=The+Blind+Owl+Hedayat' },
+        { title: 'Dune', by: 'Frank Herbert', url: 'https://www.goodreads.com/search?q=Dune+Frank+Herbert' },
+        { title: 'Sapiens', by: 'Yuval Noah Harari', url: 'https://www.goodreads.com/search?q=Sapiens+Harari' },
+        { title: 'The Little Prince', by: 'Antoine de Saint-Exupéry', url: 'https://www.goodreads.com/search?q=The+Little+Prince' },
       ],
       movies: [ // MOCK
-        { title: 'Interstellar', year: 2014 },
-        { title: 'A Separation', year: 2011 },
-        { title: 'Spirited Away', year: 2001 },
-        { title: 'The Shawshank Redemption', year: 1994 },
-        { title: 'Inception', year: 2010 },
+        { title: 'Interstellar', year: 2014, url: 'https://www.imdb.com/title/tt0816692/' },
+        { title: 'A Separation', year: 2011, url: 'https://www.imdb.com/title/tt1832382/' },
+        { title: 'Spirited Away', year: 2001, url: 'https://www.imdb.com/title/tt0245429/' },
+        { title: 'The Shawshank Redemption', year: 1994, url: 'https://www.imdb.com/title/tt0111161/' },
+        { title: 'Inception', year: 2010, url: 'https://www.imdb.com/title/tt1375666/' },
       ],
       games: [ // MOCK
-        { title: 'The Witcher 3', meta: 'RPG' },
-        { title: 'Red Dead Redemption 2', meta: 'Adventure' },
-        { title: 'Hollow Knight', meta: 'Metroidvania' },
-        { title: 'Portal 2', meta: 'Puzzle' },
-        { title: 'Civilization VI', meta: 'Strategy' },
+        { title: 'The Witcher 3', meta: 'RPG', url: 'https://store.steampowered.com/app/292030/' },
+        { title: 'Red Dead Redemption 2', meta: 'Adventure', url: 'https://store.steampowered.com/app/1174180/' },
+        { title: 'Hollow Knight', meta: 'Metroidvania', url: 'https://store.steampowered.com/app/367520/' },
+        { title: 'Portal 2', meta: 'Puzzle', url: 'https://store.steampowered.com/app/620/' },
+        { title: 'Civilization VI', meta: 'Strategy', url: 'https://store.steampowered.com/app/289070/' },
       ],
       travel: [ // MOCK
-        { place: 'Shiraz', note: 'Where I was born' },
-        { place: 'Tehran', note: 'Home now' },
-        { place: 'Isfahan', note: 'Those bridges' },
-        { place: 'Yazd', note: 'Wind-catchers' },
+        { place: 'Shiraz', note: 'Where I was born', url: 'https://en.wikipedia.org/wiki/Shiraz' },
+        { place: 'Tehran', note: 'Home now', url: 'https://en.wikipedia.org/wiki/Tehran' },
+        { place: 'Isfahan', note: 'Those bridges', url: 'https://en.wikipedia.org/wiki/Isfahan' },
+        { place: 'Yazd', note: 'Wind-catchers', url: 'https://en.wikipedia.org/wiki/Yazd' },
         { place: 'Next?', note: 'Suggestions welcome', next: true },
       ],
     },
 
-    posts: [], // Blog posts will go here
+    posts: [],
     topics: ['Why AI judges love long answers', 'From Java backend to LLM research', 'Books that changed how I think'],
 
     chat: [
       { q: 'What do you research?', a: 'How LLMs judge other LLMs. Spoiler: they are suckers for long answers, even when the extra words add nothing.' },
-      { q: 'What did you do before?', a: 'I was a backend developer at Mahsan for a few years, mostly Java and Spring. I still have a soft spot for a good test suite.' },
+      { q: 'What do you do at work?', a: 'I lead a backend team at Mahsan, mostly Java and Spring. I still have a soft spot for a good test suite.' },
       { q: 'What do you do for fun?', a: 'Books first, always. Then films, video games, and travelling whenever I get the chance.' },
       { q: 'Where are you from?', a: 'I was born in Shiraz and now live in Tehran.' },
-      { q: 'How can I reach you?', a: 'Email is best. You can also find me on LinkedIn, Google Scholar and GitHub.' },
+      { q: 'How can I reach you?', a: 'Email is best. You can also find me on LinkedIn and GitHub.' },
     ],
 
     ui: {
       nav: { home: 'Home', about: 'About', work: 'Work', journey: 'Journey', blog: 'Blog', contact: 'Contact' },
       sub: {
-        about: 'The person behind the papers.',
-        work: 'Research I am doing and things I have built.',
-        journey: 'Where I have studied, worked and taught, in short.',
+        about: 'The person behind the papers and the pull requests.',
+        work: 'Research I am doing, and things I have built (some just for fun).',
+        journey: 'Where I have studied and worked. Scroll to travel the road.',
         blog: 'Notes and essays. Coming soon.',
         contact: 'Say hello. I usually reply within a few days.',
       },
       focus: 'What I do', now: 'Lately', loves: 'Things I love', languages: 'Languages',
-      research: 'Research', projects: 'Projects', all: 'All', moreOnGithub: 'More on GitHub',
-      teaching: 'Teaching', toolbox: 'Toolbox', cv: { academic: 'Academic CV', developer: 'Developer CV' },
+      research: 'Research', projects: 'Projects', fun: 'Just for fun', all: 'All', moreOnGithub: 'More on GitHub',
+      teaching: 'Teaching', toolbox: 'Toolbox', awards: 'Honours', cv: { academic: 'Academic CV', developer: 'Developer CV' },
       hobby: { books: 'Books', movies: 'Movies', games: 'Games', travel: 'Travel' },
       soonTitle: 'The blog is warming up', soonText: 'I have a few posts brewing. Here is what is coming:',
       contactTitle: "Let's talk", contactText: 'Research collaboration, a job, a book recommendation, or just a hello. My inbox is open.',
@@ -156,6 +174,7 @@ window.SITE = {
       switchTo: 'فارسی', switchShort: 'فا', mode: 'Light / dark', rights: 'Made with care',
       ask: 'Ask me something', typing: 'typing…', online: 'Usually replies fast',
       alongside: 'Alongside', studyWork: 'Studying & working', together: 'At the same time', today: 'Today',
+      code: 'Code', open: 'Open', explore: 'Explore',
     },
   },
 
@@ -164,82 +183,99 @@ window.SITE = {
     name: 'محمدعلی علما',
     short: 'محمدعلی',
     initials: 'مع',
-    role: 'پژوهشگر مدل‌های زبانی و توسعه‌دهنده',
+    role: 'پژوهشگر مدل‌های زبانی و سرپرست تیم بک‌اند',
     location: 'تهران',
     born: 'شیراز',
     hello: 'سلام، من محمدعلی هستم',
     headline: 'پژوهشم درباره‌ی این است که مدل‌های هوش مصنوعی چطور پاسخ مدل‌های دیگر را داوری می‌کنند، و چرا انگار جواب‌های طولانی را بیشتر می‌پسندند.',
-    intro: 'دانشجوی کارشناسی ارشد علوم داده در مؤسسه‌ی مطالعات پیشرفته‌ی تهران (TeIAS) هستم و روی ارزیابی مدل‌های زبانی بزرگ کار می‌کنم. قبل از اینکه پژوهش من را جذب کند، چند سالی توسعه‌دهنده‌ی بک‌اند بودم. وقتی پشت میزم نیستم، احتمالاً مشغول کتاب خواندن، فیلم دیدن یا بازی‌ام.',
-    roles: ['پژوهشگر مدل‌های زبانی', 'دانشمند داده', 'توسعه‌دهنده‌ی بک‌اند', 'عاشق کتاب', 'اهل بازی'],
+    intro: 'دانشجوی کارشناسی ارشد علوم داده در مؤسسه‌ی مطالعات پیشرفته‌ی تهران (TeIAS) هستم و درباره‌ی اینکه مدل‌های زبانی بزرگ چطور یکدیگر را ارزیابی می‌کنند پژوهش می‌کنم. هم‌زمان سرپرست یک تیم بک‌اند در شرکت ماهسان هستم. وقتی پشت میزم نیستم، احتمالاً مشغول کتاب خواندن، فیلم دیدن یا بازی‌ام.',
+    roles: ['پژوهشگر مدل‌های زبانی', 'سرپرست تیم بک‌اند', 'دانشمند داده', 'عاشق کتاب', 'اهل بازی'],
     keywords: ['ارزیابی مدل‌های زبانی', 'علوم داده', 'کتاب', 'بک‌اند', 'تدریس', 'سینما', 'بازی', 'سفر'],
+    tags: [
+      { icon: 'balance', label: 'ارزیابی مدل‌های زبانی' },
+      { icon: 'dns', label: 'سرپرست بک‌اند' },
+      { icon: 'auto_stories', label: 'کتاب‌خوان' },
+      { icon: 'sports_esports', label: 'اهل بازی' },
+    ],
 
     now: [
       { icon: 'menu_book', label: 'در حال خواندن', text: 'صد سال تنهایی' },
-      { icon: 'science', label: 'مشغول کار روی', text: 'پایان‌نامه‌ام: آموزش کوتاه‌نویسی به مدل‌های زبانی' },
+      { icon: 'science', label: 'مشغول کار روی', text: 'پایان‌نامه‌ام درباره‌ی سوگیری داورهای مدل زبانی' },
       { icon: 'sports_esports', label: 'در حال بازی', text: 'Hollow Knight' },
     ],
 
     focus: [
       { icon: 'balance', title: 'ارزیابی مدل‌های زبانی', desc: 'وقتی یک هوش مصنوعی به پاسخ‌های هوش مصنوعی دیگری نمره می‌دهد، آیا منصف است؟ دنبال سوگیری‌های پنهانش می‌گردم؛ مثل علاقه به جواب‌های طولانی‌تر.' },
-      { icon: 'terminal', title: 'ساختن نرم‌افزار', desc: 'سه سال توسعه‌ی بک‌اند به من یاد داد APIهای تمیز و تست‌های خوب را دوست داشته باشم.' },
-      { icon: 'co_present', title: 'تدریس', desc: 'بیش از ۸ ترم دستیار آموزشی بوده‌ام؛ از ساختمان داده تا یادگیری ماشین.' },
+      { icon: 'dns', title: 'ساختن نرم‌افزار', desc: 'سرپرست یک تیم بک‌اند روی یک پلتفرم مدیریت دستگاه‌های همراه هستم: جاوا، Spring و کلی بازبینی کد.' },
+      { icon: 'co_present', title: 'تدریس', desc: 'از ۱۳۹۹ دستیار آموزشی و اغلب دستیار ارشد بوده‌ام؛ از ساختمان داده تا یادگیری ماشین.' },
     ],
 
     story: [
       'در **شیراز**، شهر شعر و باغ، به دنیا آمده‌ام و حالا در **تهران** زندگی می‌کنم.',
-      'کارشناسی علوم کامپیوتر را در دانشگاه صنعتی شریف خواندم؛ همان‌جا عاشق الگوریتم‌ها شدم و دستیار آموزشی شدم. هم‌زمان با درس، در شرکت ماهسان توسعه‌دهنده‌ی بک‌اند بودم و روی یک سامانه‌ی مدیریت هویت و دسترسی کار می‌کردم.',
-      'حالا دانشجوی کارشناسی ارشد علوم داده در TeIAS هستم. سؤال اصلی پژوهشم ساده است: وقتی از مدل‌های هوش مصنوعی برای داوری مدل‌های دیگر استفاده می‌کنیم، می‌شود به حکمشان اعتماد کرد؟',
+      'کارشناسی علوم کامپیوتر را در دانشگاه صنعتی شریف خواندم؛ همان‌جا عاشق الگوریتم‌ها شدم و دستیار آموزشی شدم. وسط همین دوره به شرکت ماهسان پیوستم و توسعه‌دهنده‌ی بک‌اند شدم؛ همان‌جا بود که شیفته‌ی تست‌نویسی شدم.',
+      'حالا دانشجوی کارشناسی ارشد علوم داده در TeIAS هستم و دنبال جواب یک سؤال ساده‌ام: وقتی از مدل‌های هوش مصنوعی برای داوری مدل‌های دیگر استفاده می‌کنیم، می‌شود به حکمشان اعتماد کرد؟ هم‌زمان سرپرست یک تیم کوچک بک‌اند در ماهسان هستم.',
     ],
     funFact: 'نکته‌ی جالب: پژوهشم درباره‌ی علاقه‌ی مدل‌ها به جواب‌های طولانی است؛ برای همین سعی می‌کنم جواب‌های خودم را کوتاه نگه دارم.',
 
     research: [
-      { status: 'در حال انجام', tag: 'پایان‌نامه', title: 'آیا آموزش برای کوتاه‌نویسی، سوگیری طول را در داورهای مدل زبانی کم می‌کند؟', desc: 'پایان‌نامه‌ی ارشدم. مدلی را آموزش می‌دهم که جواب‌های کوتاه را ترجیح دهد و بررسی می‌کنم آیا داور منصف‌تری می‌شود.', url: 'https://github.com/mohammadolama' },
-      { status: '۲۰۲۵', tag: 'هم‌نویسنده', title: 'بازتاب یا جابه‌جایی؟', desc: 'با مدل‌های زبانی ۱۱۵ کاربر شبیه‌سازی کردیم تا ببینیم آیا سامانه‌های پیشنهاددهنده بی‌صدا سلیقه‌ی آدم‌ها را تغییر می‌دهند.', url: 'https://github.com/mohammadolama' },
-      { status: '۲۰۲۵', tag: 'بنچمارک', title: 'سوگیری پرگویی در مدل‌های زبانی فارسی', desc: 'یک بنچمارک فارسی که نشان می‌دهد مدل‌ها جواب‌های طولانی‌تر را ترجیح می‌دهند، حتی وقتی چیز تازه‌ای اضافه نمی‌کنند.', url: 'https://github.com/mohammadolama' },
+      { status: 'در حال انجام', tag: 'پایان‌نامه', title: 'انتخاب‌های آموزشی چطور سوگیری داورهای مدل زبانی را شکل می‌دهند', desc: 'آیا مدلی که برای ترجیح جواب‌های کوتاه آموزش دیده، داور کم‌سوگیری‌تری می‌شود؟ با تنظیم دقیق Qwen2.5 به روش DPO دنبال جوابم.', url: null },
+      { status: 'در حال داوری · WSDM 2027', tag: 'مقاله', title: 'بازتاب یا جابه‌جایی؟', desc: '۱۱۵ کاربر شبیه‌سازی‌شده با مدل زبانی با چهار سامانه‌ی پیشنهاددهنده روبه‌رو می‌شوند. آیا این سامانه‌ها بی‌صدا سلیقه‌ی آدم‌ها را تغییر می‌دهند؟ (نویسنده با سهم برابر)', url: null },
+      { status: '۲۰۲۵', tag: 'بنچمارک', title: 'سوگیری پرگویی در داورهای مدل زبانی برای فارسی', desc: 'یک بنچمارک دوزبانه با ۳۶۷ پرسش: داورها جواب‌های طولانی‌تر را ترجیح می‌دهند، حتی وقتی کلمه‌های اضافه چیزی اضافه نمی‌کنند.', url: 'https://github.com/maolama/verbosity-bias' },
     ],
     projects: [
-      { icon: 'image_search', title: 'مجموعه‌ی پردازش تصویر', desc: 'پیاده‌سازی الگوریتم‌های کلاسیک بینایی ماشین از روی مقاله‌ها: تطبیق الگو، تصاویر ترکیبی و سنتز بافت.', tags: ['Python', 'OpenCV'], url: 'https://github.com/mohammadolama' },
-      { icon: 'health_and_safety', title: 'تشخیص سرطان سینه', desc: 'مقایسه‌ی جنگل تصادفی و شبکه‌ی عصبی روی تصاویر پزشکی.', tags: ['TensorFlow', 'scikit-learn'], url: 'https://github.com/mohammadolama' },
-      { icon: 'apartment', title: 'خوابگاه دانشجویی در لیون', desc: 'یک مدل آماری کوچک که خانه‌ها را بر اساس قیمت، فاصله و دسترسی به حمل‌ونقل امتیاز می‌دهد.', tags: ['R'], url: 'https://github.com/mohammadolama' },
-      { icon: 'grid_view', title: 'هوش مصنوعی Connect Four', desc: 'بازیکنی برای Connect Four با الگوریتم مینیمکس و هرس آلفا-بتا.', tags: ['Python'], url: 'https://github.com/mohammadolama' },
+      { kind: 'project', icon: 'tune', title: 'تنظیم دقیق و هم‌ترازی مدل زبانی', desc: 'تنظیم دقیق با LoRA، هم‌ترازی با DPO و یک مطالعه‌ی داوری با مدل زبانی، از درس مدل‌های زبانی بزرگ.', tags: ['PEFT', 'TRL', 'Unsloth'], url: 'https://github.com/maolama/LLM-Course-Spring2025' },
+      { kind: 'project', icon: 'database', title: 'عامل‌های تبدیل متن به SQL', desc: 'مقایسه‌ی یک پرامپت ساده، یک مسیریاب LangGraph و یک عامل ReAct روی بنچمارک BIRD.', tags: ['LangGraph', 'Gemini'], url: 'https://github.com/maolama/LLM-Course-Spring2025' },
+      { kind: 'project', icon: 'model_training', title: 'مقایسه‌ی روش‌های تنظیم دستوری', desc: 'Prompt tuning در برابر LoRA و تنظیم دقیق جزئی Gemma-2-2B، بدون استفاده از پایپ‌لاین‌های آماده.', tags: ['PyTorch', 'PEFT'], url: 'https://github.com/maolama/DeepLearning-Course-Spring2025' },
+      { kind: 'project', icon: 'keyboard', title: 'ابزارهای پردازش زبان فارسی', desc: 'تکمیل خودکار نام شهرها با تحمل غلط تایپی (حتی با زبان اشتباه صفحه‌کلید) و دسته‌بندی موضوعی متن.', tags: ['scikit-learn', 'Hazm'], url: 'https://github.com/maolama/MachineLearning-Course-Fall2024' },
+      { kind: 'project', icon: 'apartment', title: 'تحلیل مسکن دانشجویی در لیون', desc: 'جمع‌آوری داده، تحلیل اکتشافی و پیش‌بینی قیمت مسکن دانشجویی در لیون.', tags: ['Python', 'R'], url: 'https://github.com/maolama/AppliedDataScience-Course-Fall2024' },
+      { kind: 'fun', icon: 'translate', title: 'واژه‌ساز هوشمند', desc: 'یک گوگل‌شیت که با Gemini خودش تعریف و مثال لغت‌ها را پر می‌کند؛ با آزمونک و مرور فاصله‌دار.', tags: ['Apps Script', 'Gemini'], url: 'https://github.com/maolama/google-sheets-ai-vocabulary-builder' },
+      { kind: 'fun', icon: 'chess', title: 'شطرنج شش‌ضلعی', desc: 'شطرنج روی صفحه‌ی شش‌ضلعی؛ چون شطرنج معمولی زیادی ساده بود.', tags: ['Java'], url: 'https://github.com/maolama/Hex_Chess' },
+      { kind: 'fun', icon: 'playing_cards', title: 'بازی کارتی شبیه Hearthstone', desc: 'یک بازی نبرد کارتی با الهام از Hearthstone.', tags: ['Java'], url: 'https://github.com/maolama/Hearthstone' },
+      { kind: 'fun', icon: 'grid_view', title: 'هوش مصنوعی Connect Four', desc: 'مینیمکس با هرس آلفا-بتا. مرتب من را می‌برد.', tags: ['Python'], url: 'https://github.com/maolama/ConnectFour' },
+      { kind: 'fun', icon: 'view_comfy_alt', title: 'تتریس و ۲۰۴۸', desc: 'بازی‌های پازلی کلاسیک که سال اول از صفر ساختم.', tags: ['Java'], url: 'https://github.com/maolama/Tetris' },
     ],
 
     journey: [
-      { id: 'bsc', when: '۲۰۱۹ – ۲۰۲۴', icon: 'school', title: 'کارشناسی علوم کامپیوتر', org: 'دانشگاه صنعتی شریف', desc: 'الگوریتم، سیستم‌ها و اولین تجربه‌های دستیار آموزشی.' },
-      { id: 'mahsan', when: '۲۰۲۲ – ۲۰۲۵', icon: 'code', title: 'توسعه‌دهنده‌ی بک‌اند', org: 'شرکت ماهسان', desc: 'جاوا و Spring روی یک محصول مدیریت هویت و دسترسی. اینجا بود که شیفته‌ی تست‌نویسی شدم.' },
-      { id: 'msc', when: '۲۰۲۴ – اکنون', icon: 'psychology', title: 'کارشناسی ارشد علوم داده', org: 'TeIAS', desc: 'پژوهش روی ارزیابی مدل‌های زبانی با دکتر یعقوب‌زاده و دکتر بحرک.' },
+      { id: 'bsc', when: '۲۰۱۹ – ۲۰۲۴', icon: 'school', title: 'کارشناسی علوم کامپیوتر', org: 'دانشگاه صنعتی شریف', desc: 'الگوریتم، سیستم‌ها و علاقه‌ای که کم‌کم به یادگیری ماشین پیدا کردم.', url: 'https://www.sharif.edu/' },
+      { id: 'hovika', when: 'آبان ۱۴۰۱ – اسفند ۱۴۰۳', icon: 'code', title: 'توسعه‌دهنده‌ی نرم‌افزار', org: 'ماهسان · هویکا (مدیریت هویت و دسترسی)', desc: 'بک‌اند یک محصول مدیریت هویت و دسترسی. پوشش تست را از حدود ۲۰٪ به بیش از ۷۰٪ رساندیم.', url: null },
+      { id: 'msc', when: '۲۰۲۴ – ۲۰۲۷', icon: 'psychology', title: 'کارشناسی ارشد علوم داده', org: 'TeIAS', desc: 'پژوهش روی ارزیابی مدل‌های زبانی با دکتر یعقوب‌زاده و دکتر بحرک. با بورسیه‌ی تحصیلی.', url: 'https://teias.institute/' },
+      { id: 'moka', when: 'مهر ۱۴۰۴ – اکنون', icon: 'groups', title: 'سرپرست تیم بک‌اند', org: 'ماهسان · موکا (مدیریت دستگاه‌های همراه)', desc: 'سرپرستی سه توسعه‌دهنده‌ی ارشد: چندمستأجری، ارتقای بزرگ به Spring Boot 4 و Java 25، و سامانه‌ی اعلان مدیران.', url: null },
     ],
-    teaching: 'بیش از ۸ ترم دستیار آموزشی در شریف و TeIAS؛ از جمله دستیار ارشد درس‌های الگوریتم، یادگیری ماشین و ساختمان داده.',
-    skills: ['Python', 'PyTorch', 'ارزیابی LLM', 'DPO', 'آمار', 'Java', 'Spring Boot', 'Docker', 'R'],
+    teaching: 'از ۱۳۹۹ دستیار آموزشی در شریف و TeIAS: دستیار ارشد درس‌های الگوریتم، یادگیری ماشین، ریاضیات علوم داده و ساختمان داده، و دستیار درس مدل‌های زبانی بزرگ.',
+    awards: [
+      { icon: 'emoji_events', text: 'رتبه‌ی ۴۵۸ از ۱۶۴٬۲۷۸ نفر (۰٫۳٪ برتر) در کنکور سراسری ریاضی و فنی' },
+      { icon: 'workspace_premium', text: 'بورسیه‌ی تحصیلی و معافیت شهریه‌ی TeIAS' },
+    ],
+    skills: ['LLM-as-a-judge', 'DPO', 'PyTorch', 'Transformers', 'LangGraph', 'Python', 'Java', 'Spring Boot', 'PostgreSQL', 'Elasticsearch', 'Docker'],
     languages: [{ k: 'فارسی', v: 'زبان مادری' }, { k: 'انگلیسی', v: 'مسلط' }],
 
     hobbies: {
       books: [
-        { title: 'صد سال تنهایی', by: 'گابریل گارسیا مارکز' },
-        { title: 'بوف کور', by: 'صادق هدایت' },
-        { title: 'تلماسه', by: 'فرانک هربرت' },
-        { title: 'انسان خردمند', by: 'یووال نوح هراری' },
-        { title: 'شازده کوچولو', by: 'آنتوان دو سنت‌اگزوپری' },
+        { title: 'صد سال تنهایی', by: 'گابریل گارسیا مارکز', url: 'https://www.goodreads.com/search?q=One+Hundred+Years+of+Solitude' },
+        { title: 'بوف کور', by: 'صادق هدایت', url: 'https://www.goodreads.com/search?q=The+Blind+Owl+Hedayat' },
+        { title: 'تلماسه', by: 'فرانک هربرت', url: 'https://www.goodreads.com/search?q=Dune+Frank+Herbert' },
+        { title: 'انسان خردمند', by: 'یووال نوح هراری', url: 'https://www.goodreads.com/search?q=Sapiens+Harari' },
+        { title: 'شازده کوچولو', by: 'آنتوان دو سنت‌اگزوپری', url: 'https://www.goodreads.com/search?q=The+Little+Prince' },
       ],
       movies: [
-        { title: 'میان‌ستاره‌ای', year: 2014 },
-        { title: 'جدایی نادر از سیمین', year: 2011 },
-        { title: 'شهر اشباح', year: 2001 },
-        { title: 'رستگاری در شاوشنک', year: 1994 },
-        { title: 'تلقین', year: 2010 },
+        { title: 'میان‌ستاره‌ای', year: 2014, url: 'https://www.imdb.com/title/tt0816692/' },
+        { title: 'جدایی نادر از سیمین', year: 2011, url: 'https://www.imdb.com/title/tt1832382/' },
+        { title: 'شهر اشباح', year: 2001, url: 'https://www.imdb.com/title/tt0245429/' },
+        { title: 'رستگاری در شاوشنک', year: 1994, url: 'https://www.imdb.com/title/tt0111161/' },
+        { title: 'تلقین', year: 2010, url: 'https://www.imdb.com/title/tt1375666/' },
       ],
       games: [
-        { title: 'The Witcher 3', meta: 'نقش‌آفرینی' },
-        { title: 'Red Dead Redemption 2', meta: 'ماجرایی' },
-        { title: 'Hollow Knight', meta: 'مترویدوانیا' },
-        { title: 'Portal 2', meta: 'معمایی' },
-        { title: 'Civilization VI', meta: 'استراتژی' },
+        { title: 'The Witcher 3', meta: 'نقش‌آفرینی', url: 'https://store.steampowered.com/app/292030/' },
+        { title: 'Red Dead Redemption 2', meta: 'ماجرایی', url: 'https://store.steampowered.com/app/1174180/' },
+        { title: 'Hollow Knight', meta: 'مترویدوانیا', url: 'https://store.steampowered.com/app/367520/' },
+        { title: 'Portal 2', meta: 'معمایی', url: 'https://store.steampowered.com/app/620/' },
+        { title: 'Civilization VI', meta: 'استراتژی', url: 'https://store.steampowered.com/app/289070/' },
       ],
       travel: [
-        { place: 'شیراز', note: 'زادگاهم' },
-        { place: 'تهران', note: 'خانه‌ی فعلی' },
-        { place: 'اصفهان', note: 'آن پل‌ها' },
-        { place: 'یزد', note: 'بادگیرها' },
+        { place: 'شیراز', note: 'زادگاهم', url: 'https://fa.wikipedia.org/wiki/شیراز' },
+        { place: 'تهران', note: 'خانه‌ی فعلی', url: 'https://fa.wikipedia.org/wiki/تهران' },
+        { place: 'اصفهان', note: 'آن پل‌ها', url: 'https://fa.wikipedia.org/wiki/اصفهان' },
+        { place: 'یزد', note: 'بادگیرها', url: 'https://fa.wikipedia.org/wiki/یزد' },
         { place: 'مقصد بعدی؟', note: 'پیشنهاد دارید؟', next: true },
       ],
     },
@@ -249,24 +285,24 @@ window.SITE = {
 
     chat: [
       { q: 'روی چه چیزی پژوهش می‌کنی؟', a: 'اینکه مدل‌های زبانی چطور مدل‌های دیگر را داوری می‌کنند. لو بدهم؟ دلشان برای جواب‌های طولانی ضعف می‌رود، حتی وقتی کلمه‌های اضافه چیزی به جواب اضافه نمی‌کنند.' },
-      { q: 'قبلاً چه کار می‌کردی؟', a: 'چند سال در شرکت ماهسان توسعه‌دهنده‌ی بک‌اند بودم؛ بیشتر جاوا و Spring. هنوز هم یک مجموعه‌تست خوب حالم را خوب می‌کند.' },
+      { q: 'سر کار چه می‌کنی؟', a: 'سرپرست یک تیم بک‌اند در ماهسان هستم؛ بیشتر جاوا و Spring. هنوز هم یک مجموعه‌تست خوب حالم را خوب می‌کند.' },
       { q: 'برای تفریح چه می‌کنی؟', a: 'اول از همه کتاب. بعد فیلم، بازی‌های ویدیویی، و هر وقت فرصت شود سفر.' },
       { q: 'اهل کجایی؟', a: 'در شیراز به دنیا آمده‌ام و حالا در تهران زندگی می‌کنم.' },
-      { q: 'چطور با تو در تماس باشم؟', a: 'ایمیل بهترین راه است. در لینکدین، گوگل اسکالر و گیت‌هاب هم هستم.' },
+      { q: 'چطور با تو در تماس باشم؟', a: 'ایمیل بهترین راه است. در لینکدین و گیت‌هاب هم هستم.' },
     ],
 
     ui: {
       nav: { home: 'خانه', about: 'درباره‌ی من', work: 'کارها', journey: 'مسیر', blog: 'وبلاگ', contact: 'تماس' },
       sub: {
-        about: 'آدمی که پشت مقاله‌هاست.',
-        work: 'پژوهش‌هایی که انجام می‌دهم و چیزهایی که ساخته‌ام.',
-        journey: 'خلاصه‌ای از جاهایی که درس خوانده‌ام، کار کرده‌ام و درس داده‌ام.',
+        about: 'آدمی که پشت مقاله‌ها و کدهاست.',
+        work: 'پژوهش‌هایی که انجام می‌دهم و چیزهایی که ساخته‌ام (بعضی فقط برای سرگرمی).',
+        journey: 'جاهایی که درس خوانده‌ام و کار کرده‌ام. اسکرول کنید تا جاده را بپیمایید.',
         blog: 'یادداشت‌ها و نوشته‌ها. به‌زودی.',
         contact: 'سلامی بفرستید. معمولاً ظرف چند روز جواب می‌دهم.',
       },
       focus: 'چه کار می‌کنم', now: 'این روزها', loves: 'چیزهایی که دوست دارم', languages: 'زبان‌ها',
-      research: 'پژوهش', projects: 'پروژه‌ها', all: 'همه', moreOnGithub: 'بیشتر در گیت‌هاب',
-      teaching: 'تدریس', toolbox: 'جعبه‌ابزار', cv: { academic: 'رزومه‌ی پژوهشی', developer: 'رزومه‌ی برنامه‌نویسی' },
+      research: 'پژوهش', projects: 'پروژه‌ها', fun: 'برای سرگرمی', all: 'همه', moreOnGithub: 'بیشتر در گیت‌هاب',
+      teaching: 'تدریس', toolbox: 'جعبه‌ابزار', awards: 'افتخارات', cv: { academic: 'رزومه‌ی پژوهشی', developer: 'رزومه‌ی برنامه‌نویسی' },
       hobby: { books: 'کتاب', movies: 'فیلم', games: 'بازی', travel: 'سفر' },
       soonTitle: 'وبلاگ در حال آماده شدن است', soonText: 'چند نوشته در دست دارم. این‌ها به‌زودی می‌آیند:',
       contactTitle: 'گفت‌وگو کنیم', contactText: 'همکاری پژوهشی، فرصت شغلی، پیشنهاد یک کتاب خوب یا فقط یک سلام. همیشه خوشحال می‌شوم.',
@@ -277,6 +313,7 @@ window.SITE = {
       switchTo: 'English', switchShort: 'EN', mode: 'روشن / تیره', rights: 'با حوصله ساخته شده',
       ask: 'از من بپرسید', typing: 'در حال نوشتن…', online: 'معمولاً زود جواب می‌دهد',
       alongside: 'هم‌زمان با', studyWork: 'درس و کار هم‌زمان', together: 'هم‌زمان', today: 'امروز',
+      code: 'کد', open: 'باز کردن', explore: 'گشت‌وگذار',
     },
   },
 };

@@ -34,6 +34,8 @@
     scholar: 'M5.24 13.77 0 9.5 12 0l12 9.5-5.24 4.27A7 7 0 0 0 12 9.5a7 7 0 0 0-6.76 4.27zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z',
     email: 'M2 4h20a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v.4l10 6.25L22 6.4V6H2zm20 2.75-9.47 5.92a1 1 0 0 1-1.06 0L2 8.75V18h20V8.75z',
   };
+  // <a> when there is a url, otherwise a plain element with the same class
+  const tag = (url, cls, attrs = '') => url ? [`<a class="${cls}" href="${url}" target="_blank" rel="noopener" ${attrs}>`, '</a>'] : [`<div class="${cls}" ${attrs}>`, '</div>'];
   const brand = (id, cls = 'brand') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${BRANDS[id]}"/></svg>`;
 
   /* ---------- Icons: Material Symbols, subset to the names actually used ---------- */
@@ -142,7 +144,7 @@
     work: (c, x) => `
       ${x.head('work')}
       <div class="chips filter-row" role="group" data-reveal>
-        ${['all', 'research', 'project'].map((k) => `<button class="chip filter ripple ${k === 'all' ? 'selected' : ''}" data-filter="${k}"><span class="ms chip-check">check</span>${esc(k === 'all' ? c.ui.all : k === 'research' ? c.ui.research : c.ui.projects)}</button>`).join('')}
+        ${['all', 'research', ...new Set(c.projects.map((p) => p.kind || 'project'))].map((k) => `<button class="chip filter ripple ${k === 'all' ? 'selected' : ''}" data-filter="${k}"><span class="ms chip-check">check</span>${esc({ all: c.ui.all, research: c.ui.research, project: c.ui.projects, fun: c.ui.fun }[k] || k)}</button>`).join('')}
       </div>
       <div class="work-grid">${x.researchCards()}${x.projectCards()}</div>
       <p class="more-row"><a class="btn text ripple" href="${SITE.github}" target="_blank" rel="noopener">${brand('github')}${esc(c.ui.moreOnGithub)}</a></p>`,
@@ -311,20 +313,21 @@
             <span class="icon-tile ${tones[i % 3]}"><span class="ms">${f.icon}</span></span>
             <h3 class="title-l">${esc(f.title)}</h3><p class="body-m muted">${esc(f.desc)}</p>
           </article>`).join('')}</div>`,
+        awards: () => `<ul class="awards">${(c.awards || []).map((a) => `<li><span class="ms">${a.icon}</span><span class="body-m">${esc(a.text)}</span></li>`).join('')}</ul>`,
         now: () => `<ul class="now-list">${c.now.map((n) => `
           <li><span class="ms">${n.icon}</span><span class="now-text"><span class="label-m muted">${esc(n.label)}</span><span class="body-m">${esc(n.text)}</span></span></li>`).join('')}</ul>`,
         researchCards: (n = 99) => c.research.slice(0, n).map((r, i) => `
-          <a class="card research-card ripple" data-kind="research" href="${r.url}" target="_blank" rel="noopener" data-reveal style="--i:${i}">
+          ${tag(r.url, `card research-card ${r.url ? 'ripple' : 'nolink'}`, `data-kind="research" data-reveal style="--i:${i}"`)[0]}
             <div class="rc-top"><span class="status label-m">${esc(r.status)}</span><span class="tag">${esc(r.tag)}</span></div>
             <h3 class="title-l">${esc(r.title)}</h3><p class="body-m muted">${esc(r.desc)}</p>
-            <span class="ms go flip">arrow_forward</span>
-          </a>`).join(''),
+            ${r.url ? '<span class="ms go flip">arrow_forward</span>' : ''}
+          ${tag(r.url)[1]}`).join(''),
         projectCards: (n = 99) => c.projects.slice(0, n).map((p, i) => `
-          <a class="card proj-card ripple" data-kind="project" href="${p.url}" target="_blank" rel="noopener" data-reveal style="--i:${i}">
+          ${tag(p.url, 'card proj-card ripple', `data-kind="${p.kind || 'project'}" data-reveal style="--i:${i}"`)[0]}
             <span class="icon-tile ${tones[(i + 1) % 3]}"><span class="ms">${p.icon}</span></span>
             <h3 class="title-m">${esc(p.title)}</h3><p class="body-m muted">${esc(p.desc)}</p>
             <div class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>
-          </a>`).join(''),
+          ${tag(p.url)[1]}`).join(''),
         timeline: () => `<ol class="timeline" data-reveal>${c.journey.map((j, i) => `
           <li style="--i:${i}">
             <span class="tl-ic"><span class="ms">${j.icon}</span></span>
@@ -340,13 +343,13 @@
             <div class="seg" role="tablist">${Object.keys(icons).map((k, i) => `
               <button class="seg-btn ripple ${i ? '' : 'on'}" data-tab="${k}" role="tab"><span class="ms">${icons[k]}</span><span>${esc(u.hobby[k])}</span></button>`).join('')}</div>
             <div class="shelf" data-panel="books">${h.books.map((b, i) => `
-              <div class="book" style="--o:${off[i % 5]};--i:${i}"><span class="book-title">${esc(b.title)}</span><span class="book-by">${esc(b.by)}</span></div>`).join('')}</div>
+              ${tag(b.url, 'book', `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="book-title">${esc(b.title)}</span><span class="book-by">${esc(b.by)}</span>${tag(b.url)[1]}`).join('')}</div>
             <div class="shelf" data-panel="movies" hidden>${h.movies.map((m, i) => `
-              <div class="poster" style="--o:${off[i % 5]};--i:${i}"><span class="ms">movie</span><span class="poster-title">${esc(m.title)}</span><span class="poster-year">${x.num(m.year)}</span></div>`).join('')}</div>
+              ${tag(m.url, 'poster', `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="ms">movie</span><span class="poster-title">${esc(m.title)}</span><span class="poster-year">${x.num(m.year)}</span>${tag(m.url)[1]}`).join('')}</div>
             <div class="shelf" data-panel="games" hidden>${h.games.map((g, i) => `
-              <div class="game" style="--o:${off[i % 5]};--i:${i}"><span class="ms">sports_esports</span><span class="game-title" dir="auto">${esc(g.title)}</span><span class="game-meta">${esc(g.meta)}</span></div>`).join('')}</div>
+              ${tag(g.url, 'game', `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="ms">sports_esports</span><span class="game-title" dir="auto">${esc(g.title)}</span><span class="game-meta">${esc(g.meta)}</span>${tag(g.url)[1]}`).join('')}</div>
             <div class="shelf" data-panel="travel" hidden>${h.travel.map((t, i) => `
-              <div class="stamp ${t.next ? 'next' : ''}" style="--o:${off[i % 5]};--i:${i}"><span class="ms">${t.next ? 'flight_takeoff' : 'location_on'}</span><span class="stamp-place">${esc(t.place)}</span><span class="stamp-note">${esc(t.note)}</span></div>`).join('')}</div>
+              ${tag(t.url, `stamp ${t.next ? 'next' : ''}`, `style="--o:${off[i % 5]};--i:${i}"`)[0]}<span class="ms">${t.next ? 'flight_takeoff' : 'location_on'}</span><span class="stamp-place">${esc(t.place)}</span><span class="stamp-note">${esc(t.note)}</span>${tag(t.url)[1]}`).join('')}</div>
           </div>`;
         },
       };
